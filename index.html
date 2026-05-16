@@ -94,6 +94,7 @@ input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.35);}
 .aitem.sva{background:var(--vad);border-color:var(--vab);}
 .aitem.sbn{background:var(--bnd);border-color:var(--bnb);}
 .aitem.snv{background:var(--nvd);border-color:var(--nvb);}
+.aitem.ssel{background:rgba(240,237,232,0.08);border-color:rgba(240,237,232,0.3);}
 .abox{
   width:18px;height:18px;border-radius:4px;border:1.5px solid var(--brh);
   flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
@@ -102,8 +103,9 @@ input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.35);}
 .aitem.sva .abox{background:var(--va);border-color:var(--va);}
 .aitem.sbn .abox{background:var(--bn);border-color:var(--bn);}
 .aitem.snv .abox{background:var(--nv);border-color:var(--nv);}
+.aitem.ssel .abox{background:var(--tx);border-color:var(--tx);}
 .ck{display:none;width:10px;height:10px;}
-.aitem.sva .ck,.aitem.sbn .ck,.aitem.snv .ck{display:block;}
+.aitem.sva .ck,.aitem.sbn .ck,.aitem.snv .ck,.aitem.ssel .ck{display:block;}
 .atxt{font-size:13px;line-height:1.55;color:var(--tx);flex:1;}
 
 /* time input — shown below item when selected */
@@ -203,11 +205,7 @@ input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.35);}
     <div id="asec">
       <div class="divl"></div>
       <div class="lbl" id="aseclbl">Activities</div>
-      <div class="legrow">
-        <div class="leg"><div class="lpip" style="background:var(--va)"></div>Value Added</div>
-        <div class="leg"><div class="lpip" style="background:var(--bn)"></div>Business Necessary</div>
-        <div class="leg"><div class="lpip" style="background:var(--nv)"></div>Non-Value Added</div>
-      </div>
+      <!-- legend hidden from employees -->
       <div id="alist"></div>
 
       <!-- Total time -->
@@ -386,35 +384,24 @@ function pickDept(key, btn) {
 
 function buildActivities(key) {
   var d = DEPTS[key];
-  document.getElementById('aseclbl').textContent = d.name + ' — Activities';
+  document.getElementById('aseclbl').textContent = d.name + ' — Aaj aapne kya kiya?';
 
   var list = document.getElementById('alist');
   list.innerHTML = '';
 
+  // All activities in one flat list — no category labels shown to employee
   var cats = ['VA','BNVA','NVA'];
-  var catNames = {VA:'Value Added', BNVA:'Business Necessary', NVA:'Non-Value Added'};
-  var catCls = {VA:'va', BNVA:'bnva', NVA:'nva'};
+  var blk = document.createElement('div');
+  blk.className = 'cblock';
 
   for(var ci=0; ci<cats.length; ci++) {
     var cat = cats[ci];
-    var items = [];
     for(var ai=0; ai<d.a.length; ai++) {
-      if(d.a[ai].c === cat) items.push({t:d.a[ai].t, idx:ai});
-    }
+      if(d.a[ai].c !== cat) continue;
+      var id = cat+'_'+ai;
+      var txt = d.a[ai].t;
 
-    var blk = document.createElement('div');
-    blk.className = 'cblock';
-
-    var head = document.createElement('div');
-    head.className = 'chead';
-    head.innerHTML = '<span class="ctag '+catCls[cat]+'">'+catNames[cat]+'</span><span class="ccnt">'+items.length+' activities</span>';
-    blk.appendChild(head);
-
-    for(var ii=0; ii<items.length; ii++) {
-      var id = cat+'_'+items[ii].idx;
-      var txt = items[ii].t;
-
-      // Activity row
+      // Activity item
       var aitem = document.createElement('div');
       aitem.className = 'aitem';
       aitem.id = 'ai_'+id;
@@ -447,15 +434,15 @@ function buildActivities(key) {
       };
       blk.appendChild(trow);
     }
-    list.appendChild(blk);
   }
+  list.appendChild(blk);
 
   // Show section & totcard
   document.getElementById('asec').style.display = 'block';
   document.getElementById('totcard').classList.add('show');
   document.getElementById('sbar').classList.add('show');
 
-  // Scroll to activities smoothly
+  // Scroll to activities
   setTimeout(function(){
     var el = document.getElementById('asec');
     var top = el.getBoundingClientRect().top + window.pageYOffset - 20;
@@ -466,7 +453,7 @@ function buildActivities(key) {
 function toggleAct(id, cat, txt) {
   var aitem = document.getElementById('ai_'+id);
   var trow = document.getElementById('tr_'+id);
-  var clsMap = {VA:'sva', BNVA:'sbn', NVA:'snv'};
+  var clsMap = {VA:'ssel', BNVA:'ssel', NVA:'ssel'};
 
   if(selected[id]) {
     // Deselect
