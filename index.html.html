@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Iotaflow — Activity Log</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0d0d0d;--sf:#161616;--sf2:#1e1e1e;
+  --br:rgba(255,255,255,0.09);--brh:rgba(255,255,255,0.2);
+  --tx:#f0ede8;--mu:rgba(240,237,232,0.45);--mu2:rgba(240,237,232,0.22);
+  --va:#4ade80;--vad:rgba(74,222,128,0.12);--vab:rgba(74,222,128,0.32);
+  --bn:#fbbf24;--bnd:rgba(251,191,36,0.11);--bnb:rgba(251,191,36,0.32);
+  --nv:#f87171;--nvd:rgba(248,113,113,0.11);--nvb:rgba(248,113,113,0.32);
+  --r:10px;--rs:7px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{font-size:16px;}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding-bottom:100px;-webkit-font-smoothing:antialiased;}
+.w{max-width:600px;margin:0 auto;padding:0 16px;}
+
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 18px;border-bottom:1px solid var(--br);margin-bottom:28px;}
+.brand{display:flex;align-items:center;gap:8px;}
+.bm{width:26px;height:26px;background:var(--tx);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.bm span{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:var(--bg);}
+.bn{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--tx);}
+.tl{font-size:11px;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;}
+
+/* hero */
+.hero{margin-bottom:28px;}
+.ht{font-family:'Syne',sans-serif;font-size:32px;font-weight:700;line-height:1.08;letter-spacing:-.02em;margin-bottom:10px;}
+.ht em{color:var(--mu);font-style:normal;}
+.hs{font-size:14px;color:var(--mu);line-height:1.7;}
+
+/* label */
+.lbl{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--mu);margin-bottom:8px;font-weight:500;}
+
+/* inputs */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.f{display:flex;flex-direction:column;gap:5px;}
+.f label{font-size:12px;color:var(--mu);}
+input[type=text],input[type=date],input[type=number]{
+  background:var(--sf);border:1px solid var(--br);border-radius:var(--rs);
+  padding:12px 13px;font-family:'Instrument Sans',sans-serif;font-size:15px;
+  color:var(--tx);outline:none;width:100%;
+  -webkit-appearance:none;appearance:none;
+}
+input[type=text]::placeholder{color:var(--mu2);}
+input:focus{border-color:var(--brh);background:var(--sf2);}
+input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.35);}
+
+/* dept */
+.dsec{margin-bottom:24px;}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.dbtn{
+  padding:13px 6px;background:var(--sf);border:1px solid var(--br);
+  border-radius:var(--rs);font-family:'Instrument Sans',sans-serif;
+  font-size:12px;font-weight:500;color:var(--mu);cursor:pointer;
+  text-align:center;line-height:1.4;
+  min-height:52px;display:flex;align-items:center;justify-content:center;
+}
+.dbtn.on{background:var(--tx);color:var(--bg);border-color:var(--tx);font-weight:600;}
+
+/* divider */
+.divl{height:1px;background:var(--br);margin:4px 0 24px;}
+
+/* activities section - hidden by default */
+#asec{display:none;}
+#asec.show{display:block;}
+
+/* legend */
+.legrow{display:flex;gap:16px;margin-bottom:18px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu);}
+.lpip{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* category block */
+.cblock{margin-bottom:20px;}
+.chead{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.ctag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;}
+.ctag.va{background:var(--vad);color:var(--va);}
+.ctag.bnva{background:var(--bnd);color:var(--bn);}
+.ctag.nva{background:var(--nvd);color:var(--nv);}
+.ccnt{font-size:11px;color:var(--mu2);margin-left:auto;}
+
+/* activity item */
+.aitem{
+  background:var(--sf);border:1px solid var(--br);border-radius:var(--rs);
+  padding:13px 13px;margin-bottom:6px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:11px;
+  user-select:none;-webkit-user-select:none;
+}
+.aitem.sva{background:var(--vad);border-color:var(--vab);}
+.aitem.sbn{background:var(--bnd);border-color:var(--bnb);}
+.aitem.snv{background:var(--nvd);border-color:var(--nvb);}
+.abox{
+  width:18px;height:18px;border-radius:4px;border:1.5px solid var(--brh);
+  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+  transition:background .12s,border-color .12s;
+}
+.aitem.sva .abox{background:var(--va);border-color:var(--va);}
+.aitem.sbn .abox{background:var(--bn);border-color:var(--bn);}
+.aitem.snv .abox{background:var(--nv);border-color:var(--nv);}
+.ck{display:none;width:10px;height:10px;}
+.aitem.sva .ck,.aitem.sbn .ck,.aitem.snv .ck{display:block;}
+.atxt{font-size:13px;line-height:1.55;color:var(--tx);flex:1;}
+
+/* time input — shown below item when selected */
+.trow{display:none;margin:-2px 0 8px 0;padding:9px 13px;background:var(--sf2);border:1px solid var(--br);border-radius:var(--rs);align-items:center;gap:10px;}
+.trow.show{display:flex;}
+.trow label{font-size:12px;color:var(--mu);flex:1;}
+.tinp{width:75px !important;padding:8px 10px !important;font-size:14px !important;text-align:center;}
+.tunit{font-size:12px;color:var(--mu);white-space:nowrap;}
+
+/* total time card */
+.totcard{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:16px;margin-bottom:24px;display:none;}
+.totcard.show{display:block;}
+.totrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;align-items:end;}
+.tot-display{background:var(--sf2);border:1px solid var(--br);border-radius:var(--rs);padding:11px 13px;display:flex;justify-content:space-between;align-items:center;}
+.tot-display span:first-child{font-size:12px;color:var(--mu);}
+.totval{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;}
+
+/* sticky bottom bar */
+.sbar{position:fixed;bottom:0;left:0;right:0;background:rgba(13,13,13,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--br);padding:12px 16px;z-index:99;display:none;}
+.sbar.show{display:block;}
+.sinner{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:10px;}
+.sbadge{font-size:12px;color:var(--mu);background:var(--sf2);padding:8px 12px;border-radius:6px;border:1px solid var(--br);white-space:nowrap;flex-shrink:0;}
+.sbadge strong{color:var(--tx);}
+.brst{background:transparent;color:var(--mu);border:1px solid var(--br);border-radius:var(--rs);padding:12px 14px;font-family:'Instrument Sans',sans-serif;font-size:13px;cursor:pointer;white-space:nowrap;}
+.bgo{flex:1;background:var(--tx);color:var(--bg);border:none;border-radius:var(--rs);padding:13px 16px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;min-height:46px;}
+.bgo:disabled{opacity:.45;cursor:not-allowed;}
+
+/* success */
+#ok{display:none;}
+#ok.show{display:block;}
+.okwrap{text-align:center;padding:60px 20px 40px;}
+.okicon{width:54px;height:54px;background:var(--vad);border:1px solid var(--vab);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.okt{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:8px;}
+.oks{font-size:14px;color:var(--mu);line-height:1.7;margin-bottom:28px;}
+.okcard{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:16px;text-align:left;margin-bottom:28px;}
+.okrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--br);font-size:13px;}
+.okrow:last-child{border-bottom:none;}
+.okrow span:first-child{color:var(--mu);}
+.okrow strong{color:var(--tx);font-weight:500;}
+.okbtn{background:var(--tx);color:var(--bg);border:none;border-radius:var(--rs);padding:13px 32px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;}
+
+/* spinner */
+.spin{width:15px;height:15px;border:2px solid rgba(13,13,13,.3);border-top-color:var(--bg);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* toast */
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(4px);background:var(--tx);color:var(--bg);padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(max-width:400px){
+  .dgrid{grid-template-columns:repeat(2,1fr);}
+  .fg{grid-template-columns:1fr;}
+  .totrow{grid-template-columns:1fr;}
+  .ht{font-size:26px;}
+}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="topbar">
+    <div class="brand">
+      <div class="bm"><span>IF</span></div>
+      <span class="bn">Iotaflow Systems</span>
+    </div>
+    <span class="tl">Activity Log</span>
+  </div>
+
+  <!-- FORM -->
+  <div id="fscreen">
+    <div class="hero">
+      <div class="ht">Daily<br/><em>Activity Log</em></div>
+      <div class="hs">Aaj ki activities aur unka time fill karein. Data sirf management ko jaata hai.</div>
+    </div>
+
+    <div class="lbl">Aapki Details</div>
+    <div class="fg">
+      <div class="f"><label>Poora Naam *</label><input type="text" id="fname" placeholder="e.g. Rahul Sharma" autocomplete="name"/></div>
+      <div class="f"><label>Date *</label><input type="date" id="fdate"/></div>
+    </div>
+
+    <div class="dsec">
+      <div class="lbl">Department *</div>
+      <div class="dgrid">
+        <button class="dbtn" onclick="pickDept('accounts',this)">Accounts / Finance</button>
+        <button class="dbtn" onclick="pickDept('hr',this)">Human Resources</button>
+        <button class="dbtn" onclick="pickDept('it',this)">IT Support</button>
+        <button class="dbtn" onclick="pickDept('purchase',this)">Purchase</button>
+        <button class="dbtn" onclick="pickDept('design',this)">Product Design / BOM</button>
+        <button class="dbtn" onclick="pickDept('sales',this)">Sales</button>
+        <button class="dbtn" onclick="pickDept('marketing',this)">Marketing</button>
+        <button class="dbtn" onclick="pickDept('service',this)">Service / Post-Sales</button>
+        <button class="dbtn" onclick="pickDept('stores',this)">Stores</button>
+      </div>
+    </div>
+
+    <!-- Activities — shown after dept pick -->
+    <div id="asec">
+      <div class="divl"></div>
+      <div class="lbl" id="aseclbl">Activities</div>
+      <div class="legrow">
+        <div class="leg"><div class="lpip" style="background:var(--va)"></div>Value Added</div>
+        <div class="leg"><div class="lpip" style="background:var(--bn)"></div>Business Necessary</div>
+        <div class="leg"><div class="lpip" style="background:var(--nv)"></div>Non-Value Added</div>
+      </div>
+      <div id="alist"></div>
+
+      <!-- Total time -->
+      <div class="totcard" id="totcard">
+        <div class="lbl">Time Summary</div>
+        <div class="totrow">
+          <div class="f">
+            <label style="font-size:12px;color:var(--mu);margin-bottom:5px;">Aaj kitne ghante kaam kiya (total)</label>
+            <input type="number" id="whours" min="1" max="14" step="0.5" placeholder="e.g. 8"/>
+          </div>
+          <div class="tot-display">
+            <span>Activities ka time</span>
+            <span class="totval" id="acttime">0 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="ok">
+    <div class="okwrap">
+      <div class="okicon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--va)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 5 9 16 4 11"/></svg>
+      </div>
+      <div class="okt">Submit ho gaya!</div>
+      <div class="oks">Aapka data record ho gaya hai.<br/>Management review karegi.</div>
+      <div class="okcard" id="okcard"></div>
+      <button class="okbtn" onclick="resetAll()">Nayi Entry Karein</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky bar -->
+<div class="sbar" id="sbar">
+  <div class="sinner">
+    <div class="sbadge"><strong id="seln">0</strong> · <strong id="seltime">0m</strong></div>
+    <button class="brst" onclick="resetDept()">Reset</button>
+    <button class="bgo" id="gobtn" onclick="doSubmit()">Submit →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyhpoDWpdpUp3Q3sZgw7BZ2Sg5GpkXDbWaVGKaDU7XRjPfbVYPHPEAPnxLmyr1GIJDu/exec";
+
+const DEPTS = {
+  accounts:{name:"Accounts / Finance",a:[
+    {t:"3-way match on vendor invoices",c:"VA"},{t:"Sales invoice creation — correct, first time",c:"VA"},
+    {t:"Bank reconciliation — daily",c:"VA"},{t:"Accrual and period-end entries",c:"VA"},
+    {t:"Customer ledger reconciliation",c:"VA"},{t:"Accurate MIS generation",c:"VA"},
+    {t:"ITC matching with GSTR-2B",c:"VA"},{t:"GST filing — GSTR1, 3B",c:"BNVA"},
+    {t:"TDS challan and returns",c:"BNVA"},{t:"PF, ESI, PT compliance",c:"BNVA"},
+    {t:"Statutory audit support",c:"BNVA"},{t:"Payslip issuance",c:"BNVA"},
+    {t:"Depreciation posting",c:"BNVA"},{t:"Document archiving",c:"BNVA"},
+    {t:"Correction JVs for wrong entries",c:"NVA"},{t:"Invoice raised after delays",c:"NVA"},
+    {t:"Chasing approvals beyond defined TAT",c:"NVA"},{t:"Duplicate invoice processing",c:"NVA"},
+    {t:"Month-end close beyond day 5",c:"NVA"},{t:"Vendor calling for payment status",c:"NVA"},
+    {t:"GRN-invoice mismatch rework",c:"NVA"}]},
+  hr:{name:"Human Resources",a:[
+    {t:"Structured recruitment with practical assessment",c:"VA"},{t:"Structured onboarding with lean culture induction",c:"VA"},
+    {t:"Training that changes observable behavior",c:"VA"},{t:"Performance feedback — continuous, not annual",c:"VA"},
+    {t:"Exit interview with pattern analysis",c:"VA"},{t:"Grievance resolution with root cause",c:"VA"},
+    {t:"Lean culture reinforcement daily",c:"VA"},{t:"PF, ESI, PT, bonus compliance",c:"BNVA"},
+    {t:"Statutory register maintenance",c:"BNVA"},{t:"Payslip issuance",c:"BNVA"},
+    {t:"Labour compliance filings",c:"BNVA"},{t:"Appointment letter issuance",c:"BNVA"},
+    {t:"Document collection and filing",c:"BNVA"},{t:"Relieving letter issuance",c:"BNVA"},
+    {t:"Hiring without written requisition",c:"NVA"},{t:"Training with no behavior change",c:"NVA"},
+    {t:"Attendance compiled manually",c:"NVA"},{t:"Appraisal as first performance conversation",c:"NVA"},
+    {t:"Engagement events without substance",c:"NVA"},{t:"Payroll errors from wrong attendance data",c:"NVA"},
+    {t:"Onboarding without Day 1 readiness",c:"NVA"}]},
+  it:{name:"IT Support",a:[
+    {t:"Root cause resolution of incidents",c:"VA"},{t:"First-visit resolution of hardware issues",c:"VA"},
+    {t:"ERP configuration matching actual process",c:"VA"},{t:"Backup restoration testing",c:"VA"},
+    {t:"Network security and segregation",c:"VA"},{t:"Preventive hardware maintenance",c:"VA"},
+    {t:"Knowledge base creation for recurring issues",c:"VA"},{t:"Antivirus and patch management",c:"BNVA"},
+    {t:"License compliance",c:"BNVA"},{t:"Access control management",c:"BNVA"},
+    {t:"IT policy maintenance",c:"BNVA"},{t:"Asset register maintenance",c:"BNVA"},
+    {t:"Statutory data retention",c:"BNVA"},{t:"User account management",c:"BNVA"},
+    {t:"Recurring incidents never root-caused",c:"NVA"},{t:"System access not ready on Day 1",c:"NVA"},
+    {t:"Parallel spreadsheets outside ERP",c:"NVA"},{t:"ERP modules paid for, never implemented",c:"NVA"},
+    {t:"Paying for licenses of exited employees",c:"NVA"},{t:"No backup restoration test — ever",c:"NVA"},
+    {t:"IT resolving symptom, not root cause",c:"NVA"}]},
+  purchase:{name:"Purchase",a:[
+    {t:"Vendor qualification against capability criteria",c:"VA"},{t:"3-way match verification",c:"VA"},
+    {t:"Annual rate contracts for standard items",c:"VA"},{t:"Vendor performance scorecard review",c:"VA"},
+    {t:"Alternate vendor development for critical items",c:"VA"},{t:"Negotiation on price, delivery, payment terms",c:"VA"},
+    {t:"Material requirement from production plan",c:"VA"},{t:"Statutory vendor compliance collection",c:"BNVA"},
+    {t:"Debit note for genuine discrepancy",c:"BNVA"},{t:"Job work challan compliance",c:"BNVA"},
+    {t:"Import documentation management",c:"BNVA"},{t:"GRN coordination with stores",c:"BNVA"},
+    {t:"PO approval through authority matrix",c:"BNVA"},{t:"Emergency buying from planning failure",c:"NVA"},
+    {t:"PO raised after material received",c:"NVA"},{t:"Vendor selected on price alone",c:"NVA"},
+    {t:"Chasing delivery on every PO daily",c:"NVA"},{t:"Single source for critical component",c:"NVA"},
+    {t:"Accepting material without PO",c:"NVA"},{t:"Requisition without specification",c:"NVA"}]},
+  design:{name:"Product Design / BOM",a:[
+    {t:"Engineering calculations for pressure, flow, material",c:"VA"},{t:"DFM review with production before release",c:"VA"},
+    {t:"Complete drawing — dimensions, tolerances, material",c:"VA"},{t:"Cross-functional design review",c:"VA"},
+    {t:"BOM structured in ERP with assembly hierarchy",c:"VA"},{t:"FMEA for critical components",c:"VA"},
+    {t:"Engineering change with full impact assessment",c:"VA"},{t:"Drawing release through approval authority",c:"BNVA"},
+    {t:"Document archiving with revision history",c:"BNVA"},{t:"Certification documentation preparation",c:"BNVA"},
+    {t:"Calibration certificate template",c:"BNVA"},{t:"Statutory compliance documentation",c:"BNVA"},
+    {t:"Customer documentation filing",c:"BNVA"},{t:"Design started before specification frozen",c:"NVA"},
+    {t:"BOM in spreadsheet separate from ERP",c:"NVA"},{t:"Drawing revised without ECR",c:"NVA"},
+    {t:"No first article inspection before release",c:"NVA"},{t:"Verbal instructions supplementing drawings",c:"NVA"},
+    {t:"BOM not updated after drawing change",c:"NVA"},{t:"Multiple BOM versions in circulation",c:"NVA"}]},
+  sales:{name:"Sales",a:[
+    {t:"Application-based prospect qualification",c:"VA"},{t:"Technical consultation — solution to problem",c:"VA"},
+    {t:"Proposal customized to application and need",c:"VA"},{t:"Value-based negotiation",c:"VA"},
+    {t:"Pipeline maintained with stage and probability",c:"VA"},{t:"Post-delivery satisfaction call",c:"VA"},
+    {t:"Collections follow-up within relationship",c:"VA"},{t:"PO confirmation documentation",c:"BNVA"},
+    {t:"Credit limit verification",c:"BNVA"},{t:"Management escalation for large deals",c:"BNVA"},
+    {t:"Sales reporting",c:"BNVA"},{t:"Collections support within governance",c:"BNVA"},
+    {t:"Pursuing every enquiry regardless of fit",c:"NVA"},{t:"Proposal submitted, never followed up",c:"NVA"},
+    {t:"Discounting without value defense",c:"NVA"},{t:"Order committed without production check",c:"NVA"},
+    {t:"Visiting same customer repeatedly — no progress",c:"NVA"},{t:"Accepting order beyond credit limit",c:"NVA"},
+    {t:"Pipeline in head — not in system",c:"NVA"}]},
+  marketing:{name:"Marketing",a:[
+    {t:"Technical application notes for target segments",c:"VA"},{t:"Case studies with measurable customer outcomes",c:"VA"},
+    {t:"LinkedIn campaigns targeting engineers by industry",c:"VA"},{t:"EPC and consultant approved vendor list pursuit",c:"VA"},
+    {t:"Customer factory visit — manufacturing quality as proof",c:"VA"},{t:"Post-exhibition follow-up within 48 hours",c:"VA"},
+    {t:"Website with technical depth and clear enquiry path",c:"VA"},{t:"Press release for significant events",c:"BNVA"},
+    {t:"Brand identity consistency",c:"BNVA"},{t:"Industry body compliance documentation",c:"BNVA"},
+    {t:"Regulatory documentation support",c:"BNVA"},{t:"Generic brochure with no application context",c:"NVA"},
+    {t:"Content produced with no distribution plan",c:"NVA"},{t:"Social media on platforms buyers don't use",c:"NVA"},
+    {t:"Exhibition without post-event follow-up",c:"NVA"},{t:"Campaign running without performance review",c:"NVA"},
+    {t:"Budget spent with no measurable return tracked",c:"NVA"},{t:"Award entries your buyer never sees",c:"NVA"}]},
+  service:{name:"Service / Post-Sales",a:[
+    {t:"Structured remote troubleshooting before site visit",c:"VA"},{t:"First-visit resolution with right spares",c:"VA"},
+    {t:"Warranty failure root cause to production",c:"VA"},{t:"AMC proposal before warranty expiry",c:"VA"},
+    {t:"Installed base register with service history",c:"VA"},{t:"Proactive calibration due date communication",c:"VA"},
+    {t:"Field failure pattern analysis monthly",c:"VA"},{t:"Warranty claim processing",c:"BNVA"},
+    {t:"Service invoice raising",c:"BNVA"},{t:"Calibration certificate issuance",c:"BNVA"},
+    {t:"Service report with customer sign-off",c:"BNVA"},{t:"Regulatory compliance documentation",c:"BNVA"},
+    {t:"Spare parts catalog maintenance",c:"BNVA"},{t:"Complaint registered — never entered in system",c:"NVA"},
+    {t:"Field visit without right spares",c:"NVA"},{t:"Same failure recurring — never root-caused",c:"NVA"},
+    {t:"Complaint closed without customer confirmation",c:"NVA"},{t:"No proactive AMC renewal tracking",c:"NVA"},
+    {t:"Failed components discarded without analysis",c:"NVA"},{t:"Service revenue not tracked separately",c:"NVA"}]},
+  stores:{name:"Stores",a:[
+    {t:"Identity and quantity verification at goods receipt",c:"VA"},{t:"Kitting — complete material issue per job",c:"VA"},
+    {t:"FIFO discipline in issuance and storage",c:"VA"},{t:"Daily cycle counting with discrepancy investigation",c:"VA"},
+    {t:"Fixed labeled location for every item",c:"VA"},{t:"Proactive reorder triggering at defined level",c:"VA"},
+    {t:"Traceability — GRN to production order to dispatch",c:"VA"},{t:"GRN documentation and filing",c:"BNVA"},
+    {t:"Material test certificate filing",c:"BNVA"},{t:"Job work challan compliance",c:"BNVA"},
+    {t:"Statutory stores registers",c:"BNVA"},{t:"Annual physical inventory",c:"BNVA"},
+    {t:"Segregation of duties in receipt",c:"BNVA"},{t:"GRN raised days after physical receipt",c:"NVA"},
+    {t:"Material issued without requisition",c:"NVA"},{t:"No fixed location — material stored anywhere",c:"NVA"},
+    {t:"Inventory count without discrepancy investigation",c:"NVA"},{t:"Production helping themselves from stores",c:"NVA"},
+    {t:"Finished goods dispatched without specification check",c:"NVA"},{t:"Dead stock carried without review",c:"NVA"}]}
+};
+
+// State
+var curDept = null;
+var selected = {}; // id -> {cat, text, mins}
+
+// Set today's date
+(function(){
+  var d = new Date();
+  var yyyy = d.getFullYear();
+  var mm = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  document.getElementById('fdate').value = yyyy+'-'+mm+'-'+dd;
+})();
+
+function pickDept(key, btn) {
+  // highlight button
+  var btns = document.querySelectorAll('.dbtn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');
+  btn.classList.add('on');
+
+  curDept = key;
+  selected = {};
+  buildActivities(key);
+  updateBar();
+}
+
+function buildActivities(key) {
+  var d = DEPTS[key];
+  document.getElementById('aseclbl').textContent = d.name + ' — Activities';
+
+  var list = document.getElementById('alist');
+  list.innerHTML = '';
+
+  var cats = ['VA','BNVA','NVA'];
+  var catNames = {VA:'Value Added', BNVA:'Business Necessary', NVA:'Non-Value Added'};
+  var catCls = {VA:'va', BNVA:'bnva', NVA:'nva'};
+
+  for(var ci=0; ci<cats.length; ci++) {
+    var cat = cats[ci];
+    var items = [];
+    for(var ai=0; ai<d.a.length; ai++) {
+      if(d.a[ai].c === cat) items.push({t:d.a[ai].t, idx:ai});
+    }
+
+    var blk = document.createElement('div');
+    blk.className = 'cblock';
+
+    var head = document.createElement('div');
+    head.className = 'chead';
+    head.innerHTML = '<span class="ctag '+catCls[cat]+'">'+catNames[cat]+'</span><span class="ccnt">'+items.length+' activities</span>';
+    blk.appendChild(head);
+
+    for(var ii=0; ii<items.length; ii++) {
+      var id = cat+'_'+items[ii].idx;
+      var txt = items[ii].t;
+
+      // Activity row
+      var aitem = document.createElement('div');
+      aitem.className = 'aitem';
+      aitem.id = 'ai_'+id;
+      aitem.setAttribute('data-id', id);
+      aitem.setAttribute('data-cat', cat);
+      aitem.setAttribute('data-txt', txt);
+      aitem.innerHTML =
+        '<div class="abox"><svg class="ck" viewBox="0 0 10 10" fill="none" stroke="#0d0d0d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,5 4,7.5 8.5,2"/></svg></div>'+
+        '<span class="atxt">'+txt+'</span>';
+      aitem.onclick = function() {
+        toggleAct(this.getAttribute('data-id'), this.getAttribute('data-cat'), this.getAttribute('data-txt'));
+      };
+      blk.appendChild(aitem);
+
+      // Time row (hidden until selected)
+      var trow = document.createElement('div');
+      trow.className = 'trow';
+      trow.id = 'tr_'+id;
+      trow.innerHTML =
+        '<label>Time spent:</label>'+
+        '<input class="tinp" type="number" id="ti_'+id+'" min="1" max="480" placeholder="mins" inputmode="numeric"/>'+
+        '<span class="tunit">minutes</span>';
+      trow.querySelector('input').setAttribute('data-id', id);
+      trow.querySelector('input').oninput = function() {
+        var fid = this.getAttribute('data-id');
+        if(selected[fid]) {
+          selected[fid].mins = parseInt(this.value) || 0;
+          updateBar();
+        }
+      };
+      blk.appendChild(trow);
+    }
+    list.appendChild(blk);
+  }
+
+  // Show section & totcard
+  document.getElementById('asec').style.display = 'block';
+  document.getElementById('totcard').classList.add('show');
+  document.getElementById('sbar').classList.add('show');
+
+  // Scroll to activities smoothly
+  setTimeout(function(){
+    var el = document.getElementById('asec');
+    var top = el.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({top:top, behavior:'smooth'});
+  }, 100);
+}
+
+function toggleAct(id, cat, txt) {
+  var aitem = document.getElementById('ai_'+id);
+  var trow = document.getElementById('tr_'+id);
+  var clsMap = {VA:'sva', BNVA:'sbn', NVA:'snv'};
+
+  if(selected[id]) {
+    // Deselect
+    delete selected[id];
+    aitem.className = 'aitem';
+    trow.classList.remove('show');
+    document.getElementById('ti_'+id).value = '';
+  } else {
+    // Select
+    selected[id] = {cat:cat, text:txt, mins:0};
+    aitem.className = 'aitem ' + clsMap[cat];
+    trow.classList.add('show');
+    // Focus on mobile after a tick
+    setTimeout(function(){ document.getElementById('ti_'+id).focus(); }, 80);
+  }
+  updateBar();
+}
+
+function totalMins() {
+  var t = 0;
+  for(var k in selected) t += (selected[k].mins || 0);
+  return t;
+}
+
+function selCount() {
+  return Object.keys(selected).length;
+}
+
+function updateBar() {
+  var n = selCount();
+  var m = totalMins();
+  var hrs = Math.floor(m/60);
+  var mins = m % 60;
+  var tdisp = hrs > 0 ? hrs+'h '+mins+'m' : m+'min';
+  document.getElementById('seln').textContent = n;
+  document.getElementById('seltime').textContent = tdisp;
+  document.getElementById('acttime').textContent = m > 0 ? tdisp : '0 min';
+}
+
+function resetDept() {
+  selected = {};
+  document.getElementById('alist').innerHTML = '';
+  document.getElementById('asec').style.display = 'none';
+  document.getElementById('totcard').classList.remove('show');
+  document.getElementById('sbar').classList.remove('show');
+  var btns = document.querySelectorAll('.dbtn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove('on');
+  curDept = null;
+  updateBar();
+}
+
+function resetAll() {
+  document.getElementById('fscreen').style.display = 'block';
+  document.getElementById('ok').classList.remove('show');
+  document.getElementById('fname').value = '';
+  document.getElementById('whours').value = '';
+  var d = new Date();
+  document.getElementById('fdate').value = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  resetDept();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function doSubmit() {
+  var name = document.getElementById('fname').value.trim();
+  var date = document.getElementById('fdate').value;
+  var wh = document.getElementById('whours').value;
+
+  if(!name) { showToast('Naam likhein pehle!'); return; }
+  if(!curDept) { showToast('Department select karein!'); return; }
+  if(selCount() === 0) { showToast('Koi activity select nahi ki!'); return; }
+
+  var va=[], bnva=[], nva=[];
+  var vam=0, bnvam=0, nvm=0;
+
+  for(var id in selected) {
+    var s = selected[id];
+    var entry = s.text + '(' + s.mins + 'min)';
+    if(s.cat==='VA'){va.push(entry);vam+=s.mins;}
+    else if(s.cat==='BNVA'){bnva.push(entry);bnvam+=s.mins;}
+    else{nva.push(entry);nvm+=s.mins;}
+  }
+
+  var tot = va.length + bnva.length + nva.length;
+  var tam = vam + bnvam + nvm;
+  var vap = Math.round(va.length/tot*100);
+  var bp  = Math.round(bnva.length/tot*100);
+  var np  = 100 - vap - bp;
+
+  var payload = {
+    timestamp: new Date().toISOString(),
+    name: name, date: date,
+    department: DEPTS[curDept].name,
+    totalActivities: tot,
+    vaCount: va.length, bnvaCount: bnva.length, nvaCount: nva.length,
+    vaPercent: vap, bnvaPercent: bp, nvaPercent: np,
+    vaMins: vam, bnvaMins: bnvam, nvaMins: nvm,
+    totalActivityMins: tam,
+    totalWorkHours: wh || '',
+    vaActivities: va.join(' | '),
+    bnvaActivities: bnva.join(' | '),
+    nvaActivities: nva.join(' | ')
+  };
+
+  var btn = document.getElementById('gobtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>Saving...';
+
+  // Submit
+  fetch(SCRIPT_URL, {method:'POST', mode:'no-cors', body:JSON.stringify(payload)})
+    .catch(function(){}) // no-cors always throws, ignore
+    .finally(function(){
+      showSuccess(name, date, tot, tam, wh);
+      btn.disabled = false;
+      btn.textContent = 'Submit →';
+    });
+}
+
+function showSuccess(name, date, tot, tam, wh) {
+  var hrs = Math.floor(tam/60); var m = tam%60;
+  var td = hrs > 0 ? hrs+' hr '+m+' min' : tam+' min';
+  document.getElementById('okcard').innerHTML =
+    '<div class="okrow"><span>Naam</span><strong>'+name+'</strong></div>'+
+    '<div class="okrow"><span>Department</span><strong>'+DEPTS[curDept].name+'</strong></div>'+
+    '<div class="okrow"><span>Date</span><strong>'+date+'</strong></div>'+
+    '<div class="okrow"><span>Activities logged</span><strong>'+tot+'</strong></div>'+
+    '<div class="okrow"><span>Activity time</span><strong>'+td+'</strong></div>'+
+    (wh?'<div class="okrow"><span>Work hours</span><strong>'+wh+' hrs</strong></div>':'');
+
+  document.getElementById('fscreen').style.display = 'none';
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('ok').classList.add('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(function(){ t.classList.remove('on'); }, 2500);
+}
+</script>
+</body>
+</html>
