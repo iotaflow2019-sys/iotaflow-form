@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Iotaflow — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:    #080810;
+  --bg2:   #0c0c18;
+  --card:  #111120;
+  --card2: #181828;
+  --br:    rgba(255,255,255,0.07);
+  --br2:   rgba(255,255,255,0.14);
+  --tx:    #ededf5;
+  --mu:    rgba(237,237,245,0.44);
+  --mu2:   rgba(237,237,245,0.2);
+
+  --va:  #34d399;
+  --vad: rgba(52,211,153,0.1);
+  --vab: rgba(52,211,153,0.22);
+
+  --bn:  #60a5fa;
+  --bnd: rgba(96,165,250,0.1);
+  --bnb: rgba(96,165,250,0.22);
+
+  --nv:  #f87171;
+  --nvd: rgba(248,113,113,0.1);
+  --nvb: rgba(248,113,113,0.22);
+
+  --un:  #c084fc;
+  --und: rgba(192,132,252,0.1);
+  --unb: rgba(192,132,252,0.22);
+
+  --r:  14px;
+  --rs: 8px;
+  --font: 'Outfit', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--tx);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* subtle dot grid bg */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* ── SIDEBAR ────────────────────────────── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 230px;
+  background: var(--bg2);
+  border-right: 1px solid var(--br);
+  display: flex; flex-direction: column;
+  z-index: 40;
+}
+.s-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 1.4rem 1.25rem;
+  border-bottom: 1px solid var(--br);
+}
+.s-mark {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--va) 0%, var(--bn) 100%);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.s-mark span { font-size: 12px; font-weight: 700; color: #000; }
+.s-name { font-size: 15px; font-weight: 600; letter-spacing: -.02em; }
+.s-sub  { font-size: 10px; color: var(--mu); margin-top: 1px; letter-spacing: .04em; text-transform: uppercase; }
+
+.s-nav { padding: 1.25rem 0.75rem; flex: 1; }
+.s-grp-label {
+  font-size: 9px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--mu2);
+  padding: 0 0.6rem; margin-bottom: 6px; margin-top: 12px;
+}
+.s-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; border-radius: var(--rs);
+  font-size: 13px; font-weight: 500; color: var(--mu);
+  cursor: pointer; margin-bottom: 2px;
+  transition: background .14s, color .14s;
+  border: none; background: transparent; width: 100%; text-align: left;
+  font-family: var(--font);
+}
+.s-item:hover { background: rgba(255,255,255,0.05); color: var(--tx); }
+.s-item.active { background: var(--vad); color: var(--va); }
+.s-pip { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+.s-bottom {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--br);
+}
+.s-refresh {
+  width: 100%; background: rgba(255,255,255,0.05);
+  border: 1px solid var(--br2); border-radius: var(--rs);
+  padding: 9px 12px; color: var(--tx); font-family: var(--font);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: background .14s; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.s-refresh:hover { background: rgba(255,255,255,0.09); }
+.s-time { font-size: 10px; color: var(--mu2); font-family: var(--mono); text-align: center; }
+
+/* ── MAIN ───────────────────────────────── */
+.main { margin-left: 230px; min-height: 100vh; position: relative; z-index: 1; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 2rem;
+  border-bottom: 1px solid var(--br);
+  background: rgba(8,8,16,0.85);
+  backdrop-filter: blur(24px);
+  position: sticky; top: 0; z-index: 30;
+}
+.tb-left {}
+.tb-crumb { font-size: 11px; color: var(--mu); margin-bottom: 2px; letter-spacing: .02em; }
+.tb-title { font-size: 18px; font-weight: 700; letter-spacing: -.025em; }
+.tb-right { display: flex; align-items: center; gap: 10px; }
+.live-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--vad); border: 1px solid var(--vab);
+  border-radius: 99px; padding: 4px 12px;
+  font-size: 11px; font-weight: 600; color: var(--va);
+}
+.live-dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--va);
+  animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.tb-updated { font-size: 11px; color: var(--mu); font-family: var(--mono); }
+
+/* ── CONTENT ────────────────────────────── */
+.content { padding: 1.75rem 2rem; }
+
+/* ── FILTER BAR ─────────────────────────── */
+.filter-bar {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 1.75rem; flex-wrap: wrap;
+}
+.fp {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 99px; padding: 6px 14px;
+  font-size: 12px; font-weight: 500; color: var(--mu);
+  cursor: pointer; font-family: var(--font);
+  transition: all .15s; white-space: nowrap;
+  border: none; /* reset */ border: 1px solid var(--br);
+}
+.fp:hover { border-color: var(--br2); color: var(--tx); background: var(--card2); }
+.fp.on { background: var(--va); color: #000; border-color: var(--va); font-weight: 700; }
+.fp-sep { width: 1px; height: 26px; background: var(--br); flex-shrink: 0; }
+select.fp { -webkit-appearance: none; padding-right: 22px; cursor: pointer; background: var(--card); color: var(--mu); }
+select.fp:focus { outline: none; }
+
+/* ── SUMMARY CARDS ──────────────────────── */
+.sum-grid {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  gap: 10px; margin-bottom: 1.75rem;
+}
+.sum-card {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: var(--r); padding: 1.25rem 1.1rem;
+  position: relative; overflow: hidden;
+}
+.sum-card::after {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+.sum-card.va  { background: linear-gradient(160deg, rgba(52,211,153,.07) 0%, var(--card) 60%); }
+.sum-card.va::after  { background: var(--va); }
+.sum-card.bn  { background: linear-gradient(160deg, rgba(96,165,250,.07) 0%, var(--card) 60%); }
+.sum-card.bn::after  { background: var(--bn); }
+.sum-card.nv  { background: linear-gradient(160deg, rgba(248,113,113,.07) 0%, var(--card) 60%); }
+.sum-card.nv::after  { background: var(--nv); }
+.sum-card.un  { background: linear-gradient(160deg, rgba(192,132,252,.07) 0%, var(--card) 60%); }
+.sum-card.un::after  { background: var(--un); }
+.sum-card.tot::after { background: linear-gradient(90deg,var(--va),var(--bn)); }
+
+.sum-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mu); margin-bottom: .6rem; }
+.sum-val {
+  font-family: var(--mono); font-size: 30px; font-weight: 500;
+  letter-spacing: -.02em; line-height: 1; margin-bottom: 4px;
+}
+.sum-card.va .sum-val { color: var(--va); }
+.sum-card.bn .sum-val { color: var(--bn); }
+.sum-card.nv .sum-val { color: var(--nv); }
+.sum-card.un .sum-val { color: var(--un); }
+.sum-card.tot .sum-val { color: var(--tx); }
+.sum-sub { font-size: 11px; color: var(--mu); }
+
+/* ── SECTION ────────────────────────────── */
+.sec { margin-bottom: 2rem; }
+.sec-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 1rem; }
+.sec-title { font-size: 15px; font-weight: 600; letter-spacing: -.015em; }
+.sec-meta  { font-size: 11px; color: var(--mu); }
+
+/* ── EMPLOYEE CARDS ─────────────────────── */
+.emp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr)); gap: 10px; }
+
+.ec {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: var(--r); padding: 1.25rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ec:hover { border-color: var(--br2); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+
+.ec-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.1rem; }
+.ec-left { display: flex; align-items: center; gap: 10px; }
+.ec-avatar {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.ec-name { font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+.ec-dept { font-size: 11px; color: var(--mu); margin-top: 2px; }
+.ec-date { font-size: 11px; color: var(--mu); font-family: var(--mono); }
+
+/* stacked bar */
+.sbar-wrap { margin-bottom: 1rem; }
+.sbar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--mu2); margin-bottom: 5px; font-family: var(--mono); }
+.sbar-track {
+  height: 10px; border-radius: 99px;
+  background: rgba(255,255,255,0.04);
+  display: flex; overflow: hidden; gap: 1.5px;
+}
+.seg { height: 100%; min-width: 0; border-radius: 2px; }
+.seg.va { background: var(--va); }
+.seg.bn { background: var(--bn); }
+.seg.nv { background: var(--nv); }
+.seg.un { background: var(--un); opacity: .55; }
+
+.sbar-legend { display: flex; gap: 14px; margin-top: 7px; flex-wrap: wrap; }
+.leg-i { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--mu); font-family: var(--mono); }
+.leg-pip { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+
+/* stat boxes */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+.stat-box {
+  background: var(--card2); border: 1px solid var(--br);
+  border-radius: var(--rs); padding: 10px 8px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.stat-box::before {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+}
+.stat-box.va::before { background: var(--va); }
+.stat-box.bn::before { background: var(--bn); }
+.stat-box.nv::before { background: var(--nv); }
+.stat-box.un::before { background: var(--un); }
+.stat-pct { font-family: var(--mono); font-size: 16px; font-weight: 500; }
+.stat-box.va .stat-pct { color: var(--va); }
+.stat-box.bn .stat-pct { color: var(--bn); }
+.stat-box.nv .stat-pct { color: var(--nv); }
+.stat-box.un .stat-pct { color: var(--un); }
+.stat-lbl { font-size: 9px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--mu); margin-top: 3px; }
+.stat-min { font-size: 9px; color: var(--mu2); font-family: var(--mono); margin-top: 2px; }
+
+/* ── DEPT GRID ──────────────────────────── */
+.dept-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.dc {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: var(--r); padding: 1.25rem;
+}
+.dc-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.dc-meta { font-size: 11px; color: var(--mu); margin-bottom: 1rem; }
+.db-row { margin-bottom: 9px; }
+.db-row:last-child { margin-bottom: 0; }
+.db-info { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.db-label { font-size: 11px; color: var(--mu); }
+.db-pct { font-family: var(--mono); font-size: 11px; font-weight: 500; }
+.db-track { height: 4px; border-radius: 99px; background: rgba(255,255,255,0.05); overflow: hidden; }
+.db-fill { height: 4px; border-radius: 99px; }
+
+/* ── TABLE ──────────────────────────────── */
+.tbl-wrap { background: var(--card); border: 1px solid var(--br); border-radius: var(--r); overflow: hidden; }
+.tbl-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 780px; }
+thead th {
+  font-size: 10px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--mu);
+  padding: 11px 16px; text-align: left;
+  border-bottom: 1px solid var(--br);
+  background: var(--card2); white-space: nowrap;
+}
+tbody td { font-size: 13px; padding: 11px 16px; border-bottom: 1px solid var(--br); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.chip {
+  display: inline-block; padding: 2px 9px; border-radius: 5px;
+  font-size: 11px; font-weight: 600; font-family: var(--mono);
+}
+.chip.va { background: var(--vad); color: var(--va); }
+.chip.bn { background: var(--bnd); color: var(--bn); }
+.chip.nv { background: var(--nvd); color: var(--nv); }
+.chip.un { background: var(--und); color: var(--un); }
+
+/* ── EMPTY / SPINNER ────────────────────── */
+.empty { text-align: center; padding: 3.5rem 2rem; color: var(--mu); font-size: 13px; }
+.spin {
+  width: 20px; height: 20px;
+  border: 2px solid var(--br2); border-top-color: var(--va);
+  border-radius: 50%; animation: sp .7s linear infinite;
+  display: inline-block; margin-bottom: 10px;
+}
+@keyframes sp { to { transform: rotate(360deg); } }
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media(max-width:1100px) {
+  .sum-grid { grid-template-columns: repeat(3,1fr); }
+  .dept-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:900px) {
+  .sidebar { width: 56px; }
+  .s-name, .s-sub, .s-grp-label, .s-item span, .s-refresh span, .s-time { display: none; }
+  .s-item { justify-content: center; }
+  .s-logo { justify-content: center; padding: 1rem; }
+  .main { margin-left: 56px; }
+  .sum-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:640px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .content { padding: 1rem; }
+  .topbar { padding: 1rem; }
+  .sum-grid { grid-template-columns: repeat(2,1fr); }
+  .dept-grid { grid-template-columns: 1fr; }
+  .emp-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="s-logo">
+    <div class="s-mark"><span>IF</span></div>
+    <div>
+      <div class="s-name">Iotaflow</div>
+      <div class="s-sub">Systems Pvt Ltd</div>
+    </div>
+  </div>
+  <div class="s-nav">
+    <div class="s-grp-label">Dashboards</div>
+    <button class="s-item active">
+      <div class="s-pip" style="background:var(--va)"></div>
+      <span>Activity Overview</span>
+    </button>
+    <button class="s-item">
+      <div class="s-pip" style="background:var(--bn)"></div>
+      <span>Departments</span>
+    </button>
+    <button class="s-item">
+      <div class="s-pip" style="background:var(--un)"></div>
+      <span>Employees</span>
+    </button>
+  </div>
+  <div class="s-bottom">
+    <button class="s-refresh" onclick="loadData()">
+      <span style="font-size:15px;">↻</span>
+      <span>Refresh Data</span>
+    </button>
+    <div class="s-time" id="s-time">—</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-crumb">Iotaflow / Management</div>
+      <div class="tb-title">Activity Dashboard</div>
+    </div>
+    <div class="tb-right">
+      <div class="live-pill"><div class="live-dot"></div>Live</div>
+      <div class="tb-updated" id="tb-updated">Loading...</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- FILTERS -->
+    <div class="filter-bar">
+      <!-- Dept filters -->
+      <button class="fp on"  onclick="setDept('all',this)">All</button>
+      <button class="fp" onclick="setDept('Accounts / Finance',this)">Accounts</button>
+      <button class="fp" onclick="setDept('Human Resources',this)">HR</button>
+      <button class="fp" onclick="setDept('IT Support',this)">IT</button>
+      <button class="fp" onclick="setDept('Purchase',this)">Purchase</button>
+      <button class="fp" onclick="setDept('Product Design / BOM',this)">Design</button>
+      <button class="fp" onclick="setDept('Sales',this)">Sales</button>
+      <button class="fp" onclick="setDept('Marketing',this)">Marketing</button>
+      <button class="fp" onclick="setDept('Service / Post-Sales',this)">Service</button>
+      <button class="fp" onclick="setDept('Stores',this)">Stores</button>
+      <div class="fp-sep"></div>
+      <select class="fp" id="dateF" onchange="renderAll()">
+        <option value="all">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="sum-grid">
+      <div class="sum-card tot">
+        <div class="sum-label">Submissions</div>
+        <div class="sum-val" id="s-tot">—</div>
+        <div class="sum-sub" id="s-emp">— employees</div>
+      </div>
+      <div class="sum-card va">
+        <div class="sum-label">Avg VA</div>
+        <div class="sum-val" id="s-va">—</div>
+        <div class="sum-sub">Value Added</div>
+      </div>
+      <div class="sum-card bn">
+        <div class="sum-label">Avg BNVA</div>
+        <div class="sum-val" id="s-bn">—</div>
+        <div class="sum-sub">Business Necessary</div>
+      </div>
+      <div class="sum-card nv">
+        <div class="sum-label">Avg NVA</div>
+        <div class="sum-val" id="s-nv">—</div>
+        <div class="sum-sub">Non-Value Added</div>
+      </div>
+      <div class="sum-card un">
+        <div class="sum-label">Avg Unidentified</div>
+        <div class="sum-val" id="s-un">—</div>
+        <div class="sum-sub">Time not logged</div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEES -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-title">Employee Activity</div>
+        <div class="sec-meta" id="emp-meta"></div>
+      </div>
+      <div class="emp-grid" id="emp-grid">
+        <div class="empty" style="grid-column:1/-1">
+          <div class="spin"></div><br/>Data load ho raha hai...
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPARTMENTS -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-title">Department Summary</div>
+        <div class="sec-meta">420 min workday · average</div>
+      </div>
+      <div class="dept-grid" id="dept-grid">
+        <div class="empty" style="grid-column:1/-1">
+          <div class="spin"></div><br/>Loading...
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-title">Detail Log</div>
+      </div>
+      <div class="tbl-wrap">
+        <div class="tbl-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Date</th>
+                <th>VA min</th>
+                <th>BNVA min</th>
+                <th>NVA min</th>
+                <th>Unid. min</th>
+                <th>VA %</th>
+                <th>BNVA %</th>
+                <th>NVA %</th>
+                <th>Unid. %</th>
+              </tr>
+            </thead>
+            <tbody id="tbl-body">
+              <tr><td colspan="11" class="empty"><div class="spin"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMdtfdSkKYC0mPJ8pptzQA0k9M-KFJcZZo3QlxTdULG-jC8CkG2nLPvz2-h93Mf16EBun5E0eO4Dpn/pub?gid=0&single=true&output=csv";
+var W = 420;
+var ALL = [];
+var DEPT = 'all';
+
+// Avatar colors
+var PALETTE = ['#34d399','#60a5fa','#f87171','#c084fc','#fbbf24','#22d3ee','#f472b6','#a3e635'];
+var CMAP = {};
+function getC(n) {
+  if(!CMAP[n]) CMAP[n] = PALETTE[Object.keys(CMAP).length % PALETTE.length];
+  return CMAP[n];
+}
+function inits(n) {
+  var p = (n||'').trim().split(' ');
+  return p.length>1 ? (p[0][0]+p[1][0]).toUpperCase() : (n||'??').slice(0,2).toUpperCase();
+}
+
+// ── LOAD ────────────────────────────────
+function loadData() {
+  document.getElementById('tb-updated').textContent = 'Refreshing...';
+  fetch(CSV + '&bust=' + Date.now())
+    .then(function(r){ return r.text(); })
+    .then(function(t){
+      ALL = parse(t);
+      var now = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('tb-updated').textContent = 'Updated ' + now;
+      document.getElementById('s-time').textContent = 'Synced ' + now;
+      renderAll();
+    })
+    .catch(function(){
+      ALL = [];
+      document.getElementById('tb-updated').textContent = 'Could not load data';
+      renderAll();
+    });
+}
+
+function parse(txt) {
+  var lines = txt.trim().split('\n');
+  if(lines.length < 2) return [];
+  // Normalize headers — remove spaces, lowercase, remove special chars
+  var hdrs = lines[0].split(',').map(function(h){
+    // Remove quotes, trim, lowercase, remove ALL non-alphanumeric chars
+    // e.g. "VA Time (min)" → vatimemin
+    //      "BNVA Time (min)" → bnvatimemin
+    //      "NVA Time (min)" → nvatimemin
+    return h.replace(/"/g,'').trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  });
+  
+  var rows = [];
+  for(var i=1; i<lines.length; i++){
+    var vals = [];
+    var line = lines[i];
+    var inQ = false, cur = '';
+    for(var c=0; c<line.length; c++){
+      if(line[c]==='"') { inQ=!inQ; continue; }
+      if(line[c]===',' && !inQ) { vals.push(cur.trim()); cur=''; continue; }
+      cur += line[c];
+    }
+    vals.push(cur.trim());
+    
+    var obj = {};
+    for(var j=0; j<hdrs.length; j++) obj[hdrs[j]] = (vals[j]||'').replace(/"/g,'').trim();
+    if(obj.name && obj.name.length > 0) rows.push(obj);
+  }
+  // Debug: log first row keys to console
+  if(rows.length > 0) {
+    console.log('CSV columns found:', Object.keys(rows[0]));
+    console.log('First row sample:', rows[0]);
+  }
+  return rows;
+}
+
+// ── COMPUTE 420 LOGIC ───────────────────
+function calc(r) {
+  // Sheet columns: "VA Time (min)"→vatimemin, "BNVA Time (min)"→bnvatimemin, "NVA Time (min)"→nvatimemin
+  var va = parseInt(r.vatimemin || r.vamins || r.vamin || 0) || 0;
+  var bn = parseInt(r.bnvatimemin || r.bnvamins || r.bnvamin || 0) || 0;
+  var nv = parseInt(r.nvatimemin || r.nvamins || r.nvamin || 0) || 0;
+  var un = Math.max(0, W - va - bn - nv);
+  
+  // If mins not found but % exists, compute from %
+  // Sheet cols: "VA %"→va, "BNVA %"→bnva, "NVA %"→nva (after normalize)
+  var vaP, bnP, nvP, unP;
+  if(va === 0 && bn === 0 && nv === 0) {
+    // Fallback: use percent columns directly
+    vaP  = parseInt(r.va || r.vapercent || r.vap || 0) || 0;
+    bnP  = parseInt(r.bnva || r.bnvapercent || r.bnvap || 0) || 0;
+    nvP  = parseInt(r.nva || r.nvapercent || r.nvap || 0) || 0;
+    unP  = Math.max(0, 100 - vaP - bnP - nvP);
+    va   = Math.round(vaP/100*W);
+    bn   = Math.round(bnP/100*W);
+    nv   = Math.round(nvP/100*W);
+    un   = Math.max(0, W - va - bn - nv);
+  } else {
+    vaP  = Math.round(va/W*100);
+    bnP  = Math.round(bn/W*100);
+    nvP  = Math.round(nv/W*100);
+    unP  = Math.round(un/W*100);
+  }
+  return { va:va, bn:bn, nv:nv, un:un, vaP:vaP, bnP:bnP, nvP:nvP, unP:unP };
+}
+
+// ── FILTER ──────────────────────────────
+function setDept(d, btn) {
+  document.querySelectorAll('.filter-bar .fp:not(select)').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  DEPT = d;
+  renderAll();
+}
+
+function filtered() {
+  var df = document.getElementById('dateF').value;
+  var today = new Date().toISOString().slice(0,10);
+  var wk  = new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  var mo  = new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+  return ALL.filter(function(r){
+    var dOk = DEPT==='all' || (r.department||'')=== DEPT;
+    var tOk = df==='all' || (df==='today'&&r.date===today) || (df==='week'&&r.date>=wk) || (df==='month'&&r.date>=mo);
+    return dOk && tOk;
+  });
+}
+
+// ── RENDER ──────────────────────────────
+function renderAll() {
+  var d = filtered();
+  doSummary(d);
+  doEmployees(d);
+  doDepts(d);
+  doTable(d);
+}
+
+function avgK(d,k){ if(!d.length)return 0; var s=0; d.forEach(function(r){s+=calc(r)[k];}); return Math.round(s/d.length); }
+
+function doSummary(d) {
+  var names={};d.forEach(function(r){if(r.name)names[r.name]=1;});
+  document.getElementById('s-tot').textContent = d.length||'—';
+  document.getElementById('s-emp').textContent = Object.keys(names).length+' employees';
+  document.getElementById('s-va').textContent  = d.length?avgK(d,'vaP')+'%':'—';
+  document.getElementById('s-bn').textContent  = d.length?avgK(d,'bnP')+'%':'—';
+  document.getElementById('s-nv').textContent  = d.length?avgK(d,'nvP')+'%':'—';
+  document.getElementById('s-un').textContent  = d.length?avgK(d,'unP')+'%':'—';
+}
+
+function doEmployees(d) {
+  var g = document.getElementById('emp-grid');
+  document.getElementById('emp-meta').textContent = d.length?d.length+' entries':'';
+  if(!d.length){
+    g.innerHTML='<div class="empty" style="grid-column:1/-1">Koi submission nahi mili. Form fill hone ke baad yahan dikhega.</div>';
+    return;
+  }
+  var sorted = d.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  g.innerHTML = sorted.map(function(r){
+    var c=calc(r), col=getC(r.name), ini=inits(r.name);
+    var vW=Math.round(c.va/W*100), bnW=Math.round(c.bn/W*100), nvW=Math.round(c.nv/W*100), unW=Math.round(c.un/W*100);
+    return '<div class="ec">'+
+      '<div class="ec-top">'+
+        '<div class="ec-left">'+
+          '<div class="ec-avatar" style="background:'+col+'18;color:'+col+'">'+ini+'</div>'+
+          '<div><div class="ec-name">'+r.name+'</div><div class="ec-dept">'+(r.department||'')+'</div></div>'+
+        '</div>'+
+        '<div class="ec-date">'+(r.date||'')+'</div>'+
+      '</div>'+
+      '<div class="sbar-wrap">'+
+        '<div class="sbar-labels"><span>0</span><span>420 min</span></div>'+
+        '<div class="sbar-track">'+
+          '<div class="seg va" style="width:'+vW+'%"></div>'+
+          '<div class="seg bn" style="width:'+bnW+'%"></div>'+
+          '<div class="seg nv" style="width:'+nvW+'%"></div>'+
+          '<div class="seg un" style="width:'+unW+'%"></div>'+
+        '</div>'+
+        '<div class="sbar-legend">'+
+          '<div class="leg-i"><div class="leg-pip" style="background:var(--va)"></div>VA '+c.va+'m</div>'+
+          '<div class="leg-i"><div class="leg-pip" style="background:var(--bn)"></div>BNVA '+c.bn+'m</div>'+
+          '<div class="leg-i"><div class="leg-pip" style="background:var(--nv)"></div>NVA '+c.nv+'m</div>'+
+          '<div class="leg-i"><div class="leg-pip" style="background:var(--un);opacity:.7"></div>Unid. '+c.un+'m</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="stats-row">'+
+        '<div class="stat-box va"><div class="stat-pct">'+c.vaP+'%</div><div class="stat-lbl">VA</div><div class="stat-min">'+c.va+' min</div></div>'+
+        '<div class="stat-box bn"><div class="stat-pct">'+c.bnP+'%</div><div class="stat-lbl">BNVA</div><div class="stat-min">'+c.bn+' min</div></div>'+
+        '<div class="stat-box nv"><div class="stat-pct">'+c.nvP+'%</div><div class="stat-lbl">NVA</div><div class="stat-min">'+c.nv+' min</div></div>'+
+        '<div class="stat-box un"><div class="stat-pct">'+c.unP+'%</div><div class="stat-lbl">Unid.</div><div class="stat-min">'+c.un+' min</div></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function doDepts(d) {
+  var g = document.getElementById('dept-grid');
+  if(!d.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">No data.</div>';return;}
+  var map={};
+  d.forEach(function(r){ var n=r.department||'Unknown'; if(!map[n])map[n]=[]; map[n].push(r); });
+
+  function bar(pct,color,label){
+    return '<div class="db-row">'+
+      '<div class="db-info"><span class="db-label">'+label+'</span><span class="db-pct" style="color:'+color+'">'+pct+'%</span></div>'+
+      '<div class="db-track"><div class="db-fill" style="width:'+pct+'%;background:'+color+'"></div></div>'+
+    '</div>';
+  }
+  g.innerHTML = Object.keys(map).map(function(nm){
+    var rows=map[nm], vaP=0,bnP=0,nvP=0,unP=0;
+    rows.forEach(function(r){var c=calc(r);vaP+=c.vaP;bnP+=c.bnP;nvP+=c.nvP;unP+=c.unP;});
+    vaP=Math.round(vaP/rows.length); bnP=Math.round(bnP/rows.length);
+    nvP=Math.round(nvP/rows.length); unP=Math.round(unP/rows.length);
+    return '<div class="dc">'+
+      '<div class="dc-name">'+nm+'</div>'+
+      '<div class="dc-meta">'+rows.length+' submission'+(rows.length>1?'s':'')+' · 420 min avg</div>'+
+      bar(vaP,'var(--va)','Value Added')+
+      bar(bnP,'var(--bn)','BNVA')+
+      bar(nvP,'var(--nv)','Non-Value Added')+
+      bar(unP,'var(--un)','Unidentified')+
+    '</div>';
+  }).join('');
+}
+
+function doTable(d) {
+  var b = document.getElementById('tbl-body');
+  if(!d.length){b.innerHTML='<tr><td colspan="11" class="empty">No data.</td></tr>';return;}
+  var s=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  b.innerHTML=s.map(function(r){
+    var c=calc(r);
+    return '<tr>'+
+      '<td><strong>'+(r.name||'—')+'</strong></td>'+
+      '<td style="color:var(--mu);font-size:12px;">'+(r.department||'—')+'</td>'+
+      '<td style="color:var(--mu);font-family:var(--mono);font-size:11px;">'+(r.date||'—')+'</td>'+
+      '<td><span class="chip va">'+c.va+'</span></td>'+
+      '<td><span class="chip bn">'+c.bn+'</span></td>'+
+      '<td><span class="chip nv">'+c.nv+'</span></td>'+
+      '<td><span class="chip un">'+c.un+'</span></td>'+
+      '<td style="font-family:var(--mono);color:var(--va);font-size:12px;">'+c.vaP+'%</td>'+
+      '<td style="font-family:var(--mono);color:var(--bn);font-size:12px;">'+c.bnP+'%</td>'+
+      '<td style="font-family:var(--mono);color:var(--nv);font-size:12px;">'+c.nvP+'%</td>'+
+      '<td style="font-family:var(--mono);color:var(--un);font-size:12px;">'+c.unP+'%</td>'+
+    '</tr>';
+  }).join('');
+}
+
+// Start
+loadData();
+setInterval(loadData, 300000);
+</script>
+</body>
+</html>
