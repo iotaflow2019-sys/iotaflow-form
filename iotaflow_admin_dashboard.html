@@ -771,6 +771,7 @@ function showView(id,btn){
   document.querySelectorAll('.s-btn').forEach(function(b){b.classList.remove('active');});
   if(btn)btn.classList.add('active');
   renderAll();
+  if(id==='productivity') renderProductivity();
 }
 
 // ── LOAD ──────────────────────────────────
@@ -1255,6 +1256,11 @@ setInterval(loadData,300000);
 // ══════════════════════════════════════════════════════════
 
 function renderProductivity() {
+  if(!ALL || ALL.length===0){ 
+    var tb=document.getElementById('prod-tbody');
+    if(tb) tb.innerHTML='<tr><td colspan="12" class="empty" style="color:var(--mu);">Koi data nahi hai abhi. Form submit hone ka wait karein.</td></tr>';
+    return; 
+  }
   var deptF = document.getElementById('prod-dept-filter') ? document.getElementById('prod-dept-filter').value : 'all';
   var fromD = document.getElementById('prod-from') ? document.getElementById('prod-from').value : '';
   var toD   = document.getElementById('prod-to')   ? document.getElementById('prod-to').value   : '';
