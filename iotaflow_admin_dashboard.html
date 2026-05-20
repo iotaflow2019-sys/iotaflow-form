@@ -316,6 +316,23 @@ tr:hover .row-arrow{color:var(--bn);}
 .dept-name{font-size:13px;font-weight:600;color:var(--tx);}
 .dept-sub{font-size:10px;color:var(--mu);}
 
+/* PRODUCTIVITY REPORT */
+.prod-sum-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center;position:relative;overflow:hidden;}
+.prod-sum-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
+.prod-sum-card.va::before{background:linear-gradient(90deg,#059669,#10b981);}
+.prod-sum-card.bn::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.prod-sum-card.nv::before{background:linear-gradient(90deg,#dc2626,#f87171);}
+.prod-sum-card.un::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+.prod-sum-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:6px;}
+.prod-sum-val{font-family:var(--mono);font-size:26px;font-weight:500;}
+.prod-sum-card.va .prod-sum-val{color:#059669;}
+.prod-sum-card.bn .prod-sum-val{color:#2563eb;}
+.prod-sum-card.nv .prod-sum-val{color:#dc2626;}
+.prod-sum-card.un .prod-sum-val{color:#7c3aed;}
+.prod-sum-sub{font-size:11px;color:var(--mu);margin-top:3px;}
+.prod-bar{height:3px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:10px;}
+.prod-bar-fill{height:3px;border-radius:99px;transition:width .8s ease;}
+
 /* EMPTY / LOADING */
 .empty{text-align:center;padding:3rem 2rem;color:var(--mu);font-size:13px;}
 .spin{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--bn);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;margin-bottom:10px;}
@@ -366,6 +383,9 @@ tr:hover .row-arrow{color:var(--bn);}
     </button>
     <button class="s-btn" onclick="showView('table',this)">
       <div class="s-ico" style="background:#fff1f2">📋</div><span>Detail Log</span>
+    </button>
+    <button class="s-btn" onclick="showView('productivity',this)">
+      <div class="s-ico" style="background:#fefce8">📈</div><span>Productivity Report</span>
     </button>
     <button class="s-btn" onclick="showView('guide',this)">
       <div class="s-ico" style="background:#f0fdf4">💡</div><span>Dashboard Guide</span>
@@ -595,6 +615,82 @@ tr:hover .row-arrow{color:var(--bn);}
       </div>
     </div>
 
+    <!-- PRODUCTIVITY REPORT -->
+    <div class="view" id="view-productivity">
+      <div class="sec">
+        <div class="sec-head">
+          <div class="sec-title">📈 Employee Productivity Report</div>
+          <div class="sec-meta">420 min × days worked = Total Minutes | Category-wise % calculated dynamically</div>
+        </div>
+
+        <!-- Info banner -->
+        <div style="background:linear-gradient(135deg,rgba(37,99,235,0.06),rgba(124,58,237,0.06));border:1px solid rgba(37,99,235,0.15);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;gap:12px;align-items:flex-start;">
+          <div style="font-size:18px;flex-shrink:0;">💡</div>
+          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">
+            <strong style="color:var(--tx);">Calculation Logic:</strong> Har employee ke sabhi din ka category-wise total nikala jaata hai.
+            Phir <strong>Total Minutes = Days × 420</strong> se percentage calculate hoti hai.
+            Example: 2 days → 840 min total. NVA 190 min → <strong>22.62%</strong>
+          </div>
+        </div>
+
+        <!-- Filters row -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;">
+          <div style="font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;">Filter:</div>
+          <select id="prod-dept-filter" onchange="renderProductivity()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+            <option value="all">All Departments</option>
+            <option value="Accounts">Accounts</option>
+            <option value="HR & Admin">HR & Admin</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Store">Store</option>
+            <option value="Product Design">Product Design</option>
+            <option value="Service / Post-Sales">Service / Post-Sales</option>
+            <option value="Sales & CRM">Sales & CRM</option>
+            <option value="Marketing">Marketing</option>
+          </select>
+          <input type="date" id="prod-from" onchange="renderProductivity()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--font);font-size:12px;color:var(--tx2);outline:none;cursor:pointer;"/>
+          <span style="font-size:11px;color:var(--mu);">to</span>
+          <input type="date" id="prod-to" onchange="renderProductivity()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--font);font-size:12px;color:var(--tx2);outline:none;cursor:pointer;"/>
+          <button onclick="clearProdFilter()" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
+          <button onclick="exportProdCSV()" style="background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;margin-left:auto;">⬇ Export CSV</button>
+        </div>
+
+        <!-- Summary cards -->
+        <div id="prod-summary-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;"></div>
+
+        <!-- Main table -->
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">Employee-wise Report <span id="prod-emp-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" id="prod-search" placeholder="Search employee..." class="tbl-search" oninput="renderProductivity()"/>
+          </div>
+          <div class="tbl-scroll">
+            <table id="prod-table">
+              <thead>
+                <tr>
+                  <th style="min-width:140px;">Employee</th>
+                  <th>Department</th>
+                  <th>Days</th>
+                  <th>Total Min</th>
+                  <th style="color:#dc2626;">NVA (min)</th>
+                  <th style="color:#dc2626;">NVA %</th>
+                  <th style="color:#2563eb;">BNVA (min)</th>
+                  <th style="color:#2563eb;">BNVA %</th>
+                  <th style="color:#059669;">VA (min)</th>
+                  <th style="color:#059669;">VA %</th>
+                  <th style="color:#7c3aed;">Unid. (min)</th>
+                  <th style="color:#7c3aed;">Unid. %</th>
+                </tr>
+              </thead>
+              <tbody id="prod-tbody">
+                <tr><td colspan="12" class="empty"><div class="spin"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- GUIDE -->
     <div class="view" id="view-guide">
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
@@ -713,11 +809,12 @@ function parseCSV(txt){
 }
 
 function calc(r){
+  // "VA Time (min)" → vatimemin, "BNVA Time (min)" → bnvatimemin, "NVA Time (min)" → nvatimemin
   var va=parseInt(r.vatimemin||0)||0;
   var bn=parseInt(r.bnvatimemin||0)||0;
   var nv=parseInt(r.nvatimemin||0)||0;
   if(!va&&!bn&&!nv){
-    var vP=parseInt(r.va||0)||0,bP=parseInt(r.bnva||0)||0,nP=parseInt(r.nva||0)||0;
+    var vP=parseFloat(r.va||0)||0,bP=parseFloat(r.bnva||0)||0,nP=parseFloat(r.nva||0)||0;
     if(vP||bP||nP){va=Math.round(vP/100*W);bn=Math.round(bP/100*W);nv=Math.round(nP/100*W);}
   }
   var un=Math.max(0,W-va-bn-nv);
@@ -1150,6 +1247,242 @@ function downloadExcel(){
 
 loadData();
 setInterval(loadData,300000);
+
+// ══════════════════════════════════════════════════════════
+// PRODUCTIVITY REPORT — Exact logic as specified
+// Total Minutes = Days × 420
+// % = (Category Total ÷ Total Minutes) × 100
+// ══════════════════════════════════════════════════════════
+
+function renderProductivity() {
+  var deptF = document.getElementById('prod-dept-filter') ? document.getElementById('prod-dept-filter').value : 'all';
+  var fromD = document.getElementById('prod-from') ? document.getElementById('prod-from').value : '';
+  var toD   = document.getElementById('prod-to')   ? document.getElementById('prod-to').value   : '';
+  var query = document.getElementById('prod-search') ? document.getElementById('prod-search').value.toLowerCase() : '';
+
+  // Filter raw data
+  var data = ALL.filter(function(r) {
+    var dOk = deptF === 'all' || (r.department || '').indexOf(deptF) >= 0;
+    var frOk = !fromD || r.date >= fromD;
+    var toOk = !toD   || r.date <= toD;
+    return dOk && frOk && toOk;
+  });
+
+  // Group by employee name — aggregate all days
+  var empMap = {};
+  data.forEach(function(r) {
+    var name = r.name || 'Unknown';
+    if (!empMap[name]) {
+      empMap[name] = {
+        name: name,
+        dept: r.department || '—',
+        days: 0,
+        va: 0, bn: 0, nv: 0
+      };
+    }
+    var e = empMap[name];
+    e.days += 1;
+    // Get minutes from sheet columns
+    // Sheet columns (after CSV normalize — lowercase, remove non-alphanumeric):
+    // "VA Time (min)"   → vatimemin
+    // "BNVA Time (min)" → bnvatimemin
+    // "NVA Time (min)"  → nvatimemin
+    // "VA %"            → va   (fallback)
+    // "BNVA %"          → bnva (fallback)
+    // "NVA %"           → nva  (fallback)
+    var va = parseInt(r.vatimemin || r['va time (min)'] || 0) || 0;
+    var bn = parseInt(r.bnvatimemin || r['bnva time (min)'] || 0) || 0;
+    var nv = parseInt(r.nvatimemin || r['nva time (min)'] || 0) || 0;
+    // Fallback: if mins still 0, back-calculate from % columns
+    if (!va && !bn && !nv) {
+      var vaP2 = parseFloat(r.va || r['va %'] || 0) || 0;
+      var bnP2 = parseFloat(r.bnva || r['bnva %'] || 0) || 0;
+      var nvP2 = parseFloat(r.nva || r['nva %'] || 0) || 0;
+      if (vaP2 || bnP2 || nvP2) {
+        va = Math.round(vaP2 / 100 * 420);
+        bn = Math.round(bnP2 / 100 * 420);
+        nv = Math.round(nvP2 / 100 * 420);
+      }
+    }
+    e.va += va;
+    e.bn += bn;
+    e.nv += nv;
+  });
+
+  // Calculate per employee
+  var rows = Object.values(empMap).map(function(e) {
+    var totalMins = e.days * 420;           // Step 2: Days × 420
+    var unid = Math.max(0, totalMins - e.va - e.bn - e.nv); // Unidentified
+    // Step 3: Percentage = (Category ÷ Total) × 100
+    var vaP  = totalMins > 0 ? ((e.va  / totalMins) * 100).toFixed(2) : '0.00';
+    var bnP  = totalMins > 0 ? ((e.bn  / totalMins) * 100).toFixed(2) : '0.00';
+    var nvP  = totalMins > 0 ? ((e.nv  / totalMins) * 100).toFixed(2) : '0.00';
+    var unP  = totalMins > 0 ? ((unid  / totalMins) * 100).toFixed(2) : '0.00';
+    return { name:e.name, dept:e.dept, days:e.days, totalMins:totalMins,
+             va:e.va, vaP:vaP, bn:e.bn, bnP:bnP, nv:e.nv, nvP:nvP, unid:unid, unP:unP };
+  });
+
+  // Search filter
+  if (query) {
+    rows = rows.filter(function(r) {
+      return r.name.toLowerCase().indexOf(query) >= 0 || r.dept.toLowerCase().indexOf(query) >= 0;
+    });
+  }
+
+  rows.sort(function(a, b) { return parseFloat(b.vaP) - parseFloat(a.vaP); });
+
+  // Update count
+  var countEl = document.getElementById('prod-emp-count');
+  if (countEl) countEl.textContent = '(' + rows.length + ' employees)';
+
+  // Summary cards — team average
+  renderProdSummaryCards(rows);
+
+  // Render table
+  var tbody = document.getElementById('prod-tbody');
+  if (!tbody) return;
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="12" class="empty">Koi data nahi mila.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(function(r) {
+    var col = getC(r.name);
+    return '<tr onclick="openDrill('' + r.name + '')" style="cursor:pointer;">' +
+      '<td><div class="emp-name-cell">' +
+        '<div class="emp-av" style="background:' + col + '">' + ini(r.name) + '</div>' +
+        '<div class="emp-av-info"><div class="name">' + r.name + '</div><div class="dept">' + r.dept + '</div></div>' +
+      '</div></td>' +
+      '<td style="color:var(--mu);font-size:12px;">' + r.dept + '</td>' +
+      '<td style="text-align:center;font-weight:600;color:var(--tx2);">' + r.days + '</td>' +
+      '<td style="text-align:center;font-family:var(--mono);font-size:12px;font-weight:600;">' + r.totalMins + '</td>' +
+      // NVA
+      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#dc2626;">' + r.nv + '</span></td>' +
+      '<td>' + pctBadge(r.nvP, '#dc2626', 'rgba(220,38,38,0.08)') + '</td>' +
+      // BNVA
+      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#2563eb;">' + r.bn + '</span></td>' +
+      '<td>' + pctBadge(r.bnP, '#2563eb', 'rgba(37,99,235,0.08)') + '</td>' +
+      // VA
+      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#059669;">' + r.va + '</span></td>' +
+      '<td>' + pctBadge(r.vaP, '#059669', 'rgba(5,150,105,0.08)') + '</td>' +
+      // Unidentified
+      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#7c3aed;">' + r.unid + '</span></td>' +
+      '<td>' + pctBadge(r.unP, '#7c3aed', 'rgba(124,58,237,0.08)') + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function pctBadge(pct, color, bg) {
+  return '<div style="display:flex;align-items:center;gap:6px;">' +
+    '<span style="font-family:var(--mono);font-size:12px;font-weight:700;color:' + color + ';background:' + bg + ';padding:2px 8px;border-radius:5px;white-space:nowrap;">' + pct + '%</span>' +
+    '<div style="flex:1;height:4px;border-radius:99px;background:rgba(0,0,0,0.06);overflow:hidden;min-width:30px;">' +
+      '<div style="height:4px;border-radius:99px;background:' + color + ';width:' + Math.min(parseFloat(pct), 100) + '%;"></div>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderProdSummaryCards(rows) {
+  var el = document.getElementById('prod-summary-cards');
+  if (!el || !rows.length) { if(el) el.innerHTML=''; return; }
+
+  // Team averages
+  var n = rows.length;
+  var avgVA  = (rows.reduce(function(s,r){return s+parseFloat(r.vaP);},0)/n).toFixed(2);
+  var avgBN  = (rows.reduce(function(s,r){return s+parseFloat(r.bnP);},0)/n).toFixed(2);
+  var avgNV  = (rows.reduce(function(s,r){return s+parseFloat(r.nvP);},0)/n).toFixed(2);
+  var avgUN  = (rows.reduce(function(s,r){return s+parseFloat(r.unP);},0)/n).toFixed(2);
+  var totalDays = rows.reduce(function(s,r){return s+r.days;},0);
+
+  el.innerHTML =
+    prodCard('va','✅','Avg VA',avgVA+'%','Team average value-added work') +
+    prodCard('bn','📋','Avg BNVA',avgBN+'%','Team average necessary work') +
+    prodCard('nv','⚠️','Avg NVA',avgNV+'%','Team average waste — to be eliminated') +
+    prodCard('un','❓','Avg Unidentified',avgUN+'%',totalDays+' total days tracked · '+n+' employees');
+}
+
+function prodCard(cls, icon, label, val, sub) {
+  var colors = {va:'#059669',bn:'#2563eb',nv:'#dc2626',un:'#7c3aed'};
+  var col = colors[cls];
+  return '<div class="prod-sum-card ' + cls + '">' +
+    '<div style="font-size:18px;margin-bottom:6px;">' + icon + '</div>' +
+    '<div class="prod-sum-lbl">' + label + '</div>' +
+    '<div class="prod-sum-val">' + val + '</div>' +
+    '<div class="prod-sum-sub">' + sub + '</div>' +
+    '<div class="prod-bar"><div class="prod-bar-fill" style="width:' + Math.min(parseFloat(val),100) + '%;background:' + col + ';"></div></div>' +
+  '</div>';
+}
+
+function clearProdFilter() {
+  var dEl = document.getElementById('prod-dept-filter');
+  var fEl = document.getElementById('prod-from');
+  var tEl = document.getElementById('prod-to');
+  var sEl = document.getElementById('prod-search');
+  if(dEl) dEl.value = 'all';
+  if(fEl) fEl.value = '';
+  if(tEl) tEl.value = '';
+  if(sEl) sEl.value = '';
+  renderProductivity();
+}
+
+function exportProdCSV() {
+  var deptF = document.getElementById('prod-dept-filter') ? document.getElementById('prod-dept-filter').value : 'all';
+  var fromD = document.getElementById('prod-from') ? document.getElementById('prod-from').value : '';
+  var toD   = document.getElementById('prod-to')   ? document.getElementById('prod-to').value   : '';
+
+  var data = ALL.filter(function(r) {
+    var dOk = deptF === 'all' || (r.department || '').indexOf(deptF) >= 0;
+    var frOk = !fromD || r.date >= fromD;
+    var toOk = !toD   || r.date <= toD;
+    return dOk && frOk && toOk;
+  });
+
+  var empMap = {};
+  data.forEach(function(r) {
+    var name = r.name || 'Unknown';
+    if (!empMap[name]) empMap[name] = {name:name,dept:r.department||'',days:0,va:0,bn:0,nv:0};
+    var e = empMap[name]; e.days++;
+    var va = parseInt(r.vatimemin||0)||0, bn = parseInt(r.bnvatimemin||0)||0, nv = parseInt(r.nvatimemin||0)||0;
+    if(!va&&!bn&&!nv){
+      var vp=parseFloat(r.va||0)||0,bp=parseFloat(r.bnva||0)||0,np=parseFloat(r.nva||0)||0;
+      if(vp||bp||np){va=Math.round(vp/100*420);bn=Math.round(bp/100*420);nv=Math.round(np/100*420);}
+    }
+    e.va+=va; e.bn+=bn; e.nv+=nv;
+  });
+
+  var rows = Object.values(empMap).map(function(e) {
+    var t=e.days*420, u=Math.max(0,t-e.va-e.bn-e.nv);
+    return {name:e.name,dept:e.dept,days:e.days,t:t,va:e.va,vaP:t>0?((e.va/t)*100).toFixed(2):'0.00',
+      bn:e.bn,bnP:t>0?((e.bn/t)*100).toFixed(2):'0.00',nv:e.nv,nvP:t>0?((e.nv/t)*100).toFixed(2):'0.00',u:u,uP:t>0?((u/t)*100).toFixed(2):'0.00'};
+  }).sort(function(a,b){return parseFloat(b.vaP)-parseFloat(a.vaP);});
+
+  if(!rows.length){alert('No data to export!');return;}
+
+  var csv = 'IOTAFLOW — EMPLOYEE PRODUCTIVITY REPORT\n';
+  csv += 'Generated: ' + new Date().toLocaleString('en-IN') + '\n';
+  csv += 'Logic: Total Minutes = Days × 420 | % = (Category ÷ Total Minutes) × 100\n\n';
+  csv += 'Employee Name,Department,Days,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unidentified (min),Unidentified %\n';
+  rows.forEach(function(r) {
+    csv += '"'+r.name+'","'+r.dept+'",'+r.days+','+r.t+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.u+','+r.uP+'%\n';
+  });
+
+  var blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href=url; a.download='Iotaflow_Productivity_Report_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Hook into renderAll to also update productivity if visible
+var _origRenderAll = renderAll;
+renderAll = function() {
+  _origRenderAll();
+  var prodView = document.getElementById('view-productivity');
+  if (prodView && prodView.classList.contains('active')) {
+    renderProductivity();
+  }
+};
 </script>
 </body>
 </html>
