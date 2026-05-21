@@ -757,6 +757,18 @@ tr:hover .row-arrow{color:var(--bn);}
 </div>
 
 <script>
+var SEED_DATA = [
+  {timestamp:"2026-05-16T12:27:29.120Z",name:"Dev",date:"2026-05-16",department:"IT Support",totalactivities:"4",vacount:"2",bnvacount:"1",nvacount:"1",va:"50",bnva:"25",nva:"25",vatimemin:"78",bnvatimemin:"30",nvatimemin:"40",totalactivitytimemin:"148",totalworkhours:"",vaactivities:"First-visit resolution of hardware issues(23min) | Preventive hardware maintenance(55min)",bnvaactivities:"Antivirus and patch management(30min)",nvaactivities:"ERP modules paid for, never implemented(40min)"},
+  {timestamp:"2026-05-18T07:28:23.355Z",name:"Pushpa",date:"2026-05-18",department:"Marketing",totalactivities:"5",vacount:"1",bnvacount:"1",nvacount:"3",va:"20",bnva:"20",nva:"60",vatimemin:"30",bnvatimemin:"20",nvatimemin:"137",totalactivitytimemin:"187",totalworkhours:"",vaactivities:"EPC and consultant approved vendor list pursuit(30min)",bnvaactivities:"Press release for significant events(20min)",nvaactivities:"Generic brochure with no application context(39min) | Budget spent with no measurable return tracked(46min) | Exhibition without post-event follow-up(52min)"},
+  {timestamp:"2026-05-18T07:29:04.395Z",name:"Dev",date:"2026-05-18",department:"IT Support",totalactivities:"4",vacount:"1",bnvacount:"1",nvacount:"2",va:"25",bnva:"25",nva:"50",vatimemin:"20",bnvatimemin:"38",nvatimemin:"32",totalactivitytimemin:"90",totalworkhours:"",vaactivities:"ERP configuration matching actual process(20min)",bnvaactivities:"Antivirus and patch management(38min)",nvaactivities:"System access not ready on Day 1(20min) | No backup restoration test ever(12min)"},
+  {timestamp:"2026-05-18T07:30:20.218Z",name:"Preeti",date:"2026-05-18",department:"Service / Post-Sales",totalactivities:"6",vacount:"2",bnvacount:"2",nvacount:"2",va:"33",bnva:"33",nva:"34",vatimemin:"55",bnvatimemin:"65",nvatimemin:"50",totalactivitytimemin:"170",totalworkhours:"",vaactivities:"Installed base register with service history(35min) | First-visit resolution with right spares(20min)",bnvaactivities:"Service invoice raising(33min) | Service report with customer sign-off(32min)",nvaactivities:"Field visit without right spares(40min) | Failed components discarded without analysis(10min)"},
+  {timestamp:"2026-05-18T09:11:19.137Z",name:"Pawan Kushwaha",date:"2026-05-18",department:"Product Design",totalactivities:"4",vacount:"1",bnvacount:"2",nvacount:"1",va:"25",bnva:"50",nva:"25",vatimemin:"20",bnvatimemin:"15",nvatimemin:"10",totalactivitytimemin:"45",totalworkhours:"",vaactivities:"Cross-functional design review(20min)",bnvaactivities:"Document archiving with revision history(10min) | Statutory compliance documentation(5min)",nvaactivities:"Verbal instructions supplementing drawings(10min)"},
+  {timestamp:"2026-05-18T09:16:40.818Z",name:"Dev",date:"2026-05-18",department:"IT Support",totalactivities:"5",vacount:"3",bnvacount:"1",nvacount:"1",va:"60",bnva:"20",nva:"20",vatimemin:"75",bnvatimemin:"20",nvatimemin:"60",totalactivitytimemin:"155",totalworkhours:"",vaactivities:"Root cause resolution of incidents(30min) | First-visit resolution of hardware issues(30min) | Network security and segregation(15min)",bnvaactivities:"Asset register maintenance(20min)",nvaactivities:"IT resolving symptom, not root cause(60min)"},
+  {timestamp:"2026-05-20T11:48:36.636Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"1",vacount:"0",bnvacount:"1",nvacount:"0",va:"0",bnva:"100",nva:"0",vatimemin:"0",bnvatimemin:"30",nvatimemin:"0",totalactivitytimemin:"30",totalworkhours:"",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams with engineering/sales teams before release(30min)",nvaactivities:""},
+  {timestamp:"2026-05-20T11:53:38.363Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"2",vacount:"2",bnvacount:"0",nvacount:"0",va:"100",bnva:"0",nva:"0",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",totalactivitytimemin:"90",totalworkhours:"",vaactivities:"Editing videos with clear storytelling(30min) | Creating engaging video content(60min)",bnvaactivities:"",nvaactivities:""},
+  {timestamp:"2026-05-20T11:54:00.851Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"1",vacount:"1",bnvacount:"0",nvacount:"0",va:"100",bnva:"0",nva:"0",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",totalactivitytimemin:"60",totalworkhours:"",vaactivities:"Editing videos with clear storytelling(60min)",bnvaactivities:"",nvaactivities:""},
+  {timestamp:"2026-05-20T11:54:47.123Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"6",vacount:"0",bnvacount:"1",nvacount:"5",va:"0",bnva:"17",nva:"83",vatimemin:"0",bnvatimemin:"0",nvatimemin:"99",totalactivitytimemin:"99",totalworkhours:"",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams(0min)",nvaactivities:"Excessive scrolling(20min) | Exporting same video multiple times(20min) | Waiting for approvals(19min) | Re-editing videos(20min) | Searching for missing footage(20min)"}
+];
 var CSV="https://docs.google.com/spreadsheets/d/e/2PACX-1vTMdtfdSkKYC0mPJ8pptzQA0k9M-KFJcZZo3QlxTdULG-jC8CkG2nLPvz2-h93Mf16EBun5E0eO4Dpn/pub?gid=0&single=true&output=csv";
 var W=420, ALL=[], DEPT='all';
 var PAL=['#059669','#2563eb','#dc2626','#7c3aed','#d97706','#0891b2','#db2777','#65a30d'];
@@ -777,16 +789,45 @@ function showView(id,btn){
 // ── LOAD ──────────────────────────────────
 function loadData(){
   document.getElementById('tb-up').textContent='Refreshing...';
-  fetch(CSV+'&t='+Date.now())
-    .then(function(r){return r.text();})
-    .then(function(t){
-      ALL=parseCSV(t);
+  // Try direct fetch first, then CORS proxy fallback
+  var url = CSV+'&t='+Date.now();
+  var proxyUrl = 'https://corsproxy.io/?'+encodeURIComponent(CSV+'&t='+Date.now());
+  
+  function onSuccess(t){
+    var parsed = parseCSV(t);
+    if(parsed.length > 0){
+      ALL = parsed;
       var now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-      document.getElementById('tb-up').textContent='Updated '+now;
+      document.getElementById('tb-up').textContent='Updated '+now+' ('+ALL.length+' rows)';
       document.getElementById('s-time').textContent='Synced '+now;
       renderAll();
+      if(document.getElementById('view-productivity').classList.contains('active')) renderProductivity();
+    } else {
+      document.getElementById('tb-up').textContent='Data empty — check Sheet';
+      renderAll();
+    }
+  }
+  
+  function tryProxy(){
+    fetch(proxyUrl)
+      .then(function(r){return r.text();})
+      .then(onSuccess)
+      .catch(function(){
+        document.getElementById('tb-up').textContent='Error — CORS blocked. Use Google Sheet button.';
+        renderAll();
+      });
+  }
+  
+  fetch(url)
+    .then(function(r){
+      if(!r.ok) throw new Error('not ok');
+      return r.text();
     })
-    .catch(function(){ALL=[];document.getElementById('tb-up').textContent='Error loading';renderAll();});
+    .then(function(t){
+      if(t && t.indexOf(',')>-1){ onSuccess(t); }
+      else { tryProxy(); }
+    })
+    .catch(function(){ tryProxy(); });
 }
 
 function parseCSV(txt){
@@ -1246,6 +1287,10 @@ function downloadExcel(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
+// Load seed data immediately so dashboard shows data right away
+ALL = SEED_DATA;
+renderAll();
+// Then fetch latest from sheet
 loadData();
 setInterval(loadData,300000);
 
