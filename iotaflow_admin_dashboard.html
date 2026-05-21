@@ -7,31 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:    #f0f2f8;
-  --bg2:   #e8ebf4;
-  --white: #ffffff;
-  --card:  #ffffff;
-  --border:#e2e6f0;
-  --border2:#c8cfe8;
-  --tx:    #1a1d2e;
-  --tx2:   #4a5068;
-  --mu:    #8890aa;
-  --mu2:   #b8bed4;
-
-  /* brand */
-  --va:    #059669;  --vad: rgba(5,150,105,0.08);   --vab: rgba(5,150,105,0.2);
-  --bn:    #2563eb;  --bnd: rgba(37,99,235,0.08);   --bnb: rgba(37,99,235,0.2);
-  --nv:    #dc2626;  --nvd: rgba(220,38,38,0.08);   --nvb: rgba(220,38,38,0.2);
-  --un:    #7c3aed;  --und: rgba(124,58,237,0.08);  --unb: rgba(124,58,237,0.2);
-
-  /* gradients */
-  --g-va:  linear-gradient(135deg,#059669,#10b981);
-  --g-bn:  linear-gradient(135deg,#2563eb,#60a5fa);
-  --g-nv:  linear-gradient(135deg,#dc2626,#f87171);
-  --g-un:  linear-gradient(135deg,#7c3aed,#a78bfa);
+  --bg:#f0f2f8;--bg2:#e8ebf4;--white:#fff;--card:#fff;
+  --border:#e2e6f0;--border2:#c8cfe8;
+  --tx:#1a1d2e;--tx2:#4a5068;--mu:#8890aa;--mu2:#b8bed4;
+  --va:#059669;--vad:rgba(5,150,105,.1);--vab:rgba(5,150,105,.25);
+  --bn:#2563eb;--bnd:rgba(37,99,235,.1);--bnb:rgba(37,99,235,.25);
+  --nv:#dc2626;--nvd:rgba(220,38,38,.1);--nvb:rgba(220,38,38,.25);
+  --un:#7c3aed;--und:rgba(124,58,237,.1);--unb:rgba(124,58,237,.25);
   --g-hero:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#7c3aed 100%);
-
-  --r:14px; --rs:8px;
+  --r:14px;--rs:8px;
   --font:'Plus Jakarta Sans',sans-serif;
   --mono:'JetBrains Mono',monospace;
   --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
@@ -39,133 +23,83 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;-webkit-font-smoothing:antialiased;}
-
-/* ── LAYOUT ── */
 .layout{display:flex;min-height:100vh;}
 
-/* ── SIDEBAR ── */
-.sidebar{
-  width:220px;flex-shrink:0;
-  background:var(--white);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  position:fixed;top:0;left:0;bottom:0;
-  z-index:40;
-}
-.s-logo{
-  padding:1.25rem 1.25rem 1rem;
-  border-bottom:1px solid var(--border);
-}
-.s-logo-inner{display:flex;align-items:center;gap:10px;}
-.s-mark{
-  width:32px;height:32px;border-radius:9px;
-  background:var(--g-hero);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 12px rgba(37,99,235,0.3);
-  flex-shrink:0;
-}
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;}
+.s-logo{padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);}
+.s-logo-inner{display:flex;align-items:center;gap:9px;}
+.s-mark{width:32px;height:32px;border-radius:8px;background:var(--g-hero);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .s-mark span{font-size:11px;font-weight:800;color:#fff;}
 .s-name{font-size:14px;font-weight:700;color:var(--tx);}
-.s-sub{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;}
-
+.s-sub{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;}
 .s-nav{padding:.75rem .75rem;flex:1;overflow-y:auto;}
 .s-grp{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mu2);padding:0 .5rem;margin:1rem 0 5px;}
-.s-btn{
-  display:flex;align-items:center;gap:9px;
-  padding:9px 10px;border-radius:var(--rs);
-  font-size:13px;font-weight:500;color:var(--tx2);
-  cursor:pointer;margin-bottom:2px;width:100%;text-align:left;
-  border:none;background:transparent;font-family:var(--font);
-  transition:all .15s;
-}
+.s-btn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--tx2);cursor:pointer;margin-bottom:2px;width:100%;text-align:left;border:none;background:transparent;font-family:var(--font);transition:all .15s;}
 .s-btn:hover{background:var(--bg);color:var(--tx);}
 .s-btn.active{background:var(--bnd);color:var(--bn);font-weight:600;}
 .s-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
-
 .s-bottom{padding:.75rem 1rem;border-top:1px solid var(--border);}
-.s-refresh{width:100%;padding:9px 12px;border-radius:var(--rs);background:var(--g-va);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;box-shadow:0 3px 10px rgba(5,150,105,0.25);transition:opacity .15s;}
-.s-refresh:hover{opacity:.88;}
-.s-link{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--rs);font-size:12px;font-weight:500;color:var(--tx2);background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:all .15s;text-decoration:none;font-family:var(--font);margin-bottom:5px;}
-.s-link:hover{border-color:var(--border2);color:var(--bn);}
-.s-link-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.s-time{font-size:9px;color:var(--mu2);font-family:var(--mono);text-align:center;margin-top:6px;}
+.s-refresh{width:100%;padding:9px 12px;border-radius:var(--rs);background:linear-gradient(135deg,#059669,#10b981);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px;}
+.s-link{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--rs);font-size:12px;font-weight:500;color:var(--tx2);background:var(--bg);border:1px solid var(--border);text-decoration:none;margin-bottom:5px;font-family:var(--font);}
+.s-link:hover{color:var(--bn);border-color:var(--border2);}
+.s-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.s-time{font-size:9px;color:var(--mu2);font-family:var(--mono);text-align:center;margin-top:4px;}
 
-/* ── MAIN ── */
-.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
-
-/* ── TOPBAR ── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.9rem 1.75rem;
-  background:var(--white);border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:30;gap:12px;flex-wrap:wrap;
-}
-.tb-left .tb-crumb{font-size:11px;color:var(--mu);margin-bottom:1px;}
-.tb-left .tb-title{font-size:18px;font-weight:800;letter-spacing:-.025em;color:var(--tx);}
+/* MAIN */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.75rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:30;gap:10px;flex-wrap:wrap;}
+.tb-crumb{font-size:11px;color:var(--mu);margin-bottom:1px;}
+.tb-title{font-size:18px;font-weight:800;letter-spacing:-.025em;}
 .tb-right{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
 .live-pill{display:flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:99px;padding:4px 12px;font-size:11px;font-weight:600;color:#059669;}
 .live-dot{width:5px;height:5px;border-radius:50%;background:#059669;animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .tb-updated{font-size:11px;color:var(--mu);font-family:var(--mono);}
-.tbtn{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 13px;color:var(--tx2);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;}
-.tbtn:hover{border-color:var(--border2);color:var(--tx);background:var(--bg);}
-.tbtn.green{background:var(--g-va);border:none;color:#fff;box-shadow:0 2px 8px rgba(5,150,105,.2);}
-.tbtn.green:hover{opacity:.88;}
-.tbtn.blue{background:var(--g-bn);border:none;color:#fff;box-shadow:0 2px 8px rgba(37,99,235,.2);}
-.tbtn.blue:hover{opacity:.88;}
+.tbtn{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 13px;color:var(--tx2);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;}
+.tbtn:hover{border-color:var(--border2);background:var(--bg);}
+.tbtn.green{background:linear-gradient(135deg,#059669,#10b981);border:none;color:#fff;}
+.tbtn.blue{background:linear-gradient(135deg,#2563eb,#60a5fa);border:none;color:#fff;}
 
-/* ── CONTENT ── */
 .content{padding:1.5rem 1.75rem;flex:1;}
-.view{display:none;} .view.active{display:block;}
+.view{display:none;}.view.active{display:block;}
 
-/* ── FILTER BAR ── */
-.fbar{display:flex;align-items:center;gap:7px;margin-bottom:1.5rem;flex-wrap:wrap;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1rem;}
-.fbar-label{font-size:11px;font-weight:600;color:var(--mu);white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;}
+/* FILTER BAR */
+.fbar{display:flex;align-items:center;gap:7px;margin-bottom:1.5rem;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1rem;flex-wrap:wrap;box-shadow:var(--shadow);}
+.fbar-lbl{font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
 .fp{background:transparent;border:1px solid var(--border);border-radius:99px;padding:5px 13px;font-size:12px;font-weight:500;color:var(--tx2);cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;}
-.fp:hover{border-color:var(--bn);color:var(--bn);background:var(--bnd);}
-.fp.on{background:var(--g-bn);color:#fff;border-color:transparent;font-weight:600;box-shadow:0 2px 8px rgba(37,99,235,.25);}
+.fp:hover{border-color:var(--bn);color:var(--bn);}
+.fp.on{background:linear-gradient(135deg,#2563eb,#60a5fa);color:#fff;border-color:transparent;font-weight:600;}
 .fp-sep{width:1px;height:22px;background:var(--border);flex-shrink:0;}
-select.fp{-webkit-appearance:none;padding-right:18px;cursor:pointer;background:var(--white);}
-.date-range-wrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.date-range-lbl{font-size:11px;color:var(--mu);white-space:nowrap;}
-.date-inp{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 9px;font-family:var(--mono);font-size:11px;color:var(--tx);outline:none;cursor:pointer;width:128px;}
+select.fp{-webkit-appearance:none;padding-right:18px;background:var(--white);cursor:pointer;}
+.date-wrap{display:flex;align-items:center;gap:6px;}
+.date-lbl{font-size:11px;color:var(--mu);white-space:nowrap;}
+.date-inp{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 9px;font-family:var(--mono);font-size:11px;color:var(--tx);outline:none;cursor:pointer;width:125px;}
 .date-inp:focus{border-color:var(--bn);}
 
-/* ── HERO STRIP ── */
-.hero-strip{
-  background:var(--g-hero);
-  border-radius:var(--r);padding:1.5rem 1.75rem;
-  margin-bottom:1.25rem;
-  display:flex;align-items:center;justify-content:space-between;
-  box-shadow:var(--shadow-md);
-  flex-wrap:wrap;gap:1rem;
-}
-.hero-greeting{color:rgba(255,255,255,.75);font-size:12px;margin-bottom:3px;}
+/* HERO STRIP */
+.hero-strip{background:var(--g-hero);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow-md);flex-wrap:wrap;gap:1rem;}
+.hero-greeting{color:rgba(255,255,255,.7);font-size:12px;margin-bottom:3px;}
 .hero-title{color:#fff;font-size:20px;font-weight:800;letter-spacing:-.02em;}
 .hero-stats{display:flex;gap:2rem;}
-.hero-stat{text-align:center;}
 .hero-stat-val{font-family:var(--mono);font-size:22px;font-weight:500;color:#fff;}
 .hero-stat-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
 
-/* ── COLOR BOXES (4 cards) ── */
+/* 4 COLOR BOXES */
 .cboxes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem;}
-.cbox{
-  background:var(--white);border:1px solid var(--border);border-radius:var(--r);
-  padding:1.25rem;cursor:pointer;position:relative;overflow:hidden;
-  box-shadow:var(--shadow);transition:all .2s;
-}
+.cbox{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:all .2s;}
 .cbox:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
 .cbox::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
-.cbox.va::before{background:var(--g-va);}
-.cbox.bn::before{background:var(--g-bn);}
-.cbox.nv::before{background:var(--g-nv);}
-.cbox.un::before{background:var(--g-un);}
+.cbox.va::before{background:linear-gradient(90deg,#059669,#10b981);}
+.cbox.bn::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.cbox.nv::before{background:linear-gradient(90deg,#dc2626,#f87171);}
+.cbox.un::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
 .cbox-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;}
-.cbox-icon-wrap{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.cbox.va .cbox-icon-wrap{background:var(--vad);}
-.cbox.bn .cbox-icon-wrap{background:var(--bnd);}
-.cbox.nv .cbox-icon-wrap{background:var(--nvd);}
-.cbox.un .cbox-icon-wrap{background:var(--und);}
+.cbox-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.cbox.va .cbox-icon{background:var(--vad);}
+.cbox.bn .cbox-icon{background:var(--bnd);}
+.cbox.nv .cbox-icon{background:var(--nvd);}
+.cbox.un .cbox-icon{background:var(--und);}
 .cbox-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:4px;}
 .cbox.va .cbox-badge{background:var(--vad);color:var(--va);}
 .cbox.bn .cbox-badge{background:var(--bnd);color:var(--bn);}
@@ -180,180 +114,144 @@ select.fp{-webkit-appearance:none;padding-right:18px;cursor:pointer;background:v
 .cbox-sub{font-size:11px;color:var(--mu);}
 .cbox-bar{height:3px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:12px;}
 .cbox-fill{height:3px;border-radius:99px;transition:width .9s ease;}
-.cbox.va .cbox-fill{background:var(--g-va);}
-.cbox.bn .cbox-fill{background:var(--g-bn);}
-.cbox.nv .cbox-fill{background:var(--g-nv);}
-.cbox.un .cbox-fill{background:var(--g-un);}
-.cbox-hint{font-size:10px;color:var(--mu2);margin-top:6px;transition:color .15s;}
+.cbox.va .cbox-fill{background:linear-gradient(90deg,#059669,#10b981);}
+.cbox.bn .cbox-fill{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.cbox.nv .cbox-fill{background:linear-gradient(90deg,#dc2626,#f87171);}
+.cbox.un .cbox-fill{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+.cbox-hint{font-size:10px;color:var(--mu2);margin-top:6px;}
 .cbox:hover .cbox-hint{color:var(--bn);}
 
-/* ── SECTION ── */
+/* SECTION */
 .sec{margin-bottom:1.5rem;}
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;}
-.sec-title{font-size:15px;font-weight:700;color:var(--tx);letter-spacing:-.01em;}
+.sec-title{font-size:15px;font-weight:700;color:var(--tx);}
 .sec-meta{font-size:12px;color:var(--mu);}
 
-/* ── TABLE ── */
+/* TABLE */
 .tbl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
 .tbl-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.1rem;border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap;}
 .tbl-toolbar-title{font-size:13px;font-weight:700;color:var(--tx);}
 .tbl-search{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx);outline:none;width:200px;}
 .tbl-search:focus{border-color:var(--bn);}
 .tbl-scroll{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;min-width:700px;}
-thead th{
-  font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--mu);padding:10px 14px;text-align:left;
-  border-bottom:1px solid var(--border);background:var(--bg);white-space:nowrap;
-}
-thead th.sortable{cursor:pointer;}
-thead th.sortable:hover{color:var(--bn);}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+thead th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);white-space:nowrap;}
 tbody td{font-size:13px;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--tx);}
 tbody tr:last-child td{border-bottom:none;}
-tbody tr{transition:background .1s;cursor:pointer;}
+tbody tr{cursor:pointer;transition:background .1s;}
 tbody tr:hover td{background:#f5f7ff;}
-.emp-name-cell{display:flex;align-items:center;gap:9px;}
-.emp-av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:#fff;}
-.emp-av-info .name{font-size:13px;font-weight:600;color:var(--tx);}
-.emp-av-info .dept{font-size:11px;color:var(--mu);}
-.pct-bar-cell{min-width:120px;}
-.mini-stack{height:5px;border-radius:99px;display:flex;overflow:hidden;gap:1px;background:var(--bg2);}
-.ms{height:5px;border-radius:1px;}
-.ms.va{background:var(--va);}
-.ms.bn{background:var(--bn);}
-.ms.nv{background:var(--nv);}
-.ms.un{background:var(--un);opacity:.4;}
-.pct-val{font-family:var(--mono);font-size:12px;font-weight:500;}
-.pct-val.va{color:var(--va);}
-.pct-val.bn{color:var(--bn);}
-.pct-val.nv{color:var(--nv);}
-.pct-val.un{color:var(--un);}
+.emp-cell{display:flex;align-items:center;gap:9px;}
+.emp-av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.emp-name{font-size:13px;font-weight:600;color:var(--tx);}
+.emp-dept{font-size:11px;color:var(--mu);}
+.pct{font-family:var(--mono);font-size:12px;font-weight:600;}
+.pct.va{color:var(--va);}
+.pct.bn{color:var(--bn);}
+.pct.nv{color:var(--nv);}
+.pct.un{color:var(--un);}
 .chip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:var(--mono);}
 .chip.va{background:var(--vad);color:var(--va);}
 .chip.bn{background:var(--bnd);color:var(--bn);}
 .chip.nv{background:var(--nvd);color:var(--nv);}
 .chip.un{background:var(--und);color:var(--un);}
-.row-arrow{color:var(--mu2);font-size:12px;}
-tr:hover .row-arrow{color:var(--bn);}
+.mini-stack{height:5px;border-radius:99px;display:flex;overflow:hidden;gap:1px;background:var(--bg2);min-width:80px;}
+.ms{height:5px;}
+.ms.va{background:var(--va);}
+.ms.bn{background:var(--bn);}
+.ms.nv{background:var(--nv);}
+.ms.un{background:var(--un);opacity:.4;}
+.row-arr{color:var(--mu2);}
+tr:hover .row-arr{color:var(--bn);}
 
-/* ── EMPLOYEE DRILL-DOWN PANEL ── */
-.drill-overlay{position:fixed;inset:0;background:rgba(15,20,40,.35);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-start;justify-content:flex-end;}
-.drill-overlay.open{display:flex;}
-.drill-panel{
-  width:480px;height:100vh;background:var(--white);
-  border-left:1px solid var(--border);
-  display:flex;flex-direction:column;
-  box-shadow:-8px 0 32px rgba(0,0,0,.1);
-  animation:slideIn .25s ease;
-}
+/* DRILL PANEL */
+.drill-ov{position:fixed;inset:0;background:rgba(15,20,40,.3);backdrop-filter:blur(4px);z-index:100;display:none;justify-content:flex-end;}
+.drill-ov.open{display:flex;}
+.drill-panel{width:460px;height:100vh;background:var(--white);border-left:1px solid var(--border);display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.1);animation:slideIn .25s ease;}
 @keyframes slideIn{from{transform:translateX(40px);opacity:0;}to{transform:translateX(0);opacity:1;}}
-.drill-header{
-  padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  background:var(--white);
-}
-.drill-header-left{display:flex;align-items:center;gap:12px;}
-.drill-av{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;}
-.drill-name{font-size:16px;font-weight:700;color:var(--tx);}
-.drill-dept{font-size:12px;color:var(--mu);margin-top:2px;}
-.drill-close{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;cursor:pointer;font-size:13px;color:var(--tx2);transition:all .15s;}
-.drill-close:hover{background:var(--bg2);}
-.drill-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 1.5rem;}
-.drill-tab{padding:.75rem 1rem;font-size:12px;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
+.drill-hdr{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.drill-hdr-left{display:flex;align-items:center;gap:10px;}
+.drill-av{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+.drill-name{font-size:15px;font-weight:700;color:var(--tx);}
+.drill-dept{font-size:11px;color:var(--mu);}
+.drill-close{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 12px;cursor:pointer;font-size:13px;color:var(--tx2);}
+.drill-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 1.4rem;}
+.drill-tab{padding:.7rem 1rem;font-size:12px;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
 .drill-tab.active{color:var(--bn);border-bottom-color:var(--bn);}
-.drill-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem;}
-
-/* Summary row inside drill */
-.drill-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1.25rem;}
-.drill-sum-card{background:var(--bg);border-radius:var(--rs);padding:.9rem 1rem;border:1px solid var(--border);}
-.drill-sum-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:4px;}
+.drill-body{flex:1;overflow-y:auto;padding:1.1rem 1.4rem;}
+.drill-sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem;}
+.drill-sum-card{background:var(--bg);border-radius:var(--rs);padding:.9rem;border:1px solid var(--border);}
+.drill-sum-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:4px;}
 .drill-sum-val{font-family:var(--mono);font-size:20px;font-weight:500;}
 .drill-sum-sub{font-size:10px;color:var(--mu);margin-top:2px;}
-
-/* Drill stacked bar */
-.drill-bar-section{background:var(--bg);border-radius:var(--rs);padding:1rem;margin-bottom:1rem;border:1px solid var(--border);}
-.drill-bar-title{font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:.6rem;}
-.drill-stack{height:14px;border-radius:99px;display:flex;overflow:hidden;gap:2px;margin-bottom:.6rem;}
-.drill-seg{height:14px;border-radius:2px;}
-.drill-seg.va{background:var(--g-va);}
-.drill-seg.bn{background:var(--g-bn);}
-.drill-seg.nv{background:var(--g-nv);}
-.drill-seg.un{background:var(--g-un);opacity:.5;}
-.drill-legend{display:flex;gap:12px;flex-wrap:wrap;}
+.drill-stack-wrap{background:var(--bg);border-radius:var(--rs);padding:.9rem;margin-bottom:.75rem;border:1px solid var(--border);}
+.drill-stack{height:12px;border-radius:99px;display:flex;overflow:hidden;gap:2px;margin-bottom:6px;}
+.drill-seg{height:12px;border-radius:2px;}
+.drill-seg.va{background:linear-gradient(90deg,#059669,#10b981);}
+.drill-seg.bn{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.drill-seg.nv{background:linear-gradient(90deg,#dc2626,#f87171);}
+.drill-seg.un{background:var(--un);opacity:.5;}
+.drill-leg{display:flex;gap:12px;flex-wrap:wrap;}
 .drill-leg-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2);font-family:var(--mono);}
-.drill-leg-pip{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
+.drill-leg-pip{width:8px;height:8px;border-radius:3px;}
+.day-tbl{width:100%;border-collapse:collapse;}
+.day-tbl th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);}
+.day-tbl td{font-size:12px;padding:9px 10px;border-bottom:1px solid var(--border);color:var(--tx);}
+.day-tbl tr:last-child td{border-bottom:none;}
 
-/* Day table in drill */
-.day-table{width:100%;border-collapse:collapse;}
-.day-table th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);}
-.day-table td{font-size:12px;padding:9px 10px;border-bottom:1px solid var(--border);color:var(--tx);}
-.day-table tr:last-child td{border-bottom:none;}
-.day-table .day-bar{height:4px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:3px;}
-.day-table .day-fill{height:4px;border-radius:99px;}
+/* PRODUCTIVITY */
+.prod-info{background:linear-gradient(135deg,rgba(37,99,235,.05),rgba(124,58,237,.05));border:1px solid rgba(37,99,235,.12);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;gap:12px;}
+.prod-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;}
+.prod-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1rem;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.prod-card.va::before{background:linear-gradient(90deg,#059669,#10b981);}
+.prod-card.bn::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.prod-card.nv::before{background:linear-gradient(90deg,#dc2626,#f87171);}
+.prod-card.un::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+.prod-card-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:6px;}
+.prod-card-val{font-family:var(--mono);font-size:24px;font-weight:500;}
+.prod-card.va .prod-card-val{color:var(--va);}
+.prod-card.bn .prod-card-val{color:var(--bn);}
+.prod-card.nv .prod-card-val{color:var(--nv);}
+.prod-card.un .prod-card-val{color:var(--un);}
+.prod-card-sub{font-size:11px;color:var(--mu);margin-top:3px;}
+.pct-with-bar{display:flex;align-items:center;gap:6px;}
+.pct-badge{font-family:var(--mono);font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;white-space:nowrap;}
+.pct-badge.va{background:var(--vad);color:var(--va);}
+.pct-badge.bn{background:var(--bnd);color:var(--bn);}
+.pct-badge.nv{background:var(--nvd);color:var(--nv);}
+.pct-badge.un{background:var(--und);color:var(--un);}
+.pct-bar{flex:1;height:4px;border-radius:99px;background:var(--bg2);overflow:hidden;min-width:30px;}
+.pct-bar-fill{height:4px;border-radius:99px;}
 
-/* Modal for category click */
-.cat-modal-overlay{position:fixed;inset:0;background:rgba(15,20,40,.4);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;}
-.cat-modal-overlay.open{display:flex;}
-.cat-modal-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r);width:100%;max-width:620px;max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md);}
-.cat-modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);}
-.cat-modal-title{font-size:16px;font-weight:700;color:var(--tx);}
-.cat-modal-sub{font-size:12px;color:var(--mu);margin-top:2px;}
-.cat-modal-close{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 10px;color:var(--tx2);cursor:pointer;font-size:13px;}
-.cat-modal-close:hover{background:var(--bg2);}
-.cat-modal-body{overflow-y:auto;padding:1.1rem 1.4rem;flex:1;}
-.modal-act-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:var(--rs);padding:9px 12px;border:1px solid var(--border);margin-bottom:6px;}
-.modal-act-name{font-size:13px;color:var(--tx);flex:1;}
-.modal-act-sub{font-size:10px;color:var(--mu);margin-top:2px;}
-.modal-act-time{font-family:var(--mono);font-size:12px;font-weight:600;margin-left:12px;white-space:nowrap;}
-.modal-total{display:flex;justify-content:space-between;padding:9px 12px;background:var(--bg2);border-radius:var(--rs);margin-top:8px;font-size:12px;font-weight:600;color:var(--tx);}
-.modal-empty{text-align:center;padding:2.5rem;color:var(--mu);font-size:13px;}
+/* CATEGORY MODAL */
+.cat-ov{position:fixed;inset:0;background:rgba(15,20,40,.35);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.cat-ov.open{display:flex;}
+.cat-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r);width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md);}
+.cat-hdr{display:flex;align-items:flex-start;justify-content:space-between;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);}
+.cat-title{font-size:16px;font-weight:700;}
+.cat-sub{font-size:12px;color:var(--mu);margin-top:2px;}
+.cat-close{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 10px;color:var(--tx2);cursor:pointer;font-size:13px;}
+.cat-body{overflow-y:auto;padding:1.1rem 1.4rem;flex:1;}
+.cat-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:var(--rs);padding:9px 12px;border:1px solid var(--border);margin-bottom:6px;}
+.cat-item-name{font-size:13px;color:var(--tx);flex:1;}
+.cat-item-sub{font-size:10px;color:var(--mu);margin-top:2px;}
+.cat-item-time{font-family:var(--mono);font-size:12px;font-weight:600;margin-left:12px;white-space:nowrap;}
+.cat-total{display:flex;justify-content:space-between;padding:9px 12px;background:var(--bg2);border-radius:var(--rs);margin-top:8px;font-size:12px;font-weight:600;}
 
-/* Dept table */
-.dept-tbl-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
-.dept-tbl thead th,.dept-tbl tbody td{padding:11px 14px;}
-.dept-name-cell{display:flex;align-items:center;gap:8px;}
-.dept-color-bar{width:3px;height:24px;border-radius:99px;flex-shrink:0;}
-.dept-name{font-size:13px;font-weight:600;color:var(--tx);}
-.dept-sub{font-size:10px;color:var(--mu);}
-
-/* PRODUCTIVITY REPORT */
-.prod-sum-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1rem;text-align:center;position:relative;overflow:hidden;}
-.prod-sum-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
-.prod-sum-card.va::before{background:linear-gradient(90deg,#059669,#10b981);}
-.prod-sum-card.bn::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
-.prod-sum-card.nv::before{background:linear-gradient(90deg,#dc2626,#f87171);}
-.prod-sum-card.un::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
-.prod-sum-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:6px;}
-.prod-sum-val{font-family:var(--mono);font-size:26px;font-weight:500;}
-.prod-sum-card.va .prod-sum-val{color:#059669;}
-.prod-sum-card.bn .prod-sum-val{color:#2563eb;}
-.prod-sum-card.nv .prod-sum-val{color:#dc2626;}
-.prod-sum-card.un .prod-sum-val{color:#7c3aed;}
-.prod-sum-sub{font-size:11px;color:var(--mu);margin-top:3px;}
-.prod-bar{height:3px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:10px;}
-.prod-bar-fill{height:3px;border-radius:99px;transition:width .8s ease;}
+/* GUIDE */
+.guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.guide-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow);}
+.guide-title{font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);}
+.guide-body{font-size:13px;color:var(--tx2);line-height:1.7;}
 
 /* EMPTY / LOADING */
 .empty{text-align:center;padding:3rem 2rem;color:var(--mu);font-size:13px;}
 .spin{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--bn);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;margin-bottom:10px;}
 @keyframes sp{to{transform:rotate(360deg);}}
 
-/* RESPONSIVE */
-@media(max-width:1100px){.cboxes{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:900px){
-  .sidebar{width:56px;}
-  .s-name,.s-sub,.s-grp,.s-btn span,.s-link span,.s-time,.s-refresh span{display:none;}
-  .s-btn{justify-content:center;padding:9px;}
-  .s-logo-inner{justify-content:center;}
-  .main{margin-left:56px;}
-}
-@media(max-width:640px){
-  .sidebar{display:none;}.main{margin-left:0;}
-  .content{padding:1rem;}
-  .cboxes{grid-template-columns:1fr 1fr;}
-  .drill-panel{width:100%;}
-  .hero-stats{gap:1rem;}
-}
+@media(max-width:1100px){.cboxes{grid-template-columns:repeat(2,1fr);}.prod-cards{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:900px){.sidebar{width:56px;}.s-name,.s-sub,.s-grp,.s-btn span,.s-time,.s-link span{display:none;}.s-btn{justify-content:center;}.s-logo-inner{justify-content:center;}.main{margin-left:56px;}}
+@media(max-width:640px){.sidebar{display:none;}.main{margin-left:0;}.content{padding:1rem;}.cboxes{grid-template-columns:1fr 1fr;}.drill-panel{width:100%;}.guide-grid{grid-template-columns:1fr;}.prod-cards{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -369,38 +267,18 @@ tr:hover .row-arrow{color:var(--bn);}
   </div>
   <div class="s-nav">
     <div class="s-grp">Views</div>
-    <button class="s-btn active" onclick="showView('overview',this)">
-      <div class="s-ico" style="background:#eff6ff">📊</div><span>Overview</span>
-    </button>
-    <button class="s-btn" onclick="showView('winners',this)">
-      <div class="s-ico" style="background:#fefce8">🏆</div><span>Winners</span>
-    </button>
-    <button class="s-btn" onclick="showView('employees',this)">
-      <div class="s-ico" style="background:#eff6ff">👥</div><span>Employees</span>
-    </button>
-    <button class="s-btn" onclick="showView('departments',this)">
-      <div class="s-ico" style="background:#f5f3ff">🏢</div><span>Departments</span>
-    </button>
-    <button class="s-btn" onclick="showView('table',this)">
-      <div class="s-ico" style="background:#fff1f2">📋</div><span>Detail Log</span>
-    </button>
-    <button class="s-btn" onclick="showView('productivity',this)">
-      <div class="s-ico" style="background:#fefce8">📈</div><span>Productivity Report</span>
-    </button>
-    <button class="s-btn" onclick="showView('guide',this)">
-      <div class="s-ico" style="background:#f0fdf4">💡</div><span>Dashboard Guide</span>
-    </button>
+    <button class="s-btn active" onclick="showView('overview',this)"><div class="s-ico" style="background:#eff6ff">📊</div><span>Overview</span></button>
+    <button class="s-btn" onclick="showView('winners',this)"><div class="s-ico" style="background:#fefce8">🏆</div><span>Winners</span></button>
+    <button class="s-btn" onclick="showView('employees',this)"><div class="s-ico" style="background:#eff6ff">👥</div><span>Employees</span></button>
+    <button class="s-btn" onclick="showView('departments',this)"><div class="s-ico" style="background:#f5f3ff">🏢</div><span>Departments</span></button>
+    <button class="s-btn" onclick="showView('productivity',this)"><div class="s-ico" style="background:#fefce8">📈</div><span>Productivity Report</span></button>
+    <button class="s-btn" onclick="showView('table',this)"><div class="s-ico" style="background:#fff1f2">📋</div><span>Detail Log</span></button>
+    <button class="s-btn" onclick="showView('guide',this)"><div class="s-ico" style="background:#f0fdf4">💡</div><span>Dashboard Guide</span></button>
   </div>
   <div class="s-bottom">
-    <button class="s-refresh" onclick="loadData()"><span>↻</span><span>Refresh</span></button>
-    <a class="s-link" href="https://iotaflow2019-sys.github.io/iotaflow-form/" target="_blank">
-      <div class="s-link-dot" style="background:var(--va)"></div><span>Employee Form</span>
-      <span style="margin-left:auto;font-size:10px;color:var(--mu2)">↗</span>
-    </a>
-    <a class="s-link" href="https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit" target="_blank">
-      <div class="s-link-dot" style="background:var(--bn)"></div><span>Google Sheet</span>
-      <span style="margin-left:auto;font-size:10px;color:var(--mu2)">↗</span>
-    </a>
+    <button class="s-refresh" onclick="loadData()">↻ <span>Refresh</span></button>
+    <a class="s-link" href="https://iotaflow2019-sys.github.io/iotaflow-form/" target="_blank"><div class="s-dot" style="background:var(--va)"></div><span>Employee Form</span></a>
+    <a class="s-link" href="https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit" target="_blank"><div class="s-dot" style="background:var(--bn)"></div><span>Google Sheet</span></a>
     <div class="s-time" id="s-time">—</div>
   </div>
 </div>
@@ -408,34 +286,30 @@ tr:hover .row-arrow{color:var(--bn);}
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
-    <div class="tb-left">
-      <div class="tb-crumb">Iotaflow / Management</div>
-      <div class="tb-title">Activity Dashboard</div>
-    </div>
+    <div><div class="tb-crumb">Iotaflow / Management</div><div class="tb-title">Activity Dashboard</div></div>
     <div class="tb-right">
       <div class="live-pill"><div class="live-dot"></div>Live</div>
       <div class="tb-updated" id="tb-up">Loading...</div>
       <button class="tbtn" onclick="loadData()">↻ Refresh</button>
       <button class="tbtn blue" onclick="window.open('https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit','_blank')">📊 Google Sheet</button>
-      <button class="tbtn green" onclick="downloadExcel()">⬇ Excel</button>
+      <button class="tbtn green" onclick="dlExcel()">⬇ Excel</button>
     </div>
   </div>
 
   <div class="content">
-
     <!-- FILTER BAR -->
     <div class="fbar">
-      <span class="fbar-label">Dept</span>
+      <span class="fbar-lbl">Dept</span>
       <button class="fp on" onclick="setDept('all',this)">All</button>
-      <button class="fp" onclick="setDept('Accounts / Finance',this)">Accounts</button>
-      <button class="fp" onclick="setDept('Human Resources',this)">HR</button>
+      <button class="fp" onclick="setDept('Accounts',this)">Accounts</button>
+      <button class="fp" onclick="setDept('HR',this)">HR</button>
       <button class="fp" onclick="setDept('IT Support',this)">IT</button>
       <button class="fp" onclick="setDept('Purchase',this)">Purchase</button>
-      <button class="fp" onclick="setDept('Product Design / BOM',this)">Design</button>
+      <button class="fp" onclick="setDept('Product Design',this)">Design</button>
       <button class="fp" onclick="setDept('Sales',this)">Sales</button>
       <button class="fp" onclick="setDept('Marketing',this)">Marketing</button>
-      <button class="fp" onclick="setDept('Service / Post-Sales',this)">Service</button>
-      <button class="fp" onclick="setDept('Stores',this)">Stores</button>
+      <button class="fp" onclick="setDept('Service',this)">Service</button>
+      <button class="fp" onclick="setDept('Store',this)">Store</button>
       <div class="fp-sep"></div>
       <select class="fp" id="dateF" onchange="renderAll()">
         <option value="all">All Time</option>
@@ -444,70 +318,52 @@ tr:hover .row-arrow{color:var(--bn);}
         <option value="month">This Month</option>
       </select>
       <div class="fp-sep"></div>
-      <div class="date-range-wrap">
-        <span class="date-range-lbl">From</span>
+      <div class="date-wrap">
+        <span class="date-lbl">From</span>
         <input type="date" class="date-inp" id="dateFrom" onchange="renderAll()"/>
-        <span class="date-range-lbl">To</span>
+        <span class="date-lbl">To</span>
         <input type="date" class="date-inp" id="dateTo" onchange="renderAll()"/>
-        <button class="fp" onclick="clearDates()" style="padding:4px 9px;font-size:11px;">✕</button>
+        <button class="fp" onclick="clearDates()" style="padding:4px 8px;font-size:11px;">✕</button>
       </div>
     </div>
 
     <!-- OVERVIEW -->
     <div class="view active" id="view-overview">
-      <!-- Hero -->
       <div class="hero-strip">
-        <div>
-          <div class="hero-greeting">Iotaflow Systems — Management View</div>
-          <div class="hero-title">Activity Overview</div>
-        </div>
+        <div><div class="hero-greeting">Iotaflow Systems — Management View</div><div class="hero-title">Activity Overview</div></div>
         <div class="hero-stats">
           <div class="hero-stat"><div class="hero-stat-val" id="h-tot">—</div><div class="hero-stat-lbl">Submissions</div></div>
           <div class="hero-stat"><div class="hero-stat-val" id="h-emp">—</div><div class="hero-stat-lbl">Employees</div></div>
           <div class="hero-stat"><div class="hero-stat-val" id="h-days">—</div><div class="hero-stat-lbl">Days Tracked</div></div>
         </div>
       </div>
-
-      <!-- 4 Color Boxes -->
       <div class="cboxes">
         <div class="cbox va" onclick="openCatModal('va')">
-          <div class="cbox-top">
-            <div class="cbox-icon-wrap">✅</div>
-            <span class="cbox-badge">VA</span>
-          </div>
+          <div class="cbox-top"><div class="cbox-icon">✅</div><span class="cbox-badge">VA</span></div>
           <div class="cbox-label">Value Added</div>
           <div class="cbox-val" id="cb-va">—</div>
-          <div class="cbox-sub" id="cb-va-sub">avg per workday</div>
+          <div class="cbox-sub" id="cb-va-s">avg per workday</div>
           <div class="cbox-bar"><div class="cbox-fill" id="cbf-va" style="width:0%"></div></div>
           <div class="cbox-hint">↗ Click to see activities</div>
         </div>
         <div class="cbox bn" onclick="openCatModal('bn')">
-          <div class="cbox-top">
-            <div class="cbox-icon-wrap">📋</div>
-            <span class="cbox-badge">BNVA</span>
-          </div>
+          <div class="cbox-top"><div class="cbox-icon">📋</div><span class="cbox-badge">BNVA</span></div>
           <div class="cbox-label">Business Necessary</div>
           <div class="cbox-val" id="cb-bn">—</div>
-          <div class="cbox-sub" id="cb-bn-sub">avg per workday</div>
+          <div class="cbox-sub" id="cb-bn-s">avg per workday</div>
           <div class="cbox-bar"><div class="cbox-fill" id="cbf-bn" style="width:0%"></div></div>
           <div class="cbox-hint">↗ Click to see activities</div>
         </div>
         <div class="cbox nv" onclick="openCatModal('nv')">
-          <div class="cbox-top">
-            <div class="cbox-icon-wrap">⚠️</div>
-            <span class="cbox-badge">NVA</span>
-          </div>
+          <div class="cbox-top"><div class="cbox-icon">⚠️</div><span class="cbox-badge">NVA</span></div>
           <div class="cbox-label">Non-Value Added</div>
           <div class="cbox-val" id="cb-nv">—</div>
-          <div class="cbox-sub" id="cb-nv-sub">avg per workday</div>
+          <div class="cbox-sub" id="cb-nv-s">avg per workday</div>
           <div class="cbox-bar"><div class="cbox-fill" id="cbf-nv" style="width:0%"></div></div>
           <div class="cbox-hint">↗ Click to see activities</div>
         </div>
         <div class="cbox un" onclick="openCatModal('un')">
-          <div class="cbox-top">
-            <div class="cbox-icon-wrap">❓</div>
-            <span class="cbox-badge">UNID</span>
-          </div>
+          <div class="cbox-top"><div class="cbox-icon">❓</div><span class="cbox-badge">UNID</span></div>
           <div class="cbox-label">Unidentified</div>
           <div class="cbox-val" id="cb-un">—</div>
           <div class="cbox-sub">time not logged</div>
@@ -515,85 +371,109 @@ tr:hover .row-arrow{color:var(--bn);}
           <div class="cbox-hint">↗ Click for breakdown</div>
         </div>
       </div>
-
-      <!-- Recent table -->
       <div class="sec">
-        <div class="sec-head">
-          <div class="sec-title">Recent Submissions</div>
-          <div class="sec-meta" id="ov-meta">—</div>
-        </div>
-        <div class="tbl-card">
-          <div class="tbl-scroll"><table>
-            <thead><tr>
-              <th>Employee</th><th>Date</th>
-              <th>Time Breakdown</th>
-              <th>VA</th><th>BNVA</th><th>NVA</th><th>Unid.</th><th></th>
-            </tr></thead>
-            <tbody id="ov-tbody"><tr><td colspan="8" class="empty"><div class="spin"></div></td></tr></tbody>
-          </table></div>
-        </div>
+        <div class="sec-head"><div class="sec-title">Recent Submissions</div><div class="sec-meta" id="ov-meta"></div></div>
+        <div class="tbl-card"><div class="tbl-scroll"><table>
+          <thead><tr><th>Employee</th><th>Date</th><th>Time Breakdown</th><th>VA</th><th>BNVA</th><th>NVA</th><th>Unid.</th><th></th></tr></thead>
+          <tbody id="ov-tbody"><tr><td colspan="8" class="empty"><div class="spin"></div></td></tr></tbody>
+        </table></div></div>
       </div>
     </div>
 
     <!-- WINNERS -->
     <div class="view" id="view-winners">
       <div class="sec">
-        <div class="sec-head"><div class="sec-title">🏆 Category Leaders</div><div class="sec-meta">Based on average % across all submissions</div></div>
-        <div class="tbl-card">
-          <div class="tbl-scroll"><table>
-            <thead><tr><th>Category</th><th>Winner</th><th>Department</th><th>Score</th><th>What it means</th></tr></thead>
-            <tbody id="win-tbody"><tr><td colspan="5" class="empty"><div class="spin"></div></td></tr></tbody>
-          </table></div>
-        </div>
+        <div class="sec-head"><div class="sec-title">🏆 Category Leaders</div><div class="sec-meta">Based on average % across submissions</div></div>
+        <div class="tbl-card"><div class="tbl-scroll"><table>
+          <thead><tr><th>Category</th><th>Winner</th><th>Department</th><th>Score</th><th>What it means</th></tr></thead>
+          <tbody id="win-tbody"></tbody>
+        </table></div></div>
       </div>
       <div class="sec">
-        <div class="sec-head"><div class="sec-title">🏢 Department Leaderboard</div><div class="sec-meta">Ranked by avg VA %</div></div>
-        <div class="tbl-card">
-          <div class="tbl-scroll"><table>
-            <thead><tr><th>#</th><th>Department</th><th>Submissions</th><th>VA %</th><th>BNVA %</th><th>NVA %</th><th>Unid. %</th><th>Breakdown</th></tr></thead>
-            <tbody id="dept-win-tbody"><tr><td colspan="8" class="empty"><div class="spin"></div></td></tr></tbody>
-          </table></div>
-        </div>
+        <div class="sec-head"><div class="sec-title">🏢 Department Leaderboard</div><div class="sec-meta">Ranked by avg VA%</div></div>
+        <div class="tbl-card"><div class="tbl-scroll"><table>
+          <thead><tr><th>#</th><th>Department</th><th>Submissions</th><th>VA%</th><th>BNVA%</th><th>NVA%</th><th>Unid%</th><th>Split</th></tr></thead>
+          <tbody id="dept-win-tbody"></tbody>
+        </table></div></div>
       </div>
     </div>
 
-    <!-- EMPLOYEES TABLE -->
+    <!-- EMPLOYEES -->
     <div class="view" id="view-employees">
       <div class="sec">
         <div class="tbl-card">
           <div class="tbl-toolbar">
             <div class="tbl-toolbar-title">All Employees <span id="emp-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
-            <input type="text" class="tbl-search" id="emp-search" placeholder="Search employee..." oninput="filterEmpTable()"/>
+            <input type="text" class="tbl-search" id="emp-search" placeholder="Search..." oninput="renderEmpTable(filteredData())"/>
           </div>
           <div class="tbl-scroll"><table>
-            <thead><tr>
-              <th class="sortable" onclick="sortEmp('name')">Employee ↕</th>
-              <th class="sortable" onclick="sortEmp('date')">Latest Date ↕</th>
-              <th>Submissions</th>
-              <th class="sortable" onclick="sortEmp('va')">Avg VA % ↕</th>
-              <th class="sortable" onclick="sortEmp('bn')">Avg BNVA % ↕</th>
-              <th class="sortable" onclick="sortEmp('nv')">Avg NVA % ↕</th>
-              <th>Avg Unid. %</th>
-              <th>Workday Breakdown</th>
-              <th></th>
-            </tr></thead>
-            <tbody id="emp-tbody"><tr><td colspan="9" class="empty"><div class="spin"></div></td></tr></tbody>
+            <thead><tr><th>Employee</th><th>Latest Date</th><th>Submissions</th><th>Avg VA%</th><th>Avg BNVA%</th><th>Avg NVA%</th><th>Avg Unid%</th><th>Split</th><th></th></tr></thead>
+            <tbody id="emp-tbody"></tbody>
           </table></div>
         </div>
       </div>
     </div>
 
-    <!-- DEPARTMENTS TABLE -->
+    <!-- DEPARTMENTS -->
     <div class="view" id="view-departments">
       <div class="sec">
-        <div class="tbl-card dept-tbl-wrap">
+        <div class="tbl-card">
           <div class="tbl-toolbar"><div class="tbl-toolbar-title">Department Summary</div><div style="font-size:12px;color:var(--mu)">420 min workday · averages</div></div>
-          <div class="tbl-scroll"><table class="dept-tbl">
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Department</th><th>Submissions</th><th>Employees</th><th>Avg VA%</th><th>Avg BNVA%</th><th>Avg NVA%</th><th>Avg Unid%</th><th>Split</th></tr></thead>
+            <tbody id="dept-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTIVITY REPORT -->
+    <div class="view" id="view-productivity">
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">📈 Employee Productivity Report</div><div class="sec-meta">Days × 420 min = Total | Category % = (mins ÷ total) × 100</div></div>
+        <div class="prod-info">
+          <div style="font-size:18px;flex-shrink:0;">💡</div>
+          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">
+            <strong>Logic:</strong> Sabhi days ka category-wise total → Total Minutes = Days × 420 → % = (Category ÷ Total) × 100 &nbsp;|&nbsp;
+            Example: 2 days = 840 min. NVA 190 min → <strong>22.62%</strong>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+          <select id="prod-dept" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+            <option value="all">All Departments</option>
+            <option value="Accounts">Accounts</option>
+            <option value="HR">HR & Admin</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Product Design">Product Design</option>
+            <option value="Service">Service</option>
+            <option value="Sales">Sales & CRM</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Store">Store</option>
+          </select>
+          <input type="date" id="prod-from" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <input type="date" id="prod-to" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <button onclick="document.getElementById('prod-dept').value='all';document.getElementById('prod-from').value='';document.getElementById('prod-to').value='';renderProd();" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
+          <button onclick="dlProdCSV()" style="background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;margin-left:auto;">⬇ Export CSV</button>
+        </div>
+        <div class="prod-cards" id="prod-cards"></div>
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">Employee-wise Report <span id="prod-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" class="tbl-search" id="prod-search" placeholder="Search employee..." oninput="renderProd()"/>
+          </div>
+          <div class="tbl-scroll"><table>
             <thead><tr>
-              <th>Department</th><th>Submissions</th><th>Employees</th>
-              <th>Avg VA %</th><th>Avg BNVA %</th><th>Avg NVA %</th><th>Avg Unid. %</th><th>Workday Split</th>
+              <th>Employee</th><th>Dept</th>
+              <th style="text-align:center">Days</th>
+              <th style="text-align:center;color:var(--mu)">Forms</th>
+              <th style="text-align:center">Total Min</th>
+              <th style="color:#dc2626">NVA min</th><th style="color:#dc2626">NVA %</th>
+              <th style="color:#2563eb">BNVA min</th><th style="color:#2563eb">BNVA %</th>
+              <th style="color:#059669">VA min</th><th style="color:#059669">VA %</th>
+              <th style="color:#7c3aed">Unid min</th><th style="color:#7c3aed">Unid %</th>
             </tr></thead>
-            <tbody id="dept-tbody"><tr><td colspan="8" class="empty"><div class="spin"></div></td></tr></tbody>
+            <tbody id="prod-tbody"><tr><td colspan="12" class="empty"><div class="spin"></div></td></tr></tbody>
           </table></div>
         </div>
       </div>
@@ -603,473 +483,610 @@ tr:hover .row-arrow{color:var(--bn);}
     <div class="view" id="view-table">
       <div class="sec">
         <div class="tbl-card">
-          <div class="tbl-toolbar">
-            <div class="tbl-toolbar-title">Full Detail Log</div>
-            <div style="font-size:12px;color:var(--mu)" id="tbl-meta"></div>
-          </div>
+          <div class="tbl-toolbar"><div class="tbl-toolbar-title">Full Detail Log</div><div style="font-size:12px;color:var(--mu)" id="tbl-meta"></div></div>
           <div class="tbl-scroll"><table>
-            <thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>VA min</th><th>BNVA min</th><th>NVA min</th><th>Unid. min</th><th>VA %</th><th>BNVA %</th><th>NVA %</th><th>Unid. %</th></tr></thead>
-            <tbody id="tbl-body"><tr><td colspan="11" class="empty"><div class="spin"></div></td></tr></tbody>
+            <thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>VA min</th><th>BNVA min</th><th>NVA min</th><th>Unid min</th><th>VA%</th><th>BNVA%</th><th>NVA%</th><th>Unid%</th></tr></thead>
+            <tbody id="tbl-tbody"></tbody>
           </table></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PRODUCTIVITY REPORT -->
-    <div class="view" id="view-productivity">
-      <div class="sec">
-        <div class="sec-head">
-          <div class="sec-title">📈 Employee Productivity Report</div>
-          <div class="sec-meta">420 min × days worked = Total Minutes | Category-wise % calculated dynamically</div>
-        </div>
-
-        <!-- Info banner -->
-        <div style="background:linear-gradient(135deg,rgba(37,99,235,0.06),rgba(124,58,237,0.06));border:1px solid rgba(37,99,235,0.15);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;gap:12px;align-items:flex-start;">
-          <div style="font-size:18px;flex-shrink:0;">💡</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">
-            <strong style="color:var(--tx);">Calculation Logic:</strong> Har employee ke sabhi din ka category-wise total nikala jaata hai.
-            Phir <strong>Total Minutes = Days × 420</strong> se percentage calculate hoti hai.
-            Example: 2 days → 840 min total. NVA 190 min → <strong>22.62%</strong>
-          </div>
-        </div>
-
-        <!-- Filters row -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;">
-          <div style="font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;">Filter:</div>
-          <select id="prod-dept-filter" onchange="renderProductivity()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
-            <option value="all">All Departments</option>
-            <option value="Accounts">Accounts</option>
-            <option value="HR & Admin">HR & Admin</option>
-            <option value="IT Support">IT Support</option>
-            <option value="Purchase">Purchase</option>
-            <option value="Store">Store</option>
-            <option value="Product Design">Product Design</option>
-            <option value="Service / Post-Sales">Service / Post-Sales</option>
-            <option value="Sales & CRM">Sales & CRM</option>
-            <option value="Marketing">Marketing</option>
-          </select>
-          <input type="date" id="prod-from" onchange="renderProductivity()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--font);font-size:12px;color:var(--tx2);outline:none;cursor:pointer;"/>
-          <span style="font-size:11px;color:var(--mu);">to</span>
-          <input type="date" id="prod-to" onchange="renderProductivity()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--font);font-size:12px;color:var(--tx2);outline:none;cursor:pointer;"/>
-          <button onclick="clearProdFilter()" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
-          <button onclick="exportProdCSV()" style="background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;margin-left:auto;">⬇ Export CSV</button>
-        </div>
-
-        <!-- Summary cards -->
-        <div id="prod-summary-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;"></div>
-
-        <!-- Main table -->
-        <div class="tbl-card">
-          <div class="tbl-toolbar">
-            <div class="tbl-toolbar-title">Employee-wise Report <span id="prod-emp-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
-            <input type="text" id="prod-search" placeholder="Search employee..." class="tbl-search" oninput="renderProductivity()"/>
-          </div>
-          <div class="tbl-scroll">
-            <table id="prod-table">
-              <thead>
-                <tr>
-                  <th style="min-width:140px;">Employee</th>
-                  <th>Department</th>
-                  <th>Days</th>
-                  <th>Total Min</th>
-                  <th style="color:#dc2626;">NVA (min)</th>
-                  <th style="color:#dc2626;">NVA %</th>
-                  <th style="color:#2563eb;">BNVA (min)</th>
-                  <th style="color:#2563eb;">BNVA %</th>
-                  <th style="color:#059669;">VA (min)</th>
-                  <th style="color:#059669;">VA %</th>
-                  <th style="color:#7c3aed;">Unid. (min)</th>
-                  <th style="color:#7c3aed;">Unid. %</th>
-                </tr>
-              </thead>
-              <tbody id="prod-tbody">
-                <tr><td colspan="12" class="empty"><div class="spin"></div></td></tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
 
     <!-- GUIDE -->
     <div class="view" id="view-guide">
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
-        <div class="tbl-card" style="padding:1.25rem;">
-          <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);">🟢 Value Added (VA)</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">Kaam jo seedha customer ya product ke liye value create karta hai. Jitna zyada green, utna better. Target: <strong style="color:var(--va)">50%+</strong></div>
-        </div>
-        <div class="tbl-card" style="padding:1.25rem;">
-          <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);">🔵 Business Necessary (BNVA)</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">Zaruri kaam — compliance, filing, reports. Value nahi banata lekin band nahi kar sakte. Isko minimize karo. Target: <strong style="color:var(--bn)">minimize</strong></div>
-        </div>
-        <div class="tbl-card" style="padding:1.25rem;">
-          <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);">🔴 Non-Value Added (NVA)</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">Pure waste — corrections, duplicate kaam, approvals ka wait. Ye system ki failure hai. Target: <strong style="color:var(--nv)">below 20%</strong></div>
-        </div>
-        <div class="tbl-card" style="padding:1.25rem;">
-          <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);">🟣 Unidentified Time</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">420 min mein se jo log nahi hua. Agar zyada hai — form fill nahi hua ya kaam track nahi hua.</div>
-        </div>
-        <div class="tbl-card" style="padding:1.25rem;grid-column:1/-1;">
-          <div style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);">⏱ 420 Minutes Formula</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.8;">
-            1 working day = 7 hours = <strong>420 minutes</strong><br/>
-            VA mins + BNVA mins + NVA mins = Logged time<br/>
-            420 − Logged time = Unidentified<br/>
-            Each % = (Category mins ÷ 420) × 100<br/><br/>
-            <strong>Employee row click karein</strong> → uska full daily/weekly breakdown right panel mein dekhein.
-          </div>
-        </div>
+      <div class="guide-grid">
+        <div class="guide-card"><div class="guide-title">🟢 Value Added (VA)</div><div class="guide-body">Kaam jo seedha customer ya product ke liye value create karta hai. Target: <strong style="color:var(--va)">50%+</strong></div></div>
+        <div class="guide-card"><div class="guide-title">🔵 Business Necessary (BNVA)</div><div class="guide-body">Zaruri kaam — compliance, filing. Value nahi banata lekin band nahi kar sakte. Minimize karo.</div></div>
+        <div class="guide-card"><div class="guide-title">🔴 Non-Value Added (NVA)</div><div class="guide-body">Pure waste — corrections, duplicate kaam. System ki failure hai. Target: <strong style="color:var(--nv)">below 20%</strong></div></div>
+        <div class="guide-card"><div class="guide-title">🟣 Unidentified Time</div><div class="guide-body">420 min mein se jo log nahi hua. Agar zyada hai — form fill nahi hua ya kaam track nahi hua.</div></div>
+        <div class="guide-card" style="grid-column:1/-1"><div class="guide-title">⏱ 420 Minutes Formula</div><div class="guide-body">1 working day = 420 minutes &nbsp;|&nbsp; Total Minutes = Days × 420 &nbsp;|&nbsp; % = (Category mins ÷ Total) × 100<br/><br/><strong>Employee row click karein</strong> → full daily breakdown right panel mein.</div></div>
       </div>
     </div>
+  </div>
+</div>
+</div>
 
-  </div><!-- /content -->
-</div><!-- /main -->
-</div><!-- /layout -->
-
-<!-- EMPLOYEE DRILL PANEL -->
-<div class="drill-overlay" id="drill-overlay" onclick="closeDrill(event)">
-  <div class="drill-panel" id="drill-panel">
-    <div class="drill-header">
-      <div class="drill-header-left">
-        <div class="drill-av" id="drill-av">?</div>
-        <div><div class="drill-name" id="drill-name">—</div><div class="drill-dept" id="drill-dept">—</div></div>
+<!-- DRILL PANEL -->
+<div class="drill-ov" id="drill-ov" onclick="if(event.target===this)closeDrill()">
+  <div class="drill-panel">
+    <div class="drill-hdr">
+      <div class="drill-hdr-left">
+        <div class="drill-av" id="d-av">?</div>
+        <div><div class="drill-name" id="d-name">—</div><div class="drill-dept" id="d-dept">—</div></div>
       </div>
-      <button class="drill-close" onclick="closeDrillBtn()">✕ Close</button>
+      <button class="drill-close" onclick="closeDrill()">✕ Close</button>
     </div>
     <div class="drill-tabs">
-      <div class="drill-tab active" onclick="drillTab('summary',this)">Summary</div>
-      <div class="drill-tab" onclick="drillTab('daily',this)">Daily Log</div>
+      <div class="drill-tab active" onclick="dTab('summary',this)">Summary</div>
+      <div class="drill-tab" onclick="dTab('daily',this)">Daily Log</div>
     </div>
-    <div class="drill-body" id="drill-body">Loading...</div>
+    <div class="drill-body" id="drill-body"></div>
   </div>
 </div>
 
 <!-- CATEGORY MODAL -->
-<div class="cat-modal-overlay" id="cat-modal" onclick="closeCatModal(event)">
-  <div class="cat-modal-box">
-    <div class="cat-modal-header">
-      <div><div class="cat-modal-title" id="cat-modal-title">—</div><div class="cat-modal-sub" id="cat-modal-sub">—</div></div>
-      <button class="cat-modal-close" onclick="closeCatModalBtn()">✕</button>
+<div class="cat-ov" id="cat-ov" onclick="if(event.target===this)closeCat()">
+  <div class="cat-box">
+    <div class="cat-hdr">
+      <div><div class="cat-title" id="cat-title">—</div><div class="cat-sub" id="cat-sub">—</div></div>
+      <button class="cat-close" onclick="closeCat()">✕</button>
     </div>
-    <div class="cat-modal-body" id="cat-modal-body"></div>
+    <div class="cat-body" id="cat-body"></div>
   </div>
 </div>
 
 <script>
-var SEED_DATA = [
-  {timestamp:"2026-05-16T12:27:29.120Z",name:"Dev",date:"2026-05-16",department:"IT Support",totalactivities:"4",vacount:"2",bnvacount:"1",nvacount:"1",va:"50",bnva:"25",nva:"25",vatimemin:"78",bnvatimemin:"30",nvatimemin:"40",totalactivitytimemin:"148",totalworkhours:"",vaactivities:"First-visit resolution of hardware issues(23min) | Preventive hardware maintenance(55min)",bnvaactivities:"Antivirus and patch management(30min)",nvaactivities:"ERP modules paid for, never implemented(40min)"},
-  {timestamp:"2026-05-18T07:28:23.355Z",name:"Pushpa",date:"2026-05-18",department:"Marketing",totalactivities:"5",vacount:"1",bnvacount:"1",nvacount:"3",va:"20",bnva:"20",nva:"60",vatimemin:"30",bnvatimemin:"20",nvatimemin:"137",totalactivitytimemin:"187",totalworkhours:"",vaactivities:"EPC and consultant approved vendor list pursuit(30min)",bnvaactivities:"Press release for significant events(20min)",nvaactivities:"Generic brochure with no application context(39min) | Budget spent with no measurable return tracked(46min) | Exhibition without post-event follow-up(52min)"},
-  {timestamp:"2026-05-18T07:29:04.395Z",name:"Dev",date:"2026-05-18",department:"IT Support",totalactivities:"4",vacount:"1",bnvacount:"1",nvacount:"2",va:"25",bnva:"25",nva:"50",vatimemin:"20",bnvatimemin:"38",nvatimemin:"32",totalactivitytimemin:"90",totalworkhours:"",vaactivities:"ERP configuration matching actual process(20min)",bnvaactivities:"Antivirus and patch management(38min)",nvaactivities:"System access not ready on Day 1(20min) | No backup restoration test ever(12min)"},
-  {timestamp:"2026-05-18T07:30:20.218Z",name:"Preeti",date:"2026-05-18",department:"Service / Post-Sales",totalactivities:"6",vacount:"2",bnvacount:"2",nvacount:"2",va:"33",bnva:"33",nva:"34",vatimemin:"55",bnvatimemin:"65",nvatimemin:"50",totalactivitytimemin:"170",totalworkhours:"",vaactivities:"Installed base register with service history(35min) | First-visit resolution with right spares(20min)",bnvaactivities:"Service invoice raising(33min) | Service report with customer sign-off(32min)",nvaactivities:"Field visit without right spares(40min) | Failed components discarded without analysis(10min)"},
-  {timestamp:"2026-05-18T09:11:19.137Z",name:"Pawan Kushwaha",date:"2026-05-18",department:"Product Design",totalactivities:"4",vacount:"1",bnvacount:"2",nvacount:"1",va:"25",bnva:"50",nva:"25",vatimemin:"20",bnvatimemin:"15",nvatimemin:"10",totalactivitytimemin:"45",totalworkhours:"",vaactivities:"Cross-functional design review(20min)",bnvaactivities:"Document archiving with revision history(10min) | Statutory compliance documentation(5min)",nvaactivities:"Verbal instructions supplementing drawings(10min)"},
-  {timestamp:"2026-05-18T09:16:40.818Z",name:"Dev",date:"2026-05-18",department:"IT Support",totalactivities:"5",vacount:"3",bnvacount:"1",nvacount:"1",va:"60",bnva:"20",nva:"20",vatimemin:"75",bnvatimemin:"20",nvatimemin:"60",totalactivitytimemin:"155",totalworkhours:"",vaactivities:"Root cause resolution of incidents(30min) | First-visit resolution of hardware issues(30min) | Network security and segregation(15min)",bnvaactivities:"Asset register maintenance(20min)",nvaactivities:"IT resolving symptom, not root cause(60min)"},
-  {timestamp:"2026-05-20T11:48:36.636Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"1",vacount:"0",bnvacount:"1",nvacount:"0",va:"0",bnva:"100",nva:"0",vatimemin:"0",bnvatimemin:"30",nvatimemin:"0",totalactivitytimemin:"30",totalworkhours:"",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams with engineering/sales teams before release(30min)",nvaactivities:""},
-  {timestamp:"2026-05-20T11:53:38.363Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"2",vacount:"2",bnvacount:"0",nvacount:"0",va:"100",bnva:"0",nva:"0",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",totalactivitytimemin:"90",totalworkhours:"",vaactivities:"Editing videos with clear storytelling(30min) | Creating engaging video content(60min)",bnvaactivities:"",nvaactivities:""},
-  {timestamp:"2026-05-20T11:54:00.851Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"1",vacount:"1",bnvacount:"0",nvacount:"0",va:"100",bnva:"0",nva:"0",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",totalactivitytimemin:"60",totalworkhours:"",vaactivities:"Editing videos with clear storytelling(60min)",bnvaactivities:"",nvaactivities:""},
-  {timestamp:"2026-05-20T11:54:47.123Z",name:"Akash",date:"2026-05-20",department:"Marketing",totalactivities:"6",vacount:"0",bnvacount:"1",nvacount:"5",va:"0",bnva:"17",nva:"83",vatimemin:"0",bnvatimemin:"0",nvatimemin:"99",totalactivitytimemin:"99",totalworkhours:"",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams(0min)",nvaactivities:"Excessive scrolling(20min) | Exporting same video multiple times(20min) | Waiting for approvals(19min) | Re-editing videos(20min) | Searching for missing footage(20min)"}
-];
-var SCRIPT_API="https://script.google.com/macros/s/AKfycbyhpoDWpdpUp3Q3sZgw7BZ2Sg5GpkXDbWaVGKaDU7XRjPfbVYPHPEAPnxLmyr1GIJDu/exec";
-var W=420, ALL=[], DEPT='all';
-var PAL=['#059669','#2563eb','#dc2626','#7c3aed','#d97706','#0891b2','#db2777','#65a30d'];
-var CMAP={};
-function getC(n){if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length];return CMAP[n];}
-function ini(n){var p=(n||'').trim().split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase();}
+var SCRIPT_API = "https://script.google.com/macros/s/AKfycbyhpoDWpdpUp3Q3sZgw7BZ2Sg5GpkXDbWaVGKaDU7XRjPfbVYPHPEAPnxLmyr1GIJDu/exec";
+var W = 420;
+var ALL = [];
+var DEPT = 'all';
+var PAL = ['#059669','#2563eb','#dc2626','#7c3aed','#d97706','#0891b2','#db2777','#65a30d'];
+var CMAP = {};
 
-// ── VIEW ──────────────────────────────────
-function showView(id,btn){
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+function getC(n){ if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length]; return CMAP[n]; }
+function ini(n){ var p=(n||'').trim().split(' '); return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase(); }
+
+// ── VIEW ─────────────────────────────────────────────────────────
+function showView(id, btn){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   document.getElementById('view-'+id).classList.add('active');
-  document.querySelectorAll('.s-btn').forEach(function(b){b.classList.remove('active');});
-  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.s-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
   renderAll();
-  if(id==='productivity') renderProductivity();
+  if(id === 'productivity') renderProd();
 }
 
-// ── LOAD ──────────────────────────────────
+// ── LOAD DATA FROM APPS SCRIPT ───────────────────────────────────
 function loadData(){
-  document.getElementById('tb-up').textContent='Refreshing...';
-  
-  fetch(SCRIPT_API + '?t=' + Date.now())
+  document.getElementById('tb-up').textContent = 'Refreshing...';
+  fetch(SCRIPT_API + '?action=get&t=' + Date.now())
     .then(function(r){ return r.json(); })
     .then(function(json){
-      if(json.status === 'ok' && json.data && json.data.length > 0){
-        ALL = parseRows(json.data);
+      if(json && json.data && json.data.length > 0){
+        ALL = normalizeRows(json.data);
         var now = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-        document.getElementById('tb-up').textContent = 'Updated ' + now + ' (' + ALL.length + ' rows)';
-        document.getElementById('s-time').textContent = 'Synced ' + now;
+        document.getElementById('tb-up').textContent = 'Live · '+now+' · '+ALL.length+' rows';
+        document.getElementById('s-time').textContent = 'Synced '+now;
       } else {
-        document.getElementById('tb-up').textContent = 'No data in sheet yet';
+        document.getElementById('tb-up').textContent = 'Live · cached data';
       }
       renderAll();
-      if(document.getElementById('view-productivity').classList.contains('active')) renderProductivity();
+      renderProd();
     })
-    .catch(function(err){
-      console.log('Fetch error:', err);
-      document.getElementById('tb-up').textContent = 'Error loading — using cached data';
-      renderAll();
+    .catch(function(){
+      // Fetch failed silently - EMBEDDED data already showing
+      document.getElementById('tb-up').textContent = 'Showing cached data';
     });
 }
 
-// Parse JSON rows from Apps Script (already key-value objects)
-function parseRows(rows){
+function normalizeRows(rows){
   return rows.map(function(r){
     var obj = {};
     Object.keys(r).forEach(function(k){
-      // normalize key same way as CSV
-      var nk = k.toLowerCase().replace(/[^a-z0-9]/g,'');
-      obj[nk] = String(r[k]).trim();
+      obj[k.toLowerCase().replace(/[^a-z0-9]/g,'')] = String(r[k]).trim();
     });
     return obj;
   }).filter(function(r){ return r.name && r.name.length > 0; });
 }
 
-// ══════════════════════════════════════════════════════════
-// PRODUCTIVITY REPORT — Exact logic as specified
-// Total Minutes = Days × 420
-// % = (Category Total ÷ Total Minutes) × 100
-// ══════════════════════════════════════════════════════════
-
-function renderProductivity() {
-  if(!ALL || ALL.length===0){ 
-    var tb=document.getElementById('prod-tbody');
-    if(tb) tb.innerHTML='<tr><td colspan="12" class="empty" style="color:var(--mu);">Koi data nahi hai abhi. Form submit hone ka wait karein.</td></tr>';
-    return; 
+// ── CALC: minutes from row ───────────────────────────────────────
+function getMin(r){
+  var va  = parseFloat(r.vatimemin  || r['vatimemin']  || 0) || 0;
+  var bn  = parseFloat(r.bnvatimemin|| r['bnvatimemin']|| 0) || 0;
+  var nv  = parseFloat(r.nvatimemin || r['nvatimemin'] || 0) || 0;
+  if(!va && !bn && !nv){
+    var vP = parseFloat(r.va   || 0) || 0;
+    var bP = parseFloat(r.bnva || 0) || 0;
+    var nP = parseFloat(r.nva  || 0) || 0;
+    if(vP||bP||nP){ va=Math.round(vP/100*W); bn=Math.round(bP/100*W); nv=Math.round(nP/100*W); }
   }
-  var deptF = document.getElementById('prod-dept-filter') ? document.getElementById('prod-dept-filter').value : 'all';
-  var fromD = document.getElementById('prod-from') ? document.getElementById('prod-from').value : '';
-  var toD   = document.getElementById('prod-to')   ? document.getElementById('prod-to').value   : '';
-  var query = document.getElementById('prod-search') ? document.getElementById('prod-search').value.toLowerCase() : '';
+  var un = Math.max(0, W - va - bn - nv);
+  return { va:va, bn:bn, nv:nv, un:un,
+    vaP:Math.round(va/W*100), bnP:Math.round(bn/W*100), nvP:Math.round(nv/W*100), unP:Math.round(un/W*100) };
+}
 
-  // Filter raw data
-  var data = ALL.filter(function(r) {
-    var dOk = deptF === 'all' || (r.department || '').indexOf(deptF) >= 0;
-    var frOk = !fromD || r.date >= fromD;
-    var toOk = !toD   || r.date <= toD;
-    return dOk && frOk && toOk;
+// ── FILTER ───────────────────────────────────────────────────────
+function setDept(d,btn){
+  document.querySelectorAll('.fbar .fp:not(select)').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on'); DEPT=d; renderAll();
+}
+function clearDates(){ document.getElementById('dateFrom').value=''; document.getElementById('dateTo').value=''; renderAll(); }
+
+function filteredData(){
+  var df = document.getElementById('dateF').value;
+  var fr = document.getElementById('dateFrom').value;
+  var to = document.getElementById('dateTo').value;
+  var today = new Date().toISOString().slice(0,10);
+  var wk  = new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  var mo  = new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+  return ALL.filter(function(r){
+    var dOk = DEPT==='all' || (r.department||'').indexOf(DEPT)>=0;
+    var tOk;
+    if(fr||to) tOk=(!fr||r.date>=fr)&&(!to||r.date<=to);
+    else tOk=df==='all'||(df==='today'&&r.date===today)||(df==='week'&&r.date>=wk)||(df==='month'&&r.date>=mo);
+    return dOk&&tOk;
+  });
+}
+
+function avgK(d,k){ if(!d.length)return 0; var s=0; d.forEach(function(r){s+=getMin(r)[k];}); return Math.round(s/d.length); }
+
+// ── RENDER ALL ───────────────────────────────────────────────────
+function renderAll(){
+  var d = filteredData();
+  renderHero(d);
+  renderBoxes(d);
+  renderOvTable(d);
+  renderEmpTable(d);
+  renderDeptTable(d);
+  renderWinners(d);
+  renderDetailTable(d);
+}
+
+function renderHero(d){
+  var names={},dates={};
+  d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
+  document.getElementById('h-tot').textContent=d.length||'0';
+  document.getElementById('h-emp').textContent=Object.keys(names).length||'0';
+  document.getElementById('h-days').textContent=Object.keys(dates).length||'0';
+  document.getElementById('ov-meta').textContent=d.length+' entries';
+}
+
+function renderBoxes(d){
+  var vaP=d.length?avgK(d,'vaP'):0, bnP=d.length?avgK(d,'bnP'):0;
+  var nvP=d.length?avgK(d,'nvP'):0, unP=d.length?avgK(d,'unP'):0;
+  var vaM=d.length?avgK(d,'va'):0,  bnM=d.length?avgK(d,'bn'):0;
+  var nvM=d.length?avgK(d,'nv'):0;
+  document.getElementById('cb-va').textContent = d.length?vaP+'%':'—';
+  document.getElementById('cb-bn').textContent = d.length?bnP+'%':'—';
+  document.getElementById('cb-nv').textContent = d.length?nvP+'%':'—';
+  document.getElementById('cb-un').textContent = d.length?unP+'%':'—';
+  document.getElementById('cb-va-s').textContent = d.length?'~'+vaM+' min avg · click to explore':'click to explore';
+  document.getElementById('cb-bn-s').textContent = d.length?'~'+bnM+' min avg · click to explore':'click to explore';
+  document.getElementById('cb-nv-s').textContent = d.length?'~'+nvM+' min avg · click to explore':'click to explore';
+  setTimeout(function(){
+    document.getElementById('cbf-va').style.width=vaP+'%';
+    document.getElementById('cbf-bn').style.width=bnP+'%';
+    document.getElementById('cbf-nv').style.width=nvP+'%';
+    document.getElementById('cbf-un').style.width=unP+'%';
+  },120);
+}
+
+function msRow(c){
+  return '<div class="mini-stack">'+
+    '<div class="ms va" style="width:'+Math.round(c.va/W*100)+'%"></div>'+
+    '<div class="ms bn" style="width:'+Math.round(c.bn/W*100)+'%"></div>'+
+    '<div class="ms nv" style="width:'+Math.round(c.nv/W*100)+'%"></div>'+
+    '<div class="ms un" style="width:'+Math.round(c.un/W*100)+'%"></div>'+
+  '</div>';
+}
+
+function renderOvTable(d){
+  var b=document.getElementById('ov-tbody');
+  if(!d.length){b.innerHTML='<tr><td colspan="8" class="empty">No submissions yet.</td></tr>';return;}
+  var s=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).slice(0,10);
+  b.innerHTML=s.map(function(r){
+    var c=getMin(r),col=getC(r.name);
+    return '<tr onclick="openDrill(\''+r.name+'\')">' +
+      '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+      '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+(r.department||'')+'</div></div></div></td>'+
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+(r.date||'—')+'</td>'+
+      '<td>'+msRow(c)+'<div style="font-size:10px;color:var(--mu);font-family:var(--mono);margin-top:2px">'+c.va+'m·'+c.bn+'m·'+c.nv+'m·'+c.un+'m</div></td>'+
+      '<td><span class="pct va">'+c.vaP+'%</span></td>'+
+      '<td><span class="pct bn">'+c.bnP+'%</span></td>'+
+      '<td><span class="pct nv">'+c.nvP+'%</span></td>'+
+      '<td><span class="pct un">'+c.unP+'%</span></td>'+
+      '<td class="row-arr">›</td></tr>';
+  }).join('');
+}
+
+function renderEmpTable(d){
+  var b=document.getElementById('emp-tbody');
+  var q=(document.getElementById('emp-search').value||'').toLowerCase();
+  var map={};
+  d.forEach(function(r){
+    var n=r.name;
+    if(!map[n])map[n]={name:n,dept:r.department||'',rows:[],dates:[]};
+    map[n].rows.push(r);
+    if(r.date&&map[n].dates.indexOf(r.date)<0)map[n].dates.push(r.date);
+  });
+  var emps=Object.values(map).map(function(e){
+    var tot={va:0,bn:0,nv:0,un:0};
+    e.rows.forEach(function(r){var c=getMin(r);tot.va+=c.vaP;tot.bn+=c.bnP;tot.nv+=c.nvP;tot.un+=c.unP;});
+    var n=e.rows.length;
+    return{name:e.name,dept:e.dept,count:n,date:e.dates.slice().sort().reverse()[0]||'',
+      va:Math.round(tot.va/n),bn:Math.round(tot.bn/n),nv:Math.round(tot.nv/n),un:Math.round(tot.un/n)};
+  });
+  if(q)emps=emps.filter(function(e){return e.name.toLowerCase().indexOf(q)>=0||e.dept.toLowerCase().indexOf(q)>=0;});
+  emps.sort(function(a,b){return b.va-a.va;});
+  document.getElementById('emp-count').textContent='('+emps.length+' employees)';
+  if(!emps.length){b.innerHTML='<tr><td colspan="9" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=emps.map(function(e){
+    var col=getC(e.name);
+    var c={va:Math.round(e.va/100*W),bn:Math.round(e.bn/100*W),nv:Math.round(e.nv/100*W),un:Math.round(e.un/100*W)};
+    return '<tr onclick="openDrill(\''+e.name+'\')">'+
+      '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(e.name)+'</div>'+
+      '<div><div class="emp-name">'+e.name+'</div><div class="emp-dept">'+e.dept+'</div></div></div></td>'+
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+e.date+'</td>'+
+      '<td style="font-weight:600;color:var(--tx2);text-align:center">'+e.count+'</td>'+
+      '<td><span class="pct va">'+e.va+'%</span></td>'+
+      '<td><span class="pct bn">'+e.bn+'%</span></td>'+
+      '<td><span class="pct nv">'+e.nv+'%</span></td>'+
+      '<td><span class="pct un">'+e.un+'%</span></td>'+
+      '<td>'+msRow(c)+'</td>'+
+      '<td class="row-arr">›</td></tr>';
+  }).join('');
+}
+
+function renderDeptTable(d){
+  var b=document.getElementById('dept-tbody');
+  if(!d.length){b.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
+  var map={};
+  d.forEach(function(r){var n=r.department||'Unknown';if(!map[n])map[n]={rows:[],emps:{}};map[n].rows.push(r);if(r.name)map[n].emps[r.name]=1;});
+  var depts=Object.keys(map).map(function(n){
+    var rows=map[n].rows;
+    return{name:n,count:rows.length,emps:Object.keys(map[n].emps).length,
+      va:avgK(rows,'vaP'),bn:avgK(rows,'bnP'),nv:avgK(rows,'nvP'),un:avgK(rows,'unP')};
+  }).sort(function(a,b){return b.va-a.va;});
+  b.innerHTML=depts.map(function(d){
+    var c={va:Math.round(d.va/100*W),bn:Math.round(d.bn/100*W),nv:Math.round(d.nv/100*W),un:Math.round(d.un/100*W)};
+    return '<tr>'+
+      '<td><strong>'+d.name+'</strong></td>'+
+      '<td style="color:var(--mu)">'+d.count+'</td>'+
+      '<td style="color:var(--mu)">'+d.emps+'</td>'+
+      '<td><span class="pct va">'+d.va+'%</span></td>'+
+      '<td><span class="pct bn">'+d.bn+'%</span></td>'+
+      '<td><span class="pct nv">'+d.nv+'%</span></td>'+
+      '<td><span class="pct un">'+d.un+'%</span></td>'+
+      '<td>'+msRow(c)+'</td></tr>';
+  }).join('');
+}
+
+function renderWinners(d){
+  var wb=document.getElementById('win-tbody'),db=document.getElementById('dept-win-tbody');
+  if(!d.length){wb.innerHTML='<tr><td colspan="5" class="empty">No data.</td></tr>';db.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
+  var map={};
+  d.forEach(function(r){var n=r.name;if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,cnt:0};var c=getMin(r);map[n].va+=c.vaP;map[n].bn+=c.bnP;map[n].nv+=c.nvP;map[n].cnt++;});
+  var emps=Object.values(map).map(function(e){return{name:e.name,dept:e.dept,va:Math.round(e.va/e.cnt),bn:Math.round(e.bn/e.cnt),nv:Math.round(e.nv/e.cnt)};});
+  var topVA=emps.slice().sort(function(a,b){return b.va-a.va;})[0];
+  var topBN=emps.slice().sort(function(a,b){return b.bn-a.bn;})[0];
+  var lowNV=emps.slice().sort(function(a,b){return a.nv-b.nv;})[0];
+  wb.innerHTML=[
+    {icon:'🏆',cat:'Highest VA',cls:'va',emp:topVA,score:topVA?topVA.va+'%':'—',msg:'Sabse zyada time value-creating kaam mein lagaya'},
+    {icon:'🥇',cat:'Highest BNVA',cls:'bn',emp:topBN,score:topBN?topBN.bn+'%':'—',msg:'Compliance aur zaruri kaam mein focused'},
+    {icon:'🎯',cat:'Lowest NVA',cls:'nv',emp:lowNV,score:lowNV?lowNV.nv+'%':'—',msg:'Sabse kam waste generate kiya — role model'},
+  ].map(function(w){
+    return '<tr><td><span class="chip '+w.cls+'">'+w.icon+' '+w.cat+'</span></td>'+
+      '<td><strong>'+(w.emp?w.emp.name:'—')+'</strong></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+(w.emp?w.emp.dept:'')+'</td>'+
+      '<td><span class="pct '+w.cls+'">'+w.score+'</span></td>'+
+      '<td style="font-size:12px;color:var(--tx2)">'+w.msg+'</td></tr>';
+  }).join('');
+  var dmap={};
+  d.forEach(function(r){var n=r.department||'Unknown';if(!dmap[n])dmap[n]=[];dmap[n].push(r);});
+  db.innerHTML=Object.keys(dmap).map(function(n){return{name:n,rows:dmap[n]};}).sort(function(a,b){return avgK(b.rows,'vaP')-avgK(a.rows,'vaP');}).map(function(d,i){
+    var c={va:Math.round(avgK(d.rows,'vaP')/100*W),bn:Math.round(avgK(d.rows,'bnP')/100*W),nv:Math.round(avgK(d.rows,'nvP')/100*W),un:Math.round(avgK(d.rows,'unP')/100*W)};
+    return '<tr><td style="font-weight:700;color:var(--bn)">'+(i+1)+'</td><td><strong>'+d.name+'</strong></td><td style="color:var(--mu)">'+d.rows.length+'</td>'+
+      '<td><span class="pct va">'+avgK(d.rows,'vaP')+'%</span></td>'+
+      '<td><span class="pct bn">'+avgK(d.rows,'bnP')+'%</span></td>'+
+      '<td><span class="pct nv">'+avgK(d.rows,'nvP')+'%</span></td>'+
+      '<td><span class="pct un">'+avgK(d.rows,'unP')+'%</span></td>'+
+      '<td>'+msRow(c)+'</td></tr>';
+  }).join('');
+}
+
+function renderDetailTable(d){
+  var b=document.getElementById('tbl-tbody');
+  document.getElementById('tbl-meta').textContent=d.length+' rows';
+  if(!d.length){b.innerHTML='<tr><td colspan="11" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).map(function(r){
+    var c=getMin(r);
+    return '<tr><td><strong>'+(r.name||'—')+'</strong></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+(r.department||'—')+'</td>'+
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+(r.date||'—')+'</td>'+
+      '<td><span class="chip va">'+c.va+'</span></td>'+
+      '<td><span class="chip bn">'+c.bn+'</span></td>'+
+      '<td><span class="chip nv">'+c.nv+'</span></td>'+
+      '<td><span class="chip un">'+c.un+'</span></td>'+
+      '<td class="pct va">'+c.vaP+'%</td><td class="pct bn">'+c.bnP+'%</td>'+
+      '<td class="pct nv">'+c.nvP+'%</td><td class="pct un">'+c.unP+'%</td></tr>';
+  }).join('');
+}
+
+// ── PRODUCTIVITY REPORT (Days × 420 logic) ─────────────────────
+function renderProd(){
+  var deptF = document.getElementById('prod-dept').value;
+  var fromD = document.getElementById('prod-from').value;
+  var toD   = document.getElementById('prod-to').value;
+  var query = (document.getElementById('prod-search').value||'').toLowerCase();
+
+  var data = ALL.filter(function(r){
+    var dOk = deptF==='all'||(r.department||'').indexOf(deptF)>=0;
+    var tOk = (!fromD||r.date>=fromD)&&(!toD||r.date<=toD);
+    return dOk&&tOk;
   });
 
-  // Group by employee name — aggregate all days
-  var empMap = {};
-  data.forEach(function(r) {
-    var name = r.name || 'Unknown';
-    if (!empMap[name]) {
-      empMap[name] = {
-        name: name,
-        dept: r.department || '—',
-        days: 0,
-        va: 0, bn: 0, nv: 0
-      };
-    }
-    var e = empMap[name];
-    e.days += 1;
-    // Get minutes from sheet columns
-    // Sheet columns (after CSV normalize — lowercase, remove non-alphanumeric):
-    // "VA Time (min)"   → vatimemin
-    // "BNVA Time (min)" → bnvatimemin
-    // "NVA Time (min)"  → nvatimemin
-    // "VA %"            → va   (fallback)
-    // "BNVA %"          → bnva (fallback)
-    // "NVA %"           → nva  (fallback)
-    var va = parseInt(r.vatimemin || r['va time (min)'] || 0) || 0;
-    var bn = parseInt(r.bnvatimemin || r['bnva time (min)'] || 0) || 0;
-    var nv = parseInt(r.nvatimemin || r['nva time (min)'] || 0) || 0;
-    // Fallback: if mins still 0, back-calculate from % columns
-    if (!va && !bn && !nv) {
-      var vaP2 = parseFloat(r.va || r['va %'] || 0) || 0;
-      var bnP2 = parseFloat(r.bnva || r['bnva %'] || 0) || 0;
-      var nvP2 = parseFloat(r.nva || r['nva %'] || 0) || 0;
-      if (vaP2 || bnP2 || nvP2) {
-        va = Math.round(vaP2 / 100 * 420);
-        bn = Math.round(bnP2 / 100 * 420);
-        nv = Math.round(nvP2 / 100 * 420);
-      }
-    }
-    e.va += va;
-    e.bn += bn;
-    e.nv += nv;
+  // Group by employee — collect ALL submissions, count UNIQUE dates
+  var map = {};
+  data.forEach(function(r){
+    var n = r.name || 'Unknown';
+    if(!map[n]) map[n] = {name:n, dept:r.department||'', va:0, bn:0, nv:0, dates:[], submissions:0};
+    var c2 = getMin(r);
+    map[n].va += c2.va;
+    map[n].bn += c2.bn;
+    map[n].nv += c2.nv;
+    map[n].submissions++;
+    if(map[n].dates.indexOf(r.date) < 0) map[n].dates.push(r.date); // unique dates only
   });
 
-  // Calculate per employee
-  var rows = Object.values(empMap).map(function(e) {
-    var totalMins = e.days * 420;           // Step 2: Days × 420
-    var unid = Math.max(0, totalMins - e.va - e.bn - e.nv); // Unidentified
-    // Step 3: Percentage = (Category ÷ Total) × 100
-    var vaP  = totalMins > 0 ? ((e.va  / totalMins) * 100).toFixed(2) : '0.00';
-    var bnP  = totalMins > 0 ? ((e.bn  / totalMins) * 100).toFixed(2) : '0.00';
-    var nvP  = totalMins > 0 ? ((e.nv  / totalMins) * 100).toFixed(2) : '0.00';
-    var unP  = totalMins > 0 ? ((unid  / totalMins) * 100).toFixed(2) : '0.00';
-    return { name:e.name, dept:e.dept, days:e.days, totalMins:totalMins,
-             va:e.va, vaP:vaP, bn:e.bn, bnP:bnP, nv:e.nv, nvP:nvP, unid:unid, unP:unP };
+  var rows = Object.values(map).map(function(e){
+    var days  = e.dates.length;           // unique days
+    var total = days * 420;               // Total Minutes = Days × 420
+    var un    = Math.max(0, total - e.va - e.bn - e.nv);
+    return {
+      name: e.name, dept: e.dept,
+      days: days, submissions: e.submissions, total: total,
+      va:e.va,   vaP: total>0 ? (e.va/total*100).toFixed(2)  : '0.00',
+      bn:e.bn,   bnP: total>0 ? (e.bn/total*100).toFixed(2)  : '0.00',
+      nv:e.nv,   nvP: total>0 ? (e.nv/total*100).toFixed(2)  : '0.00',
+      un:un,     unP: total>0 ? (un/total*100).toFixed(2)     : '0.00'
+    };
   });
 
-  // Search filter
-  if (query) {
-    rows = rows.filter(function(r) {
-      return r.name.toLowerCase().indexOf(query) >= 0 || r.dept.toLowerCase().indexOf(query) >= 0;
-    });
-  }
+  if(query) rows = rows.filter(function(r){
+    return r.name.toLowerCase().indexOf(query)>=0 || r.dept.toLowerCase().indexOf(query)>=0;
+  });
+  rows.sort(function(a,b){ return parseFloat(b.vaP)-parseFloat(a.vaP); });
 
-  rows.sort(function(a, b) { return parseFloat(b.vaP) - parseFloat(a.vaP); });
-
-  // Update count
-  var countEl = document.getElementById('prod-emp-count');
-  if (countEl) countEl.textContent = '(' + rows.length + ' employees)';
+  document.getElementById('prod-count').textContent = '('+rows.length+' employees)';
 
   // Summary cards — team average
-  renderProdSummaryCards(rows);
+  var n = rows.length;
+  var avVA = n ? rows.reduce(function(s,r){return s+parseFloat(r.vaP);},0)/n : 0;
+  var avBN = n ? rows.reduce(function(s,r){return s+parseFloat(r.bnP);},0)/n : 0;
+  var avNV = n ? rows.reduce(function(s,r){return s+parseFloat(r.nvP);},0)/n : 0;
+  var avUN = n ? rows.reduce(function(s,r){return s+parseFloat(r.unP);},0)/n : 0;
+  var totalDays = rows.reduce(function(s,r){return s+r.days;},0);
+  var totalSubs = rows.reduce(function(s,r){return s+r.submissions;},0);
+
+  document.getElementById('prod-cards').innerHTML =
+    pCard('va','✅','Avg VA',avVA.toFixed(2)+'%','Team value-added average')+
+    pCard('bn','📋','Avg BNVA',avBN.toFixed(2)+'%','Team necessary work average')+
+    pCard('nv','⚠️','Avg NVA',avNV.toFixed(2)+'%','Team waste average')+
+    pCard('un','❓','Avg Unidentified',avUN.toFixed(2)+'%',totalSubs+' submissions · '+totalDays+' days · '+n+' employees');
 
   // Render table
-  var tbody = document.getElementById('prod-tbody');
-  if (!tbody) return;
-
-  if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="12" class="empty">Koi data nahi mila.</td></tr>';
+  var b = document.getElementById('prod-tbody');
+  if(!rows.length){
+    b.innerHTML = '<tr><td colspan="13" class="empty">Koi data nahi.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = rows.map(function(r) {
+  b.innerHTML = rows.map(function(r){
     var col = getC(r.name);
-    return '<tr onclick="openDrill('' + r.name + '')" style="cursor:pointer;">' +
-      '<td><div class="emp-name-cell">' +
-        '<div class="emp-av" style="background:' + col + '">' + ini(r.name) + '</div>' +
-        '<div class="emp-av-info"><div class="name">' + r.name + '</div><div class="dept">' + r.dept + '</div></div>' +
-      '</div></td>' +
-      '<td style="color:var(--mu);font-size:12px;">' + r.dept + '</td>' +
-      '<td style="text-align:center;font-weight:600;color:var(--tx2);">' + r.days + '</td>' +
-      '<td style="text-align:center;font-family:var(--mono);font-size:12px;font-weight:600;">' + r.totalMins + '</td>' +
-      // NVA
-      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#dc2626;">' + r.nv + '</span></td>' +
-      '<td>' + pctBadge(r.nvP, '#dc2626', 'rgba(220,38,38,0.08)') + '</td>' +
-      // BNVA
-      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#2563eb;">' + r.bn + '</span></td>' +
-      '<td>' + pctBadge(r.bnP, '#2563eb', 'rgba(37,99,235,0.08)') + '</td>' +
-      // VA
-      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#059669;">' + r.va + '</span></td>' +
-      '<td>' + pctBadge(r.vaP, '#059669', 'rgba(5,150,105,0.08)') + '</td>' +
-      // Unidentified
-      '<td style="text-align:center;"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#7c3aed;">' + r.unid + '</span></td>' +
-      '<td>' + pctBadge(r.unP, '#7c3aed', 'rgba(124,58,237,0.08)') + '</td>' +
+    return '<tr onclick="openDrill(this.getAttribute(\'data-n\'))" data-n="'+r.name+'">'+
+      '<td><div class="emp-cell">'+
+        '<div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+        '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+r.dept+'</div></div>'+
+      '</div></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+r.dept+'</td>'+
+      '<td style="text-align:center;font-weight:600">'+r.days+'</td>'+
+      '<td style="text-align:center;font-size:11px;color:var(--mu)">'+r.submissions+'</td>'+
+      '<td style="text-align:center;font-family:var(--mono);font-size:12px;font-weight:600">'+r.total+'</td>'+
+      '<td style="text-align:center"><span class="pct nv">'+r.nv+'</span></td>'+
+      '<td>'+pctBar(r.nvP,'nv')+'</td>'+
+      '<td style="text-align:center"><span class="pct bn">'+r.bn+'</span></td>'+
+      '<td>'+pctBar(r.bnP,'bn')+'</td>'+
+      '<td style="text-align:center"><span class="pct va">'+r.va+'</span></td>'+
+      '<td>'+pctBar(r.vaP,'va')+'</td>'+
+      '<td style="text-align:center"><span class="pct un">'+r.un+'</span></td>'+
+      '<td>'+pctBar(r.unP,'un')+'</td>'+
     '</tr>';
   }).join('');
 }
 
-function pctBadge(pct, color, bg) {
-  return '<div style="display:flex;align-items:center;gap:6px;">' +
-    '<span style="font-family:var(--mono);font-size:12px;font-weight:700;color:' + color + ';background:' + bg + ';padding:2px 8px;border-radius:5px;white-space:nowrap;">' + pct + '%</span>' +
-    '<div style="flex:1;height:4px;border-radius:99px;background:rgba(0,0,0,0.06);overflow:hidden;min-width:30px;">' +
-      '<div style="height:4px;border-radius:99px;background:' + color + ';width:' + Math.min(parseFloat(pct), 100) + '%;"></div>' +
-    '</div>' +
+function pCard(cls,ico,lbl,val,sub){
+  return '<div class="prod-card '+cls+'">'+
+    '<div style="font-size:18px;margin-bottom:6px">'+ico+'</div>'+
+    '<div class="prod-card-lbl">'+lbl+'</div>'+
+    '<div class="prod-card-val">'+val+'</div>'+
+    '<div class="prod-card-sub">'+sub+'</div>'+
   '</div>';
 }
 
-function renderProdSummaryCards(rows) {
-  var el = document.getElementById('prod-summary-cards');
-  if (!el || !rows.length) { if(el) el.innerHTML=''; return; }
-
-  // Team averages
-  var n = rows.length;
-  var avgVA  = (rows.reduce(function(s,r){return s+parseFloat(r.vaP);},0)/n).toFixed(2);
-  var avgBN  = (rows.reduce(function(s,r){return s+parseFloat(r.bnP);},0)/n).toFixed(2);
-  var avgNV  = (rows.reduce(function(s,r){return s+parseFloat(r.nvP);},0)/n).toFixed(2);
-  var avgUN  = (rows.reduce(function(s,r){return s+parseFloat(r.unP);},0)/n).toFixed(2);
-  var totalDays = rows.reduce(function(s,r){return s+r.days;},0);
-
-  el.innerHTML =
-    prodCard('va','✅','Avg VA',avgVA+'%','Team average value-added work') +
-    prodCard('bn','📋','Avg BNVA',avgBN+'%','Team average necessary work') +
-    prodCard('nv','⚠️','Avg NVA',avgNV+'%','Team average waste — to be eliminated') +
-    prodCard('un','❓','Avg Unidentified',avgUN+'%',totalDays+' total days tracked · '+n+' employees');
-}
-
-function prodCard(cls, icon, label, val, sub) {
-  var colors = {va:'#059669',bn:'#2563eb',nv:'#dc2626',un:'#7c3aed'};
-  var col = colors[cls];
-  return '<div class="prod-sum-card ' + cls + '">' +
-    '<div style="font-size:18px;margin-bottom:6px;">' + icon + '</div>' +
-    '<div class="prod-sum-lbl">' + label + '</div>' +
-    '<div class="prod-sum-val">' + val + '</div>' +
-    '<div class="prod-sum-sub">' + sub + '</div>' +
-    '<div class="prod-bar"><div class="prod-bar-fill" style="width:' + Math.min(parseFloat(val),100) + '%;background:' + col + ';"></div></div>' +
+function pctBar(pct,cls){
+  var colors={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+  return '<div class="pct-with-bar">'+
+    '<span class="pct-badge '+cls+'">'+pct+'%</span>'+
+    '<div class="pct-bar"><div class="pct-bar-fill" style="width:'+Math.min(parseFloat(pct),100)+'%;background:'+colors[cls]+'"></div></div>'+
   '</div>';
 }
 
-function clearProdFilter() {
-  var dEl = document.getElementById('prod-dept-filter');
-  var fEl = document.getElementById('prod-from');
-  var tEl = document.getElementById('prod-to');
-  var sEl = document.getElementById('prod-search');
-  if(dEl) dEl.value = 'all';
-  if(fEl) fEl.value = '';
-  if(tEl) tEl.value = '';
-  if(sEl) sEl.value = '';
-  renderProductivity();
+// ── DRILL DOWN ───────────────────────────────────────────────────
+var drillN='',drillTabA='summary';
+function openDrill(name){
+  var d=filteredData().filter(function(r){return r.name===name;});
+  if(!d.length)return;
+  drillN=name;
+  var col=getC(name);
+  document.getElementById('d-av').textContent=ini(name);
+  document.getElementById('d-av').style.background=col;
+  document.getElementById('d-name').textContent=name;
+  document.getElementById('d-dept').textContent=d[0].department||'';
+  document.getElementById('drill-ov').classList.add('open');
+  renderDrillTab('summary',d);
 }
-
-function exportProdCSV() {
-  var deptF = document.getElementById('prod-dept-filter') ? document.getElementById('prod-dept-filter').value : 'all';
-  var fromD = document.getElementById('prod-from') ? document.getElementById('prod-from').value : '';
-  var toD   = document.getElementById('prod-to')   ? document.getElementById('prod-to').value   : '';
-
-  var data = ALL.filter(function(r) {
-    var dOk = deptF === 'all' || (r.department || '').indexOf(deptF) >= 0;
-    var frOk = !fromD || r.date >= fromD;
-    var toOk = !toD   || r.date <= toD;
-    return dOk && frOk && toOk;
-  });
-
-  var empMap = {};
-  data.forEach(function(r) {
-    var name = r.name || 'Unknown';
-    if (!empMap[name]) empMap[name] = {name:name,dept:r.department||'',days:0,va:0,bn:0,nv:0};
-    var e = empMap[name]; e.days++;
-    var va = parseInt(r.vatimemin||0)||0, bn = parseInt(r.bnvatimemin||0)||0, nv = parseInt(r.nvatimemin||0)||0;
-    if(!va&&!bn&&!nv){
-      var vp=parseFloat(r.va||0)||0,bp=parseFloat(r.bnva||0)||0,np=parseFloat(r.nva||0)||0;
-      if(vp||bp||np){va=Math.round(vp/100*420);bn=Math.round(bp/100*420);nv=Math.round(np/100*420);}
-    }
-    e.va+=va; e.bn+=bn; e.nv+=nv;
-  });
-
-  var rows = Object.values(empMap).map(function(e) {
-    var t=e.days*420, u=Math.max(0,t-e.va-e.bn-e.nv);
-    return {name:e.name,dept:e.dept,days:e.days,t:t,va:e.va,vaP:t>0?((e.va/t)*100).toFixed(2):'0.00',
-      bn:e.bn,bnP:t>0?((e.bn/t)*100).toFixed(2):'0.00',nv:e.nv,nvP:t>0?((e.nv/t)*100).toFixed(2):'0.00',u:u,uP:t>0?((u/t)*100).toFixed(2):'0.00'};
-  }).sort(function(a,b){return parseFloat(b.vaP)-parseFloat(a.vaP);});
-
-  if(!rows.length){alert('No data to export!');return;}
-
-  var csv = 'IOTAFLOW — EMPLOYEE PRODUCTIVITY REPORT\n';
-  csv += 'Generated: ' + new Date().toLocaleString('en-IN') + '\n';
-  csv += 'Logic: Total Minutes = Days × 420 | % = (Category ÷ Total Minutes) × 100\n\n';
-  csv += 'Employee Name,Department,Days,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unidentified (min),Unidentified %\n';
-  rows.forEach(function(r) {
-    csv += '"'+r.name+'","'+r.dept+'",'+r.days+','+r.t+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.u+','+r.uP+'%\n';
-  });
-
-  var blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href=url; a.download='Iotaflow_Productivity_Report_'+new Date().toISOString().slice(0,10)+'.csv';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function dTab(tab,btn){
+  drillTabA=tab;
+  document.querySelectorAll('.drill-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  renderDrillTab(tab,filteredData().filter(function(r){return r.name===drillN;}));
 }
-
-// Hook into renderAll to also update productivity if visible
-var _origRenderAll = renderAll;
-renderAll = function() {
-  _origRenderAll();
-  var prodView = document.getElementById('view-productivity');
-  if (prodView && prodView.classList.contains('active')) {
-    renderProductivity();
+function renderDrillTab(tab,rows){
+  var body=document.getElementById('drill-body'),col=getC(drillN);
+  if(tab==='summary'){
+    var tot={va:0,bn:0,nv:0,un:0,vaP:0,bnP:0,nvP:0,unP:0};
+    rows.forEach(function(r){var c=getMin(r);tot.va+=c.va;tot.bn+=c.bn;tot.nv+=c.nv;tot.un+=c.un;tot.vaP+=c.vaP;tot.bnP+=c.bnP;tot.nvP+=c.nvP;tot.unP+=c.unP;});
+    var n=rows.length;
+    var days=new Set(rows.map(function(r){return r.date;})).size;
+    var totalMin=days*420;
+    var unTotal=Math.max(0,totalMin-tot.va-tot.bn-tot.nv);
+    var aVA=(tot.va/totalMin*100).toFixed(2),aBN=(tot.bn/totalMin*100).toFixed(2),aNV=(tot.nv/totalMin*100).toFixed(2),aUN=(unTotal/totalMin*100).toFixed(2);
+    body.innerHTML=
+      '<div class="drill-sum-grid">'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Days</div><div class="drill-sum-val" style="color:'+col+'">'+days+'</div><div class="drill-sum-sub">Total: '+totalMin+' min</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg VA</div><div class="drill-sum-val" style="color:var(--va)">'+aVA+'%</div><div class="drill-sum-sub">'+tot.va+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg NVA</div><div class="drill-sum-val" style="color:var(--nv)">'+aNV+'%</div><div class="drill-sum-sub">'+tot.nv+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Unidentified</div><div class="drill-sum-val" style="color:var(--un)">'+aUN+'%</div><div class="drill-sum-sub">'+unTotal+' min total</div></div>'+
+      '</div>'+
+      '<div class="drill-stack-wrap">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">Avg Workday ('+days+' days × 420 min)</div>'+
+        '<div class="drill-stack">'+
+          '<div class="drill-seg va" style="width:'+aVA+'%"></div>'+
+          '<div class="drill-seg bn" style="width:'+aBN+'%"></div>'+
+          '<div class="drill-seg nv" style="width:'+aNV+'%"></div>'+
+          '<div class="drill-seg un" style="width:'+aUN+'%"></div>'+
+        '</div>'+
+        '<div class="drill-leg">'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--va)"></div>VA '+aVA+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--bn)"></div>BNVA '+aBN+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--nv)"></div>NVA '+aNV+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--un)"></div>Unid '+aUN+'%</div>'+
+        '</div>'+
+      '</div>';
+  } else {
+    var sorted=rows.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+    body.innerHTML='<table class="day-tbl"><thead><tr><th>Date</th><th>VA</th><th>BNVA</th><th>NVA</th><th>Unid</th></tr></thead><tbody>'+
+      sorted.map(function(r){var c=getMin(r);return '<tr>'+
+        '<td style="font-family:var(--mono);font-size:11px">'+r.date+'</td>'+
+        '<td class="pct va">'+c.vaP+'%<div style="height:3px;width:'+c.vaP+'%;background:var(--va);border-radius:99px;margin-top:2px"></div></td>'+
+        '<td class="pct bn">'+c.bnP+'%<div style="height:3px;width:'+c.bnP+'%;background:var(--bn);border-radius:99px;margin-top:2px"></div></td>'+
+        '<td class="pct nv">'+c.nvP+'%<div style="height:3px;width:'+c.nvP+'%;background:var(--nv);border-radius:99px;margin-top:2px"></div></td>'+
+        '<td class="pct un">'+c.unP+'%</td></tr>';}).join('')+'</tbody></table>';
   }
-};
+}
+function closeDrill(){document.getElementById('drill-ov').classList.remove('open');}
 
-// ── INIT: Show data immediately + fetch fresh ──────────
-ALL = SEED_DATA;
-renderAll();
-loadData();
-setInterval(loadData, 300000);
+// ── CATEGORY MODAL ───────────────────────────────────────────────
+var CAT_LABELS={va:'Value Added (VA)',bn:'Business Necessary (BNVA)',nv:'Non-Value Added (NVA)',un:'Unidentified Time'};
+var CAT_COLORS={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+function openCatModal(cat){
+  var d=filteredData(),col=CAT_COLORS[cat];
+  document.getElementById('cat-title').textContent=CAT_LABELS[cat];
+  document.getElementById('cat-title').style.color=col;
+  var body=document.getElementById('cat-body'),sub=document.getElementById('cat-sub');
+  if(cat==='un'){
+    var rows=d.map(function(r){var c=getMin(r);return{name:r.name,dept:r.department,date:r.date,un:c.un,unP:c.unP};}).sort(function(a,b){return b.un-a.un;});
+    var tot=rows.reduce(function(s,r){return s+r.un;},0);
+    sub.textContent=d.length+' submissions · '+tot+' min total unidentified';
+    body.innerHTML=rows.map(function(r){return '<div class="cat-item"><div><div class="cat-item-name"><strong>'+r.name+'</strong></div><div class="cat-item-sub">'+r.dept+' · '+r.date+'</div></div><div class="cat-item-time" style="color:'+col+'">'+r.un+' min ('+r.unP+'%)</div></div>';}).join('')+
+      '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+tot+' min</span></div>';
+  } else {
+    var colMap={va:'vaactivities',bn:'bnvaactivities',nv:'nvaactivities'};
+    var colKey=colMap[cat],actMap={},totalMins=0;
+    d.forEach(function(r){
+      var raw=r[colKey]||'';if(!raw)return;
+      raw.split('|').forEach(function(part){
+        part=part.trim();if(!part)return;
+        var bi=part.lastIndexOf('(');if(bi<0)return;
+        var name=part.slice(0,bi).trim(),mins=parseInt(part.slice(bi+1))||0;
+        if(!name)return;
+        if(!actMap[name])actMap[name]={mins:0,emps:[]};
+        actMap[name].mins+=mins;
+        if(actMap[name].emps.indexOf(r.name)<0)actMap[name].emps.push(r.name);
+        totalMins+=mins;
+      });
+    });
+    var acts=Object.keys(actMap).map(function(k){return{name:k,mins:actMap[k].mins,emps:actMap[k].emps};}).sort(function(a,b){return b.mins-a.mins;});
+    sub.textContent=acts.length+' activities · '+totalMins+' total minutes';
+    body.innerHTML=acts.length?acts.map(function(a){return '<div class="cat-item"><div><div class="cat-item-name">'+a.name+'</div><div class="cat-item-sub">'+a.emps.join(', ')+'</div></div><div class="cat-item-time" style="color:'+col+'">'+a.mins+' min</div></div>';}).join('')+'<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+totalMins+' min</span></div>':'<div class="empty">No activities logged yet.</div>';
+  }
+  document.getElementById('cat-ov').classList.add('open');
+}
+function closeCat(){document.getElementById('cat-ov').classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDrill();closeCat();}});
+
+// ── EXCEL DOWNLOAD ───────────────────────────────────────────────
+function dlExcel(){
+  var d=filteredData();
+  if(!d.length){alert('No data!');return;}
+  var names={},dates={};d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
+  var csv='IOTAFLOW ACTIVITY REPORT\nGenerated: '+new Date().toLocaleString('en-IN')+'\n\n';
+  csv+='Summary\nSubmissions,'+d.length+'\nEmployees,'+Object.keys(names).length+'\nDays,'+Object.keys(dates).length+'\nAvg VA,'+avgK(d,'vaP')+'%\nAvg BNVA,'+avgK(d,'bnP')+'%\nAvg NVA,'+avgK(d,'nvP')+'%\nAvg Unid,'+avgK(d,'unP')+'%\n\n';
+  csv+='Detail\nEmployee,Department,Date,VA min,BNVA min,NVA min,Unid min,VA%,BNVA%,NVA%,Unid%\n';
+  d.forEach(function(r){var c=getMin(r);csv+='"'+r.name+'","'+r.department+'",'+r.date+','+c.va+','+c.bn+','+c.nv+','+c.un+','+c.vaP+'%,'+c.bnP+'%,'+c.nvP+'%,'+c.unP+'%\n';});
+  dlCSV(csv,'Iotaflow_Report');
+}
+
+function dlProdCSV(){
+  var rows=[];
+  var map={};
+  ALL.forEach(function(r){var n=r.name;if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,dates:new Set()};var c=getMin(r);map[n].va+=c.va;map[n].bn+=c.bn;map[n].nv+=c.nv;map[n].dates.add(r.date);});
+  Object.values(map).forEach(function(e){
+    var days=e.dates.size,total=days*420,un=Math.max(0,total-e.va-e.bn-e.nv);
+    rows.push({name:e.name,dept:e.dept,days:days,total:total,va:e.va,vaP:(total>0?e.va/total*100:0).toFixed(2),bn:e.bn,bnP:(total>0?e.bn/total*100:0).toFixed(2),nv:e.nv,nvP:(total>0?e.nv/total*100:0).toFixed(2),un:un,unP:(total>0?un/total*100:0).toFixed(2)});
+  });
+  rows.sort(function(a,b){return parseFloat(b.vaP)-parseFloat(a.vaP);});
+  var csv='IOTAFLOW PRODUCTIVITY REPORT\nGenerated: '+new Date().toLocaleString('en-IN')+'\nLogic: Total Minutes = Days x 420 | % = (Category / Total) x 100\n\n';
+  csv+='Employee Name,Department,Days,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unidentified (min),Unidentified %\n';
+  rows.forEach(function(r){csv+='"'+r.name+'","'+r.dept+'",'+r.days+','+r.total+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.un+','+r.unP+'%\n';});
+  dlCSV(csv,'Iotaflow_Productivity');
+}
+
+function dlCSV(csv,name){
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download=name+'_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// ── EMBEDDED DATA (all 10 rows from Google Sheet) ───────────────
+var EMBEDDED = [
+  {name:"Dev",date:"2026-05-16",department:"IT Support",vatimemin:"78",bnvatimemin:"30",nvatimemin:"40",vaactivities:"First-visit resolution of hardware issues(23min)|Preventive hardware maintenance(55min)",bnvaactivities:"Antivirus and patch management(30min)",nvaactivities:"ERP modules paid for never implemented(40min)"},
+  {name:"Pushpa",date:"2026-05-18",department:"Marketing",vatimemin:"30",bnvatimemin:"20",nvatimemin:"137",vaactivities:"EPC and consultant approved vendor list pursuit(30min)",bnvaactivities:"Press release for significant events(20min)",nvaactivities:"Generic brochure with no application context(39min)|Budget spent with no measurable return tracked(46min)|Exhibition without post-event follow-up(52min)"},
+  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"20",bnvatimemin:"38",nvatimemin:"32",vaactivities:"ERP configuration matching actual process(20min)",bnvaactivities:"Antivirus and patch management(38min)",nvaactivities:"System access not ready on Day 1(20min)|No backup restoration test ever(12min)"},
+  {name:"Preeti",date:"2026-05-18",department:"Service / Post-Sales",vatimemin:"55",bnvatimemin:"65",nvatimemin:"50",vaactivities:"Installed base register with service history(35min)|First-visit resolution with right spares(20min)",bnvaactivities:"Service invoice raising(33min)|Service report with customer sign-off(32min)",nvaactivities:"Field visit without right spares(40min)|Failed components discarded without analysis(10min)"},
+  {name:"Pawan Kushwaha",date:"2026-05-18",department:"Product Design / BOM",vatimemin:"20",bnvatimemin:"15",nvatimemin:"10",vaactivities:"Cross-functional design review(20min)",bnvaactivities:"Document archiving with revision history(10min)|Statutory compliance documentation(5min)",nvaactivities:"Verbal instructions supplementing drawings(10min)"},
+  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"75",bnvatimemin:"20",nvatimemin:"60",vaactivities:"Root cause resolution of incidents(30min)|First-visit resolution of hardware issues(30min)|Network security and segregation(15min)",bnvaactivities:"Asset register maintenance(20min)",nvaactivities:"IT resolving symptom not root cause(60min)"},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"30",nvatimemin:"0",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams(30min)",nvaactivities:""},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(30min)|Creating engaging video content(60min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(60min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"0",nvatimemin:"99",vaactivities:"",bnvaactivities:"",nvaactivities:"Excessive scrolling(20min)|Exporting same video multiple times(20min)|Waiting for approvals(19min)|Re-editing videos(20min)|Searching for missing footage(20min)"}
+];
+
+// ── INIT ─────────────────────────────────────────────────────────
+// Wait for DOM then load data
+window.addEventListener('DOMContentLoaded', function(){
+  // Load embedded data immediately - no network needed
+  ALL = EMBEDDED;
+  renderAll();
+  renderProd();
+  document.getElementById('tb-up').textContent = 'Showing ' + ALL.length + ' cached rows — click Refresh for latest';
+  // Try to load fresh data after 2 seconds (non-blocking)
+  setTimeout(function(){
+    loadData();
+  }, 2000);
+  setInterval(loadData, 300000);
+});
 </script>
 </body>
 </html>
