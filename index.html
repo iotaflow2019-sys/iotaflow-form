@@ -158,8 +158,9 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           <select id="fname"><option value="">-- Naam chunein --</option></select>
         </div>
         <div class="field">
-          <label>Date *</label>
-          <input type="date" id="fdate"/>
+          <label>Date (Auto)</label>
+          <div id="fdate-display" style="background:var(--sf2);border:1px solid var(--br);border-radius:var(--rs);padding:11px 13px;font-family:var(--mono);font-size:14px;color:var(--tx);font-weight:500;"></div>
+          <input type="hidden" id="fdate"/>
         </div>
       </div>
     </div>
@@ -237,6 +238,29 @@ var EMPLOYEES={
   service:["Avinash","Lavlesh","Pawan Arya","Pradeep","Preeti","Roshan Gupta","Roze Ali"],
   sales:["Gagan","Ekta Shah","Fahim Mansuri","Gargee Mridha","Gufran Shaikh","Minaxi","Nitesh Kumar Jha","Rathi Devi","Shobika","Suraj Borate","Rajeev Kalra","Priyanka"],
   marketing:["Akash","Pushpa","Vipul"]
+};
+
+// Name → Department mapping (from Excel)
+var NAME_TO_DEPT = {
+  "Aditya":"purchase","Akash":"marketing","Avinash":"service",
+  "Barun Kr. Dey":"accounts","Dev":"it","Gagan":"sales",
+  "Kartik Wahi":"accounts","Ekta Shah":"sales","Fahim Mansuri":"sales",
+  "Gargee Mridha":"sales","Gufran Shaikh":"sales","Lavlesh":"service",
+  "Minaxi":"sales","Nitesh Kumar Jha":"sales","Rathi Devi":"sales",
+  "Shobika":"sales","Suraj Borate":"sales","Mehvish Khan":"hr",
+  "Mukul":"purchase","Naveen Pandey":"store","Neha Dutta":"purchase",
+  "Parvinder":"store","Pawan Arya":"service","Pawan Kushwaha":"design",
+  "Pradeep":"service","Preeti":"service","Priyanka":"sales",
+  "Pushpa":"marketing","Rajeev Kalra":"sales","Resham":"hr",
+  "Roshan Gupta":"service","Roze Ali":"service","Rupesh Tiwari":"store",
+  "Shailesh Yadav":"design","Vipul":"marketing"
+};
+
+// Dept key → button text mapping
+var DEPT_BTN = {
+  "accounts":"Accounts","hr":"HR & Admin","it":"IT",
+  "purchase":"Purchase","store":"Store","design":"Design",
+  "service":"Service","sales":"Sales & CRM","marketing":"Marketing"
 };
 
 var DEPTS={
@@ -486,10 +510,32 @@ allEmps.forEach(function(n){
   var o=document.createElement("option");o.value=n;o.textContent=n;selEl.appendChild(o);
 });
 
-// Set today
+// Auto-select department when name chosen
+selEl.addEventListener("change",function(){
+  var name=this.value;
+  if(!name)return;
+  var deptKey=NAME_TO_DEPT[name];
+  if(!deptKey)return;
+  // Click the matching dept button
+  var btns=document.querySelectorAll(".dbtn");
+  for(var i=0;i<btns.length;i++){
+    var oc=btns[i].getAttribute("onclick")||"";
+    if(oc.indexOf("'"+deptKey+"'")>-1){
+      btns[i].click();
+      return;
+    }
+  }
+});
+
+// Set today - display only, no picker
 (function(){
   var d=new Date();
-  document.getElementById("fdate").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  var yyyy=d.getFullYear();
+  var mm=String(d.getMonth()+1).padStart(2,"0");
+  var dd=String(d.getDate()).padStart(2,"0");
+  document.getElementById("fdate").value=yyyy+"-"+mm+"-"+dd;
+  var disp=document.getElementById("fdate-display");
+  if(disp) disp.textContent="📅  "+dd+"/"+mm+"/"+yyyy+" (Today)";
 })();
 
 var curDept=null,selected={};
@@ -499,17 +545,6 @@ function pickDept(key,btn){
   btn.classList.add("on");
   curDept=key;selected={};
   buildList(key);
-  // Filter employees by dept
-  var dEmps=EMPLOYEES[key]||[];
-  var sEl=document.getElementById("fname");
-  var cur=sEl.value;
-  sEl.innerHTML="<option value=''>-- Naam chunein --</option>";
-  var list=dEmps.length>0?dEmps.slice().sort():allEmps;
-  list.forEach(function(n){
-    var o=document.createElement("option");o.value=n;o.textContent=n;
-    if(n===cur)o.selected=true;
-    sEl.appendChild(o);
-  });
   updateBar();
 }
 
@@ -577,12 +612,6 @@ function resetDept(){
   document.getElementById("sbar").classList.remove("show");
   document.querySelectorAll(".dbtn").forEach(function(b){b.classList.remove("on");});
   curDept=null;updateBar();
-  var sEl=document.getElementById("fname"),cur=sEl.value;
-  sEl.innerHTML="<option value=''>-- Naam chunein --</option>";
-  allEmps.forEach(function(n){
-    var o=document.createElement("option");o.value=n;o.textContent=n;
-    if(n===cur)o.selected=true;sEl.appendChild(o);
-  });
 }
 
 function resetAll(){
@@ -591,7 +620,10 @@ function resetAll(){
   document.getElementById("fname").value="";
   document.getElementById("whours").value="";
   var d=new Date();
-  document.getElementById("fdate").value=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  var yyyy=d.getFullYear(),mm=String(d.getMonth()+1).padStart(2,"0"),dd=String(d.getDate()).padStart(2,"0");
+  document.getElementById("fdate").value=yyyy+"-"+mm+"-"+dd;
+  var disp=document.getElementById("fdate-display");
+  if(disp)disp.textContent="📅  "+dd+"/"+mm+"/"+yyyy+" (Today)";
   resetDept();window.scrollTo({top:0,behavior:"smooth"});
 }
 
