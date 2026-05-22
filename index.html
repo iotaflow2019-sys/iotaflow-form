@@ -611,36 +611,58 @@ function togAct(id,cat,txt){
 function totalMins(){var t=0;for(var k in selected)t+=(selected[k].mins||0);return t;}
 function selCount(){return Object.keys(selected).length;}
 function updateBar(){
-  var n=selCount(),m=totalMins(),h=Math.floor(m/60),mn=m%60;
-  var td=h>0?h+"h "+mn+"m":m+"min";
-  var remaining=420-m;
-  document.getElementById("seln").textContent=n;
-  document.getElementById("seln2").textContent=n;
-  document.getElementById("seltime").textContent=td;
-  document.getElementById("acttime").textContent=m>0?td:"0 min";
-  // Update progress bar
-  var prog=document.getElementById("time-progress");
+  var n=selCount(), m=totalMins(), h=Math.floor(m/60), mn=m%60;
+  var td = h>0 ? h+"h "+mn+"m" : m+"min";
+
+  // Get already-submitted time today from localStorage
+  var name = document.getElementById("fname").value.trim();
+  var date = document.getElementById("fdate").value;
+  var storageKey = "iotaflow_" + name.replace(/\s+/g,'_') + "_" + date;
+  var usedMins = name ? (parseInt(localStorage.getItem(storageKey)||"0")) : 0;
+  var totalToday = usedMins + m;
+  var remaining = 420 - usedMins;
+
+  document.getElementById("seln").textContent = n;
+  document.getElementById("seln2").textContent = n;
+  document.getElementById("seltime").textContent = td;
+  document.getElementById("acttime").textContent = m>0 ? td : "0 min";
+
+  // Progress bar — based on total today (already submitted + this form)
+  var prog = document.getElementById("time-progress");
   if(prog){
-    var pct=Math.min(m/420*100,100);
-    prog.style.width=pct+"%";
-    if(m>420) prog.style.background="var(--nv)";
-    else if(m>350) prog.style.background="var(--bn)";
-    else prog.style.background="var(--va)";
+    var pct = Math.min(totalToday/420*100, 100);
+    prog.style.width = pct+"%";
+    prog.style.background = totalToday>420 ? "var(--nv)" : totalToday>350 ? "var(--bn)" : "var(--va)";
   }
-  
-  // Show warning if over 420
-  var warnEl=document.getElementById("time-warning");
-  var submitBtn=document.getElementById("gobtn");
-  if(m>420){
-    if(warnEl){warnEl.style.display="flex";warnEl.querySelector(".warn-txt").textContent="⚠️ Total "+m+" min ho gaya — 420 min se zyada! Kuch activities ka time kam karo. ("+Math.abs(remaining)+" min zyada)";}
-    if(submitBtn){submitBtn.disabled=true;submitBtn.style.opacity="0.4";}
-  } else if(m>0 && m<=420){
-    if(warnEl){warnEl.style.display=remaining<=60?"flex":"none";
-      if(remaining<=60)warnEl.querySelector(".warn-txt").textContent="ℹ️ "+remaining+" min bacha hai aaj ke 420 min mein se.";}
-    if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity="";}
+
+  // Warning message
+  var warnEl  = document.getElementById("time-warning");
+  var submitBtn = document.getElementById("gobtn");
+
+  if(totalToday > 420){
+    var over = totalToday - 420;
+    if(warnEl){
+      warnEl.style.display="flex";
+      warnEl.querySelector(".warn-txt").textContent =
+        "⚠️ Aaj pehle se "+usedMins+" min submit hai. Is form mein "+m+" min aur — total "+totalToday+" min ho jaayega ("+over+" min zyada)! Time kam karo.";
+    }
+    if(submitBtn){submitBtn.disabled=true; submitBtn.style.opacity="0.4";}
+  } else if(usedMins > 0 && m > 0){
+    if(warnEl){
+      warnEl.style.display = "flex";
+      warnEl.querySelector(".warn-txt").textContent =
+        "ℹ️ Aaj pehle se "+usedMins+" min submit hai. Is form ke baad total: "+totalToday+" min. Bacha: "+(420-totalToday)+" min.";
+    }
+    if(submitBtn){submitBtn.disabled=false; submitBtn.style.opacity="";}
+  } else if(m > 420){
+    if(warnEl){
+      warnEl.style.display="flex";
+      warnEl.querySelector(".warn-txt").textContent = "⚠️ Is form mein hi "+m+" min — 420 se zyada! Time kam karo.";
+    }
+    if(submitBtn){submitBtn.disabled=true; submitBtn.style.opacity="0.4";}
   } else {
-    if(warnEl)warnEl.style.display="none";
-    if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity="";}
+    if(warnEl) warnEl.style.display="none";
+    if(submitBtn){submitBtn.disabled=false; submitBtn.style.opacity="";}
   }
 }
 
@@ -668,75 +690,80 @@ function resetAll(){
 }
 
 function doSubmit(){
-  var name=document.getElementById("fname").value.trim();
-  var date=document.getElementById("fdate").value;
-  var wh=document.getElementById("whours").value;
+  var name = document.getElementById("fname").value.trim();
+  var date = document.getElementById("fdate").value;
+  var wh   = document.getElementById("whours").value;
+
   if(!name){showToast("Apna naam select karein!");return;}
   if(!curDept){showToast("Department select karein!");return;}
   if(!selCount()){showToast("Koi activity select nahi ki!");return;}
-  if(totalMins()>420){showToast("420 min se zyada! Pehle time kam karo.");return;}
 
-  // Check previous submissions for today from Google Sheet
-  var btn=document.getElementById("gobtn");
-  btn.disabled=true;
-  btn.innerHTML="<span class='spin'></span>Checking...";
+  var thisMins = totalMins();
 
-  var checkUrl=SCRIPT_URL+"?action=checktime&name="+encodeURIComponent(name)+"&date="+date+"&t="+Date.now();
-  fetch(checkUrl)
-    .then(function(r){return r.json();})
-    .then(function(json){
-      var usedMins=json.usedMins||0;
-      var remaining=json.remaining||420;
-      var thisMins=totalMins();
-      if(usedMins+thisMins > 420){
-        var over=(usedMins+thisMins)-420;
-        showToast("Aaj pehle se "+usedMins+" min submit hai! Sirf "+remaining+" min bache hain. "+over+" min zyada hai.");
-        btn.disabled=false;btn.textContent="Submit →";
-        return;
-      }
-      // All good - proceed with submission
-      proceedSubmit(name,date,wh,btn);
-    })
-    .catch(function(){
-      // If check fails, allow submission (network error)
-      proceedSubmit(name,date,wh,btn);
-    });
-}
+  // Check localStorage for today's already-submitted minutes
+  var storageKey = "iotaflow_" + name.replace(/\s+/g,'_') + "_" + date;
+  var usedMins   = parseInt(localStorage.getItem(storageKey) || "0");
+  var remaining  = 420 - usedMins;
 
-function proceedSubmit(name,date,wh,btn){
+  if(thisMins > 420){
+    showToast("Yeh submission mein hi 420 min se zyada hai! Kam karo.");
+    return;
+  }
+  if(usedMins + thisMins > 420){
+    showToast("Aaj pehle se " + usedMins + " min submit hai. Sirf " + remaining + " min bache hain!");
+    return;
+  }
+
+  var btn = document.getElementById("gobtn");
+  btn.disabled = true;
+  btn.innerHTML = "<span class='spin'></span>Saving...";
+
   var va=[],bnva=[],nva=[],vam=0,bnvam=0,nvm=0;
   for(var id in selected){
-    var s=selected[id],entry=s.text+"("+s.mins+"min)";
+    var s=selected[id], entry=s.text+"("+s.mins+"min)";
     if(s.cat==="VA"){va.push(entry);vam+=s.mins;}
     else if(s.cat==="BNVA"){bnva.push(entry);bnvam+=s.mins;}
     else{nva.push(entry);nvm+=s.mins;}
   }
-  var tot=va.length+bnva.length+nva.length,tam=vam+bnvam+nvm;
-  var vap=Math.round(va.length/tot*100),bp=Math.round(bnva.length/tot*100),np=100-vap-bp;
-  var payload={timestamp:new Date().toISOString(),name:name,date:date,department:DEPTS[curDept].name,
-    totalActivities:tot,vaCount:va.length,bnvaCount:bnva.length,nvaCount:nva.length,
-    vaPercent:vap,bnvaPercent:bp,nvaPercent:np,vaMins:vam,bnvaMins:bnvam,nvaMins:nvm,
-    totalActivityMins:tam,totalWorkHours:wh||"",
-    vaActivities:va.join(" | "),bnvaActivities:bnva.join(" | "),nvaActivities:nva.join(" | ")};
-  var btn=document.getElementById("gobtn");btn.disabled=true;
-  btn.innerHTML="<span class='spin'></span>Saving...";
+  var tot=va.length+bnva.length+nva.length, tam=vam+bnvam+nvm;
+  var vap=Math.round(va.length/tot*100), bp=Math.round(bnva.length/tot*100), np=100-vap-bp;
+
+  var payload={
+    timestamp:new Date().toISOString(), name:name, date:date,
+    department:DEPTS[curDept].name, totalActivities:tot,
+    vaCount:va.length, bnvaCount:bnva.length, nvaCount:nva.length,
+    vaPercent:vap, bnvaPercent:bp, nvaPercent:np,
+    vaMins:vam, bnvaMins:bnvam, nvaMins:nvm,
+    totalActivityMins:tam, totalWorkHours:wh||"",
+    vaActivities:va.join(" | "), bnvaActivities:bnva.join(" | "), nvaActivities:nva.join(" | ")
+  };
+
   fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:JSON.stringify(payload)})
-    .catch(function(){}).finally(function(){
-      var h=Math.floor(tam/60),m=tam%60,td=h>0?h+" hr "+m+" min":tam+" min";
+    .catch(function(){})
+    .finally(function(){
+      // Save used minutes in localStorage
+      var newTotal = usedMins + tam;
+      localStorage.setItem(storageKey, newTotal);
+
+      // Show remaining
+      var leftMins = 420 - newTotal;
+      var h=Math.floor(tam/60), m=tam%60, td=h>0?h+" hr "+m+" min":tam+" min";
       document.getElementById("okcard").innerHTML=
         "<div class='okrow'><span>Naam</span><strong>"+name+"</strong></div>"+
         "<div class='okrow'><span>Department</span><strong>"+DEPTS[curDept].name+"</strong></div>"+
         "<div class='okrow'><span>Date</span><strong>"+date+"</strong></div>"+
-        "<div class='okrow'><span>Activities logged</span><strong>"+tot+"</strong></div>"+
-        "<div class='okrow'><span>Activity time</span><strong>"+td+"</strong></div>"+
-        (wh?"<div class='okrow'><span>Work hours</span><strong>"+wh+" hrs</strong></div>":"");
+        "<div class='okrow'><span>Is submission ka time</span><strong>"+td+"</strong></div>"+
+        "<div class='okrow'><span>Aaj total submit</span><strong>"+newTotal+" min</strong></div>"+
+        "<div class='okrow'><span>Aaj bacha hua time</span><strong style='color:"+(leftMins<=0?"#dc2626":"#059669")+"'>"+Math.max(0,leftMins)+" min</strong></div>";
+
       document.getElementById("fscreen").style.display="none";
       document.getElementById("sbar").classList.remove("show");
       document.getElementById("ok").classList.add("show");
       window.scrollTo({top:0,behavior:"smooth"});
-      btn.disabled=false;btn.textContent="Submit →";
+      btn.disabled=false; btn.textContent="Submit →";
     });
 }
+
 
 function showToast(m){
   var t=document.getElementById("toast");t.textContent=m;t.classList.add("on");
