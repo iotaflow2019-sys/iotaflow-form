@@ -194,9 +194,17 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
             <label style="font-size:12px;color:var(--mu);font-weight:500;margin-bottom:5px;">Aaj total kitne ghante kaam kiya</label>
             <input type="number" id="whours" min="1" max="14" step="0.5" placeholder="e.g. 8"/>
           </div>
-          <div class="tot-display">
-            <span>Activities ka total</span>
-            <span class="totval" id="acttime">0 min</span>
+          <div class="tot-display" style="flex-direction:column;gap:4px;align-items:stretch;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span>Activities ka total</span>
+              <span class="totval" id="acttime">0 min</span>
+            </div>
+            <div style="height:5px;border-radius:99px;background:var(--bg2);overflow:hidden;">
+              <div id="time-progress" style="height:5px;border-radius:99px;background:var(--va);transition:width .4s,background .3s;width:0%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--mu);">
+              <span>0 min</span><span>420 min (1 din)</span>
+            </div>
           </div>
         </div>
       </div>
@@ -213,6 +221,13 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
       <div class="okcard" id="okcard"></div>
       <button class="okbtn" onclick="resetAll()">Nayi Entry Karein</button>
     </div>
+  </div>
+</div>
+
+<!-- 420 min warning -->
+<div id="time-warning" style="display:none;position:fixed;bottom:70px;left:0;right:0;z-index:98;padding:0 16px;">
+  <div style="max-width:600px;margin:0 auto;background:#fff3cd;border:1px solid #f59e0b;border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,.1);">
+    <span class="warn-txt" style="font-size:13px;font-weight:500;color:#92400e;flex:1;"></span>
   </div>
 </div>
 
@@ -598,10 +613,35 @@ function selCount(){return Object.keys(selected).length;}
 function updateBar(){
   var n=selCount(),m=totalMins(),h=Math.floor(m/60),mn=m%60;
   var td=h>0?h+"h "+mn+"m":m+"min";
+  var remaining=420-m;
   document.getElementById("seln").textContent=n;
   document.getElementById("seln2").textContent=n;
   document.getElementById("seltime").textContent=td;
   document.getElementById("acttime").textContent=m>0?td:"0 min";
+  // Update progress bar
+  var prog=document.getElementById("time-progress");
+  if(prog){
+    var pct=Math.min(m/420*100,100);
+    prog.style.width=pct+"%";
+    if(m>420) prog.style.background="var(--nv)";
+    else if(m>350) prog.style.background="var(--bn)";
+    else prog.style.background="var(--va)";
+  }
+  
+  // Show warning if over 420
+  var warnEl=document.getElementById("time-warning");
+  var submitBtn=document.getElementById("gobtn");
+  if(m>420){
+    if(warnEl){warnEl.style.display="flex";warnEl.querySelector(".warn-txt").textContent="⚠️ Total "+m+" min ho gaya — 420 min se zyada! Kuch activities ka time kam karo. ("+Math.abs(remaining)+" min zyada)";}
+    if(submitBtn){submitBtn.disabled=true;submitBtn.style.opacity="0.4";}
+  } else if(m>0 && m<=420){
+    if(warnEl){warnEl.style.display=remaining<=60?"flex":"none";
+      if(remaining<=60)warnEl.querySelector(".warn-txt").textContent="ℹ️ "+remaining+" min bacha hai aaj ke 420 min mein se.";}
+    if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity="";}
+  } else {
+    if(warnEl)warnEl.style.display="none";
+    if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity="";}
+  }
 }
 
 function resetDept(){
@@ -634,6 +674,36 @@ function doSubmit(){
   if(!name){showToast("Apna naam select karein!");return;}
   if(!curDept){showToast("Department select karein!");return;}
   if(!selCount()){showToast("Koi activity select nahi ki!");return;}
+  if(totalMins()>420){showToast("420 min se zyada! Pehle time kam karo.");return;}
+
+  // Check previous submissions for today from Google Sheet
+  var btn=document.getElementById("gobtn");
+  btn.disabled=true;
+  btn.innerHTML="<span class='spin'></span>Checking...";
+
+  var checkUrl=SCRIPT_URL+"?action=checktime&name="+encodeURIComponent(name)+"&date="+date+"&t="+Date.now();
+  fetch(checkUrl)
+    .then(function(r){return r.json();})
+    .then(function(json){
+      var usedMins=json.usedMins||0;
+      var remaining=json.remaining||420;
+      var thisMins=totalMins();
+      if(usedMins+thisMins > 420){
+        var over=(usedMins+thisMins)-420;
+        showToast("Aaj pehle se "+usedMins+" min submit hai! Sirf "+remaining+" min bache hain. "+over+" min zyada hai.");
+        btn.disabled=false;btn.textContent="Submit →";
+        return;
+      }
+      // All good - proceed with submission
+      proceedSubmit(name,date,wh,btn);
+    })
+    .catch(function(){
+      // If check fails, allow submission (network error)
+      proceedSubmit(name,date,wh,btn);
+    });
+}
+
+function proceedSubmit(name,date,wh,btn){
   var va=[],bnva=[],nva=[],vam=0,bnvam=0,nvm=0;
   for(var id in selected){
     var s=selected[id],entry=s.text+"("+s.mins+"min)";
