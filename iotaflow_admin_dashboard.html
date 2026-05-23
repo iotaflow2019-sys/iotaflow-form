@@ -556,18 +556,7 @@ function getC(n){if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length];re
 function ini(n){var p=(n||'').trim().split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase();}
 
 // EMBEDDED DATA — all rows from Google Sheet
-var EMBEDDED=[
-  {name:"Dev",date:"2026-05-16",department:"IT Support",vatimemin:"78",bnvatimemin:"30",nvatimemin:"40",vaactivities:"First-visit resolution of hardware issues(23min)|Preventive hardware maintenance(55min)",bnvaactivities:"Antivirus and patch management(30min)",nvaactivities:"ERP modules paid for never implemented(40min)"},
-  {name:"Pushpa",date:"2026-05-18",department:"Marketing",vatimemin:"30",bnvatimemin:"20",nvatimemin:"137",vaactivities:"EPC and consultant approved vendor list pursuit(30min)",bnvaactivities:"Press release for significant events(20min)",nvaactivities:"Generic brochure with no application context(39min)|Budget spent with no measurable return(46min)|Exhibition without post-event follow-up(52min)"},
-  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"20",bnvatimemin:"38",nvatimemin:"32",vaactivities:"ERP configuration matching actual process(20min)",bnvaactivities:"Antivirus and patch management(38min)",nvaactivities:"System access not ready on Day 1(20min)|No backup restoration test ever(12min)"},
-  {name:"Preeti",date:"2026-05-18",department:"Service / Post-Sales",vatimemin:"55",bnvatimemin:"65",nvatimemin:"50",vaactivities:"Installed base register with service history(35min)|First-visit resolution with right spares(20min)",bnvaactivities:"Service invoice raising(33min)|Service report with customer sign-off(32min)",nvaactivities:"Field visit without right spares(40min)|Failed components discarded without analysis(10min)"},
-  {name:"Pawan Kushwaha",date:"2026-05-18",department:"Product Design / BOM",vatimemin:"20",bnvatimemin:"15",nvatimemin:"10",vaactivities:"Cross-functional design review(20min)",bnvaactivities:"Document archiving with revision history(10min)|Statutory compliance documentation(5min)",nvaactivities:"Verbal instructions supplementing drawings(10min)"},
-  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"75",bnvatimemin:"20",nvatimemin:"60",vaactivities:"Root cause resolution of incidents(30min)|First-visit resolution of hardware issues(30min)|Network security and segregation(15min)",bnvaactivities:"Asset register maintenance(20min)",nvaactivities:"IT resolving symptom not root cause(60min)"},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"30",nvatimemin:"0",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams(30min)",nvaactivities:""},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(30min)|Creating engaging video content(60min)",bnvaactivities:"",nvaactivities:""},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(60min)",bnvaactivities:"",nvaactivities:""},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"0",nvatimemin:"99",vaactivities:"",bnvaactivities:"",nvaactivities:"Excessive scrolling(20min)|Exporting same video multiple times(20min)|Waiting for approvals(19min)|Re-editing videos(20min)|Searching for missing footage(20min)"}
-];
+var EMBEDDED=[];
 
 // VIEW
 function showView(id,btn){
@@ -1222,7 +1211,7 @@ ALL = EMBEDDED;
 renderAll();
 renderProd();
 renderMinutes();
-document.getElementById('tb-up').textContent = 'Showing ' + ALL.length + ' rows — Refresh for latest';
+document.getElementById('tb-up').textContent = 'Koi data nahi — employees se form bharo!';
 setTimeout(loadData, 2000);
 setInterval(loadData, 300000);
 </script>
