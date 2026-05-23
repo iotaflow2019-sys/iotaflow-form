@@ -245,6 +245,13 @@ tr:hover .row-arr{color:var(--bn);}
     <button class="s-btn" onclick="showView('guide',this)"><div class="s-ico" style="background:#f0fdf4">💡</div><span>Dashboard Guide</span></button>
   </div>
   <div class="s-bottom">
+    <!-- Quick Employee Search -->
+    <div style="margin-bottom:8px;">
+      <div style="font-size:10px;font-weight:700;color:var(--mu2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;">Quick Search</div>
+      <select id="emp-quick-search" onchange="quickEmpSearch(this.value)" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:7px 10px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+        <option value="">🔍 Employee search...</option>
+      </select>
+    </div>
     <button class="s-refresh" onclick="loadData()">↻ <span>Refresh</span></button>
     <a class="s-link" href="https://iotaflow2019-sys.github.io/iotaflow-form/" target="_blank"><div class="s-dot" style="background:var(--va)"></div><span>Employee Form</span></a>
     <a class="s-link" href="https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit" target="_blank"><div class="s-dot" style="background:var(--bn)"></div><span>Google Sheet</span></a>
@@ -581,6 +588,7 @@ function loadData(){
         document.getElementById('tb-up').textContent='Live · '+now+' · '+ALL.length+' rows';
         document.getElementById('s-time').textContent='Synced '+now;
         renderAll();
+        populateQuickSearch();
         if(document.getElementById('view-productivity').classList.contains('active'))renderProd();
         if(document.getElementById('view-minutes').classList.contains('active'))renderMinutes();
       } else {
@@ -1206,11 +1214,181 @@ function dlDetailPPT(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
+// DRILL PANEL
+var drillN='';
+function openDrill(name){
+  if(!name)return;
+  var d=filteredData().filter(function(r){return r.name===name;});
+  if(!d.length)return;
+  drillN=name;
+  var col=getC(name);
+  document.getElementById('d-av').textContent=ini(name);
+  document.getElementById('d-av').style.background=col;
+  document.getElementById('d-name').textContent=name;
+  document.getElementById('d-dept').textContent=d[0].department||'';
+  document.getElementById('drill-ov').classList.add('open');
+  document.querySelectorAll('.drill-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelector('.drill-tab').classList.add('active');
+  renderDrillTab('summary',d);
+}
+function dTab(tab,btn){
+  document.querySelectorAll('.drill-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  renderDrillTab(tab,filteredData().filter(function(r){return r.name===drillN;}));
+}
+function renderDrillTab(tab,rows){
+  var body=document.getElementById('drill-body'),col=getC(drillN);
+  if(tab==='summary'){
+    var tot={va:0,bn:0,nv:0};
+    rows.forEach(function(r){var c=getMin(r);tot.va+=c.va;tot.bn+=c.bn;tot.nv+=c.nv;});
+    var datesArr=[];
+    rows.forEach(function(r){if(r.date&&datesArr.indexOf(r.date)<0)datesArr.push(r.date);});
+    var days=datesArr.length||rows.length;
+    var totalMin=days*420;
+    var unTotal=Math.max(0,totalMin-tot.va-tot.bn-tot.nv);
+    var aVA=totalMin>0?(tot.va/totalMin*100).toFixed(2):'0.00';
+    var aBN=totalMin>0?(tot.bn/totalMin*100).toFixed(2):'0.00';
+    var aNV=totalMin>0?(tot.nv/totalMin*100).toFixed(2):'0.00';
+    var aUN=totalMin>0?(unTotal/totalMin*100).toFixed(2):'0.00';
+    body.innerHTML=
+      '<div class="drill-sum-grid">'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Days</div><div class="drill-sum-val" style="color:'+col+'">'+days+'</div><div class="drill-sum-sub">'+rows.length+' submissions</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg VA</div><div class="drill-sum-val" style="color:var(--va)">'+aVA+'%</div><div class="drill-sum-sub">'+tot.va+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg NVA</div><div class="drill-sum-val" style="color:var(--nv)">'+aNV+'%</div><div class="drill-sum-sub">'+tot.nv+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Unidentified</div><div class="drill-sum-val" style="color:var(--un)">'+aUN+'%</div><div class="drill-sum-sub">'+unTotal+' min</div></div>'+
+      '</div>'+
+      '<div class="drill-stack-wrap">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">'+days+' days × 420 min</div>'+
+        '<div class="drill-stack">'+
+          '<div class="drill-seg va" style="width:'+aVA+'%"></div>'+
+          '<div class="drill-seg bn" style="width:'+aBN+'%"></div>'+
+          '<div class="drill-seg nv" style="width:'+aNV+'%"></div>'+
+          '<div class="drill-seg un" style="width:'+aUN+'%"></div>'+
+        '</div>'+
+        '<div class="drill-leg">'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--va)"></div>VA '+aVA+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--bn)"></div>BNVA '+aBN+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--nv)"></div>NVA '+aNV+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--un)"></div>Unid '+aUN+'%</div>'+
+        '</div>'+
+      '</div>';
+  } else {
+    var sorted=rows.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+    body.innerHTML='<table class="day-tbl"><thead><tr>'+
+      '<th>Date</th><th>VA min</th><th>BNVA min</th><th>NVA min</th><th>Unid</th><th>VA%</th><th>NVA%</th>'+
+      '</tr></thead><tbody>'+
+      sorted.map(function(r){var c=getMin(r);return '<tr>'+
+        '<td style="font-family:var(--mono);font-size:11px">'+r.date+'</td>'+
+        '<td><span style="color:var(--va);font-weight:600;font-family:var(--mono)">'+c.va+'</span></td>'+
+        '<td><span style="color:var(--bn);font-weight:600;font-family:var(--mono)">'+c.bn+'</span></td>'+
+        '<td><span style="color:var(--nv);font-weight:600;font-family:var(--mono)">'+c.nv+'</span></td>'+
+        '<td><span style="color:var(--un);font-weight:600;font-family:var(--mono)">'+c.un+'</span></td>'+
+        '<td class="pct va">'+c.vaP+'%</td>'+
+        '<td class="pct nv">'+c.nvP+'%</td>'+
+      '</tr>';}).join('')+
+    '</tbody></table>';
+  }
+}
+function closeDrill(){document.getElementById('drill-ov').classList.remove('open');}
+
+// CATEGORY MODAL
+var CAT_LABELS={va:'Value Added (VA)',bn:'Business Necessary (BNVA)',nv:'Non-Value Added (NVA)',un:'Unidentified'};
+var CAT_COLORS={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+function openCatModal(cat){
+  var d=filteredData(),col=CAT_COLORS[cat];
+  document.getElementById('cat-title').textContent=CAT_LABELS[cat];
+  document.getElementById('cat-title').style.color=col;
+  var body=document.getElementById('cat-body'),sub=document.getElementById('cat-sub');
+  if(cat==='un'){
+    var rows=d.map(function(r){var c=getMin(r);return{name:r.name,dept:r.department,date:r.date,un:c.un,unP:c.unP};}).sort(function(a,b){return b.un-a.un;});
+    var tot=rows.reduce(function(s,r){return s+r.un;},0);
+    sub.textContent=d.length+' submissions · '+tot+' min total';
+    body.innerHTML=rows.map(function(r){return '<div class="cat-item"><div><div class="cat-item-name"><strong>'+r.name+'</strong></div><div class="cat-item-sub">'+r.dept+' · '+r.date+'</div></div><div class="cat-item-time" style="color:'+col+'">'+r.un+' min ('+r.unP+'%)</div></div>';}).join('')+
+      '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+tot+' min</span></div>';
+  } else {
+    var colMap={va:'vaactivities',bn:'bnvaactivities',nv:'nvaactivities'};
+    var colKey=colMap[cat],actMap={},totalMins=0;
+    d.forEach(function(r){
+      var raw=r[colKey]||'';if(!raw)return;
+      raw.split('|').forEach(function(part){
+        part=part.trim();if(!part)return;
+        var bi=part.lastIndexOf('(');if(bi<0)return;
+        var name=part.slice(0,bi).trim(),mins=parseInt(part.slice(bi+1))||0;
+        if(!name)return;
+        if(!actMap[name])actMap[name]={mins:0,emps:[]};
+        actMap[name].mins+=mins;if(actMap[name].emps.indexOf(r.name)<0)actMap[name].emps.push(r.name);
+        totalMins+=mins;
+      });
+    });
+    var acts=Object.keys(actMap).map(function(k){return{name:k,mins:actMap[k].mins,emps:actMap[k].emps};}).sort(function(a,b){return b.mins-a.mins;});
+    sub.textContent=acts.length+' activities · '+totalMins+' min total';
+    body.innerHTML=acts.length?acts.map(function(a){return '<div class="cat-item"><div><div class="cat-item-name">'+a.name+'</div><div class="cat-item-sub">'+a.emps.join(', ')+'</div></div><div class="cat-item-time" style="color:'+col+'">'+a.mins+' min</div></div>';}).join('')+
+      '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+totalMins+' min</span></div>'
+      :'<div class="empty">No activities logged yet.</div>';
+  }
+  document.getElementById('cat-ov').classList.add('open');
+}
+function closeCat(){document.getElementById('cat-ov').classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDrill();closeCat();}});
+
+// EXCEL
+function dlExcel(){
+  var d=filteredData();if(!d.length){alert('No data!');return;}
+  var names={},dates={};d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
+  var lines=['IOTAFLOW ACTIVITY REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Submissions,'+d.length,'Employees,'+Object.keys(names).length,'Days,'+Object.keys(dates).length,'',
+    'Employee,Department,Date,VA min,BNVA min,NVA min,Unid min,VA%,BNVA%,NVA%,Unid%'];
+  d.forEach(function(r){var c=getMin(r);lines.push('"'+r.name+'","'+(r.department||'')+'",'+r.date+','+c.va+','+c.bn+','+c.nv+','+c.un+','+c.vaP+'%,'+c.bnP+'%,'+c.nvP+'%,'+c.unP+'%');});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function dlProdCSV(){
+  var rows=prodGetRows();if(!rows.length){alert('No data!');return;}
+  var lines=['IOTAFLOW PRODUCTIVITY REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Employee,Department,Days,Forms,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unid (min),Unid %'];
+  rows.forEach(function(r){lines.push('"'+r.name+'","'+r.dept+'",'+r.days+','+r.subs+','+r.total+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.un+','+r.unP+'%');});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Productivity_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// QUICK EMPLOYEE SEARCH
+function quickEmpSearch(name){
+  if(!name) return;
+  // Switch to employees view and open drill panel
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById('view-employees').classList.add('active');
+  document.querySelectorAll('.s-btn').forEach(function(b){ b.classList.remove('active'); });
+  renderAll();
+  setTimeout(function(){ openDrill(name); }, 100);
+  // Reset select
+  document.getElementById('emp-quick-search').value = '';
+}
+
+function populateQuickSearch(){
+  var sel = document.getElementById('emp-quick-search');
+  if(!sel) return;
+  var names = {};
+  ALL.forEach(function(r){ if(r.name) names[r.name] = r.department||''; });
+  var sorted = Object.keys(names).sort();
+  sel.innerHTML = '<option value="">🔍 Employee search...</option>';
+  sorted.forEach(function(n){
+    var o = document.createElement('option');
+    o.value = n;
+    o.textContent = n + ' — ' + names[n];
+    sel.appendChild(o);
+  });
+}
+
 // INIT — runs immediately, no DOMContentLoaded needed (script is at bottom)
 ALL = EMBEDDED;
 renderAll();
 renderProd();
 renderMinutes();
+populateQuickSearch();
 document.getElementById('tb-up').textContent = 'Koi data nahi — employees se form bharo!';
 setTimeout(loadData, 2000);
 setInterval(loadData, 300000);
