@@ -14,10 +14,8 @@
   --bn:#2563eb;--bnd:rgba(37,99,235,.1);--bnb:rgba(37,99,235,.25);
   --nv:#dc2626;--nvd:rgba(220,38,38,.1);--nvb:rgba(220,38,38,.25);
   --un:#7c3aed;--und:rgba(124,58,237,.1);--unb:rgba(124,58,237,.25);
-  --g-hero:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#7c3aed 100%);
-  --r:14px;--rs:8px;
-  --font:'Plus Jakarta Sans',sans-serif;
-  --mono:'JetBrains Mono',monospace;
+  --g-hero:linear-gradient(135deg,#1e3a8a,#2563eb 50%,#7c3aed);
+  --r:14px;--rs:8px;--font:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
   --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
   --shadow-md:0 4px 12px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.06);
 }
@@ -42,7 +40,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100
 .s-bottom{padding:.75rem 1rem;border-top:1px solid var(--border);}
 .s-refresh{width:100%;padding:9px 12px;border-radius:var(--rs);background:linear-gradient(135deg,#059669,#10b981);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px;}
 .s-link{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--rs);font-size:12px;font-weight:500;color:var(--tx2);background:var(--bg);border:1px solid var(--border);text-decoration:none;margin-bottom:5px;font-family:var(--font);}
-.s-link:hover{color:var(--bn);border-color:var(--border2);}
+.s-link:hover{color:var(--bn);}
 .s-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .s-time{font-size:9px;color:var(--mu2);font-family:var(--mono);text-align:center;margin-top:4px;}
 
@@ -77,7 +75,7 @@ select.fp{-webkit-appearance:none;padding-right:18px;background:var(--white);cur
 .date-inp{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 9px;font-family:var(--mono);font-size:11px;color:var(--tx);outline:none;cursor:pointer;width:125px;}
 .date-inp:focus{border-color:var(--bn);}
 
-/* HERO STRIP */
+/* HERO */
 .hero-strip{background:var(--g-hero);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow-md);flex-wrap:wrap;gap:1rem;}
 .hero-greeting{color:rgba(255,255,255,.7);font-size:12px;margin-bottom:3px;}
 .hero-title{color:#fff;font-size:20px;font-weight:800;letter-spacing:-.02em;}
@@ -85,7 +83,7 @@ select.fp{-webkit-appearance:none;padding-right:18px;background:var(--white);cur
 .hero-stat-val{font-family:var(--mono);font-size:22px;font-weight:500;color:#fff;}
 .hero-stat-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
 
-/* 4 COLOR BOXES */
+/* 4 BOXES */
 .cboxes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem;}
 .cbox{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:all .2s;}
 .cbox:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
@@ -132,7 +130,6 @@ select.fp{-webkit-appearance:none;padding-right:18px;background:var(--white);cur
 .tbl-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.1rem;border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap;}
 .tbl-toolbar-title{font-size:13px;font-weight:700;color:var(--tx);}
 .tbl-search{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx);outline:none;width:200px;}
-.tbl-search:focus{border-color:var(--bn);}
 .tbl-scroll{overflow-x:auto;}
 table{width:100%;border-collapse:collapse;min-width:600px;}
 thead th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);white-space:nowrap;}
@@ -145,21 +142,13 @@ tbody tr:hover td{background:#f5f7ff;}
 .emp-name{font-size:13px;font-weight:600;color:var(--tx);}
 .emp-dept{font-size:11px;color:var(--mu);}
 .pct{font-family:var(--mono);font-size:12px;font-weight:600;}
-.pct.va{color:var(--va);}
-.pct.bn{color:var(--bn);}
-.pct.nv{color:var(--nv);}
-.pct.un{color:var(--un);}
+.pct.va{color:var(--va);}.pct.bn{color:var(--bn);}.pct.nv{color:var(--nv);}.pct.un{color:var(--un);}
 .chip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:var(--mono);}
-.chip.va{background:var(--vad);color:var(--va);}
-.chip.bn{background:var(--bnd);color:var(--bn);}
-.chip.nv{background:var(--nvd);color:var(--nv);}
-.chip.un{background:var(--und);color:var(--un);}
+.chip.va{background:var(--vad);color:var(--va);}.chip.bn{background:var(--bnd);color:var(--bn);}
+.chip.nv{background:var(--nvd);color:var(--nv);}.chip.un{background:var(--und);color:var(--un);}
 .mini-stack{height:5px;border-radius:99px;display:flex;overflow:hidden;gap:1px;background:var(--bg2);min-width:80px;}
 .ms{height:5px;}
-.ms.va{background:var(--va);}
-.ms.bn{background:var(--bn);}
-.ms.nv{background:var(--nv);}
-.ms.un{background:var(--un);opacity:.4;}
+.ms.va{background:var(--va);}.ms.bn{background:var(--bn);}.ms.nv{background:var(--nv);}.ms.un{background:var(--un);opacity:.4;}
 .row-arr{color:var(--mu2);}
 tr:hover .row-arr{color:var(--bn);}
 
@@ -198,31 +187,6 @@ tr:hover .row-arr{color:var(--bn);}
 .day-tbl td{font-size:12px;padding:9px 10px;border-bottom:1px solid var(--border);color:var(--tx);}
 .day-tbl tr:last-child td{border-bottom:none;}
 
-/* PRODUCTIVITY */
-.prod-info{background:linear-gradient(135deg,rgba(37,99,235,.05),rgba(124,58,237,.05));border:1px solid rgba(37,99,235,.12);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;gap:12px;}
-.prod-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;}
-.prod-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1rem;position:relative;overflow:hidden;box-shadow:var(--shadow);}
-.prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.prod-card.va::before{background:linear-gradient(90deg,#059669,#10b981);}
-.prod-card.bn::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
-.prod-card.nv::before{background:linear-gradient(90deg,#dc2626,#f87171);}
-.prod-card.un::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
-.prod-card-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:6px;}
-.prod-card-val{font-family:var(--mono);font-size:24px;font-weight:500;}
-.prod-card.va .prod-card-val{color:var(--va);}
-.prod-card.bn .prod-card-val{color:var(--bn);}
-.prod-card.nv .prod-card-val{color:var(--nv);}
-.prod-card.un .prod-card-val{color:var(--un);}
-.prod-card-sub{font-size:11px;color:var(--mu);margin-top:3px;}
-.pct-with-bar{display:flex;align-items:center;gap:6px;}
-.pct-badge{font-family:var(--mono);font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;white-space:nowrap;}
-.pct-badge.va{background:var(--vad);color:var(--va);}
-.pct-badge.bn{background:var(--bnd);color:var(--bn);}
-.pct-badge.nv{background:var(--nvd);color:var(--nv);}
-.pct-badge.un{background:var(--und);color:var(--un);}
-.pct-bar{flex:1;height:4px;border-radius:99px;background:var(--bg2);overflow:hidden;min-width:30px;}
-.pct-bar-fill{height:4px;border-radius:99px;}
-
 /* CATEGORY MODAL */
 .cat-ov{position:fixed;inset:0;background:rgba(15,20,40,.35);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;}
 .cat-ov.open{display:flex;}
@@ -244,14 +208,18 @@ tr:hover .row-arr{color:var(--bn);}
 .guide-title{font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);}
 .guide-body{font-size:13px;color:var(--tx2);line-height:1.7;}
 
-/* EMPTY / LOADING */
+/* EMPTY */
 .empty{text-align:center;padding:3rem 2rem;color:var(--mu);font-size:13px;}
 .spin{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--bn);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;margin-bottom:10px;}
 @keyframes sp{to{transform:rotate(360deg);}}
 
-@media(max-width:1100px){.cboxes{grid-template-columns:repeat(2,1fr);}.prod-cards{grid-template-columns:repeat(2,1fr);}}
+/* MIN REPORT FILTER BUTTONS */
+.min-btn{background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;}
+.ppt-btn{background:linear-gradient(135deg,#c2410c,#ea580c);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;}
+
+@media(max-width:1100px){.cboxes{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:900px){.sidebar{width:56px;}.s-name,.s-sub,.s-grp,.s-btn span,.s-time,.s-link span{display:none;}.s-btn{justify-content:center;}.s-logo-inner{justify-content:center;}.main{margin-left:56px;}}
-@media(max-width:640px){.sidebar{display:none;}.main{margin-left:0;}.content{padding:1rem;}.cboxes{grid-template-columns:1fr 1fr;}.drill-panel{width:100%;}.guide-grid{grid-template-columns:1fr;}.prod-cards{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.sidebar{display:none;}.main{margin-left:0;}.content{padding:1rem;}.cboxes{grid-template-columns:1fr 1fr;}.drill-panel{width:100%;}.guide-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -272,6 +240,7 @@ tr:hover .row-arr{color:var(--bn);}
     <button class="s-btn" onclick="showView('employees',this)"><div class="s-ico" style="background:#eff6ff">👥</div><span>Employees</span></button>
     <button class="s-btn" onclick="showView('departments',this)"><div class="s-ico" style="background:#f5f3ff">🏢</div><span>Departments</span></button>
     <button class="s-btn" onclick="showView('productivity',this)"><div class="s-ico" style="background:#fefce8">📈</div><span>Productivity Report</span></button>
+    <button class="s-btn" onclick="showView('minutes',this)"><div class="s-ico" style="background:#ecfdf5">⏱️</div><span>Minutes Report</span></button>
     <button class="s-btn" onclick="showView('table',this)"><div class="s-ico" style="background:#fff1f2">📋</div><span>Detail Log</span></button>
     <button class="s-btn" onclick="showView('guide',this)"><div class="s-ico" style="background:#f0fdf4">💡</div><span>Dashboard Guide</span></button>
   </div>
@@ -291,7 +260,7 @@ tr:hover .row-arr{color:var(--bn);}
       <div class="live-pill"><div class="live-dot"></div>Live</div>
       <div class="tb-updated" id="tb-up">Loading...</div>
       <button class="tbtn" onclick="loadData()">↻ Refresh</button>
-      <button class="tbtn blue" onclick="window.open('https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit','_blank')">📊 Google Sheet</button>
+      <button class="tbtn blue" onclick="window.open('https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit','_blank')">📊 Sheet</button>
       <button class="tbtn green" onclick="dlExcel()">⬇ Excel</button>
     </div>
   </div>
@@ -303,9 +272,9 @@ tr:hover .row-arr{color:var(--bn);}
       <button class="fp on" onclick="setDept('all',this)">All</button>
       <button class="fp" onclick="setDept('Accounts',this)">Accounts</button>
       <button class="fp" onclick="setDept('HR',this)">HR</button>
-      <button class="fp" onclick="setDept('IT Support',this)">IT</button>
+      <button class="fp" onclick="setDept('IT',this)">IT</button>
       <button class="fp" onclick="setDept('Purchase',this)">Purchase</button>
-      <button class="fp" onclick="setDept('Product Design',this)">Design</button>
+      <button class="fp" onclick="setDept('Design',this)">Design</button>
       <button class="fp" onclick="setDept('Sales',this)">Sales</button>
       <button class="fp" onclick="setDept('Marketing',this)">Marketing</button>
       <button class="fp" onclick="setDept('Service',this)">Service</button>
@@ -374,8 +343,8 @@ tr:hover .row-arr{color:var(--bn);}
       <div class="sec">
         <div class="sec-head"><div class="sec-title">Recent Submissions</div><div class="sec-meta" id="ov-meta"></div></div>
         <div class="tbl-card"><div class="tbl-scroll"><table>
-          <thead><tr><th>Employee</th><th>Date</th><th>Time Breakdown</th><th>VA</th><th>BNVA</th><th>NVA</th><th>Unid.</th><th></th></tr></thead>
-          <tbody id="ov-tbody"><tr><td colspan="8" class="empty"><div class="spin"></div></td></tr></tbody>
+          <thead><tr><th>Employee</th><th>Date</th><th>Breakdown</th><th>VA</th><th>BNVA</th><th>NVA</th><th>Unid.</th><th></th></tr></thead>
+          <tbody id="ov-tbody"></tbody>
         </table></div></div>
       </div>
     </div>
@@ -383,14 +352,14 @@ tr:hover .row-arr{color:var(--bn);}
     <!-- WINNERS -->
     <div class="view" id="view-winners">
       <div class="sec">
-        <div class="sec-head"><div class="sec-title">🏆 Category Leaders</div><div class="sec-meta">Based on average % across submissions</div></div>
+        <div class="sec-head"><div class="sec-title">🏆 Category Leaders</div></div>
         <div class="tbl-card"><div class="tbl-scroll"><table>
-          <thead><tr><th>Category</th><th>Winner</th><th>Department</th><th>Score</th><th>What it means</th></tr></thead>
+          <thead><tr><th>Category</th><th>Winner</th><th>Department</th><th>Score</th><th>Meaning</th></tr></thead>
           <tbody id="win-tbody"></tbody>
         </table></div></div>
       </div>
       <div class="sec">
-        <div class="sec-head"><div class="sec-title">🏢 Department Leaderboard</div><div class="sec-meta">Ranked by avg VA%</div></div>
+        <div class="sec-head"><div class="sec-title">🏢 Department Leaderboard</div></div>
         <div class="tbl-card"><div class="tbl-scroll"><table>
           <thead><tr><th>#</th><th>Department</th><th>Submissions</th><th>VA%</th><th>BNVA%</th><th>NVA%</th><th>Unid%</th><th>Split</th></tr></thead>
           <tbody id="dept-win-tbody"></tbody>
@@ -418,7 +387,7 @@ tr:hover .row-arr{color:var(--bn);}
     <div class="view" id="view-departments">
       <div class="sec">
         <div class="tbl-card">
-          <div class="tbl-toolbar"><div class="tbl-toolbar-title">Department Summary</div><div style="font-size:12px;color:var(--mu)">420 min workday · averages</div></div>
+          <div class="tbl-toolbar"><div class="tbl-toolbar-title">Department Summary</div><div style="font-size:12px;color:var(--mu)">420 min · averages</div></div>
           <div class="tbl-scroll"><table>
             <thead><tr><th>Department</th><th>Submissions</th><th>Employees</th><th>Avg VA%</th><th>Avg BNVA%</th><th>Avg NVA%</th><th>Avg Unid%</th><th>Split</th></tr></thead>
             <tbody id="dept-tbody"></tbody>
@@ -430,22 +399,15 @@ tr:hover .row-arr{color:var(--bn);}
     <!-- PRODUCTIVITY REPORT -->
     <div class="view" id="view-productivity">
       <div class="sec">
-        <div class="sec-head"><div class="sec-title">📈 Employee Productivity Report</div><div class="sec-meta">Days × 420 min = Total | Category % = (mins ÷ total) × 100</div></div>
-        <div class="prod-info">
-          <div style="font-size:18px;flex-shrink:0;">💡</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.7;">
-            <strong>Logic:</strong> Sabhi days ka category-wise total → Total Minutes = Days × 420 → % = (Category ÷ Total) × 100 &nbsp;|&nbsp;
-            Example: 2 days = 840 min. NVA 190 min → <strong>22.62%</strong>
-          </div>
-        </div>
+        <div class="sec-head"><div class="sec-title">📈 Productivity Report</div><div class="sec-meta">Days × 420 | % = mins ÷ total × 100</div></div>
         <div style="display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
           <select id="prod-dept" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
             <option value="all">All Departments</option>
             <option value="Accounts">Accounts</option>
             <option value="HR">HR & Admin</option>
-            <option value="IT Support">IT Support</option>
+            <option value="IT">IT Support</option>
             <option value="Purchase">Purchase</option>
-            <option value="Product Design">Product Design</option>
+            <option value="Design">Product Design</option>
             <option value="Service">Service</option>
             <option value="Sales">Sales & CRM</option>
             <option value="Marketing">Marketing</option>
@@ -453,27 +415,71 @@ tr:hover .row-arr{color:var(--bn);}
           </select>
           <input type="date" id="prod-from" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
           <input type="date" id="prod-to" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
-          <button onclick="document.getElementById('prod-dept').value='all';document.getElementById('prod-from').value='';document.getElementById('prod-to').value='';renderProd();" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
+          <button onclick="clearProdF()" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
           <button onclick="dlProdCSV()" style="background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;margin-left:auto;">⬇ Export CSV</button>
         </div>
-        <div class="prod-cards" id="prod-cards"></div>
+        <div class="prod-cards" id="prod-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;"></div>
         <div class="tbl-card">
           <div class="tbl-toolbar">
-            <div class="tbl-toolbar-title">Employee-wise Report <span id="prod-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
-            <input type="text" class="tbl-search" id="prod-search" placeholder="Search employee..." oninput="renderProd()"/>
+            <div class="tbl-toolbar-title">Employee-wise <span id="prod-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" class="tbl-search" id="prod-search" placeholder="Search..." oninput="renderProd()"/>
           </div>
           <div class="tbl-scroll"><table>
             <thead><tr>
-              <th>Employee</th><th>Dept</th>
-              <th style="text-align:center">Days</th>
-              <th style="text-align:center;color:var(--mu)">Forms</th>
-              <th style="text-align:center">Total Min</th>
+              <th>Employee</th><th>Dept</th><th style="text-align:center">Days</th><th style="text-align:center">Forms</th><th style="text-align:center">Total Min</th>
               <th style="color:#dc2626">NVA min</th><th style="color:#dc2626">NVA %</th>
               <th style="color:#2563eb">BNVA min</th><th style="color:#2563eb">BNVA %</th>
               <th style="color:#059669">VA min</th><th style="color:#059669">VA %</th>
               <th style="color:#7c3aed">Unid min</th><th style="color:#7c3aed">Unid %</th>
             </tr></thead>
-            <tbody id="prod-tbody"><tr><td colspan="12" class="empty"><div class="spin"></div></td></tr></tbody>
+            <tbody id="prod-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MINUTES REPORT -->
+    <div class="view" id="view-minutes">
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">⏱️ Minutes Report</div><div class="sec-meta">Actual minutes only · no percentages · Days × 420</div></div>
+        <div style="display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+          <select id="min-dept" onchange="renderMinutes()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+            <option value="all">All Departments</option>
+            <option value="Accounts">Accounts</option>
+            <option value="HR">HR & Admin</option>
+            <option value="IT">IT Support</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Design">Product Design</option>
+            <option value="Service">Service</option>
+            <option value="Sales">Sales & CRM</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Store">Store</option>
+          </select>
+          <input type="date" id="min-from" onchange="renderMinutes()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <input type="date" id="min-to" onchange="renderMinutes()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <button onclick="clearMinF()" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
+          <div style="margin-left:auto;display:flex;gap:8px;">
+            <button class="min-btn" onclick="dlMinCSV()">⬇ Excel</button>
+            <button class="ppt-btn" onclick="dlMinPPT()">📊 PPT Download</button>
+          </div>
+        </div>
+        <div id="min-cards" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:1.25rem;"></div>
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">Employee Minutes <span id="min-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" class="tbl-search" id="min-search" placeholder="Search..." oninput="renderMinutes()"/>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr>
+              <th>Employee</th><th>Department</th>
+              <th style="text-align:center">Days</th>
+              <th style="text-align:center">Total Min</th>
+              <th style="text-align:center;color:#dc2626">NVA min</th>
+              <th style="text-align:center;color:#2563eb">BNVA min</th>
+              <th style="text-align:center;color:#059669">VA min</th>
+              <th style="text-align:center;color:#7c3aed">Unid min</th>
+            </tr></thead>
+            <tbody id="min-tbody"></tbody>
           </table></div>
         </div>
       </div>
@@ -483,7 +489,7 @@ tr:hover .row-arr{color:var(--bn);}
     <div class="view" id="view-table">
       <div class="sec">
         <div class="tbl-card">
-          <div class="tbl-toolbar"><div class="tbl-toolbar-title">Full Detail Log</div><div style="font-size:12px;color:var(--mu)" id="tbl-meta"></div></div>
+          <div class="tbl-toolbar"><div class="tbl-toolbar-title">Full Detail Log</div><div id="tbl-meta" style="font-size:12px;color:var(--mu)"></div></div>
           <div class="tbl-scroll"><table>
             <thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>VA min</th><th>BNVA min</th><th>NVA min</th><th>Unid min</th><th>VA%</th><th>BNVA%</th><th>NVA%</th><th>Unid%</th></tr></thead>
             <tbody id="tbl-tbody"></tbody>
@@ -495,142 +501,17 @@ tr:hover .row-arr{color:var(--bn);}
     <!-- GUIDE -->
     <div class="view" id="view-guide">
       <div style="max-width:860px;">
-
-        <!-- Header -->
         <div style="background:var(--g-hero);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:1.5rem;box-shadow:var(--shadow-md);">
           <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px;">Iotaflow Systems — Management</div>
           <div style="color:#fff;font-size:22px;font-weight:800;letter-spacing:-.02em;">Dashboard Guide</div>
-          <div style="color:rgba(255,255,255,.75);font-size:13px;margin-top:6px;line-height:1.6;">Ye guide aapko dashboard ka poora system samjhata hai — categories ka matlab, formula, aur har section kaise use karein.</div>
         </div>
-
-        <!-- Presentation Script -->
-        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin-bottom:1.25rem;box-shadow:var(--shadow);border-left:4px solid var(--bn);">
-          <div style="font-size:13px;font-weight:700;color:var(--bn);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.75rem;">💬 Boss ko Present Karne ka Script</div>
-          <div style="font-size:13px;color:var(--tx2);line-height:1.8;font-style:italic;">"Sir, humne ek system banaya hai jisme har employee roz apna kaam log karta hai. Har din 420 minutes hote hain — hum dekhte hain ki kitna time value create karne mein gaya, kitna compliance mein, kitna waste mein, aur kitna untracked raha.<br/><br/>Red jitna kam ho utna achha — matlab system theek se chal raha hai. Green jitna zyada ho utna achha — matlab team productive hai.<br/><br/>Productivity Report mein aap kisi bhi employee ka weekly ya monthly performance dekh sakte hain — exact minutes aur percentage ke saath."</div>
-        </div>
-
-        <!-- 4 Categories -->
-        <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:.75rem;">4 Categories — Kya Matlab Hai?</div>
         <div class="guide-grid" style="margin-bottom:1.25rem;">
-          <div class="guide-card" style="border-top:3px solid var(--va);">
-            <div class="guide-title">🟢 Value Added (VA)</div>
-            <div class="guide-body">Kaam jo seedha customer ya product ke liye value create karta hai.<br/><br/><strong>Example:</strong> Invoice banana, product assembly, customer call.<br/><br/>Target: <strong style="color:var(--va)">50% se upar</strong> — jitna zyada green utna better.</div>
-          </div>
-          <div class="guide-card" style="border-top:3px solid var(--bn);">
-            <div class="guide-title">🔵 Business Necessary (BNVA)</div>
-            <div class="guide-body">Zaruri kaam jo karna padta hai — compliance, filing, reports.<br/><br/><strong>Example:</strong> GST filing, payroll, statutory records.<br/><br/>Value nahi banata lekin band nahi kar sakte. <strong style="color:var(--bn)">Minimize karo.</strong></div>
-          </div>
-          <div class="guide-card" style="border-top:3px solid var(--nv);">
-            <div class="guide-title">🔴 Non-Value Added (NVA)</div>
-            <div class="guide-body">Pure waste — system ki failure ki wajah se hota hai, employee ki galti nahi.<br/><br/><strong>Example:</strong> Corrections, duplicate entry, approvals ka wait.<br/><br/>Target: <strong style="color:var(--nv)">20% se neeche</strong> — jahan zyada ho, wahan process fix karo.</div>
-          </div>
-          <div class="guide-card" style="border-top:3px solid var(--un);">
-            <div class="guide-title">🟣 Unidentified Time</div>
-            <div class="guide-body">420 minutes mein se jo time log nahi hua — pata nahi kahaan gaya.<br/><br/><strong>Matlab:</strong> Ya toh form fill nahi hua, ya kaam track nahi kiya gaya.<br/><br/>Agar ye zyada hai — <strong style="color:var(--un)">form filling improve karni hogi.</strong></div>
-          </div>
+          <div class="guide-card" style="border-top:3px solid var(--va);"><div class="guide-title">🟢 Value Added (VA)</div><div class="guide-body">Kaam jo seedha customer ya product ke liye value banata hai. Target: <strong style="color:var(--va)">50%+</strong></div></div>
+          <div class="guide-card" style="border-top:3px solid var(--bn);"><div class="guide-title">🔵 Business Necessary (BNVA)</div><div class="guide-body">Zaruri compliance kaam — band nahi kar sakte. Minimize karo.</div></div>
+          <div class="guide-card" style="border-top:3px solid var(--nv);"><div class="guide-title">🔴 Non-Value Added (NVA)</div><div class="guide-body">Pure waste — system ki failure. Target: <strong style="color:var(--nv)">below 20%</strong></div></div>
+          <div class="guide-card" style="border-top:3px solid var(--un);"><div class="guide-title">🟣 Unidentified Time</div><div class="guide-body">420 min mein se jo log nahi hua. Form fill nahi hua ya kaam track nahi hua.</div></div>
+          <div class="guide-card" style="grid-column:1/-1;border-top:3px solid var(--tx);"><div class="guide-title">⏱ Formula</div><div class="guide-body">1 day = 420 min &nbsp;|&nbsp; Total = Days × 420 &nbsp;|&nbsp; % = (mins ÷ total) × 100 &nbsp;|&nbsp; Employee row click → daily breakdown</div></div>
         </div>
-
-        <!-- Formula -->
-        <div class="guide-card" style="margin-bottom:1.25rem;border-top:3px solid var(--tx);">
-          <div class="guide-title">⏱ 420 Minutes Formula — Exactly Kaise Calculate Hota Hai</div>
-          <div class="guide-body">
-            <div style="background:var(--bg);border-radius:var(--rs);padding:1rem;margin:.75rem 0;font-family:var(--mono);font-size:12px;line-height:2;">
-              1 Working Day &nbsp;= &nbsp;420 minutes<br/>
-              Total Minutes &nbsp;= &nbsp;Days × 420<br/>
-              Category % &nbsp;&nbsp;&nbsp;= &nbsp;(Category minutes ÷ Total minutes) × 100
-            </div>
-            <strong>Example — Akash ne 4 forms fill kiye ek din mein:</strong><br/>
-            <div style="background:var(--bg);border-radius:var(--rs);padding:1rem;margin:.75rem 0;font-size:12px;line-height:2;">
-              Form 1: VA=0, BNVA=30, NVA=0<br/>
-              Form 2: VA=90, BNVA=0, NVA=0<br/>
-              Form 3: VA=60, BNVA=0, NVA=0<br/>
-              Form 4: VA=0, BNVA=0, NVA=99<br/>
-              <strong>Step 1 — Total karo:</strong> VA=150, BNVA=30, NVA=99<br/>
-              <strong>Step 2 — Total min:</strong> 1 day × 420 = 420 min<br/>
-              <strong>Step 3 — %:</strong> VA=35.71% | BNVA=7.14% | NVA=23.57% | Unid=33.57%
-            </div>
-          </div>
-        </div>
-
-        <!-- Left side sections -->
-        <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:.75rem;">Left Side — Har Section Kya Karta Hai</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;">
-
-          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
-            <div style="font-size:20px;flex-shrink:0;">📊</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Overview — Poori team ki ek nazar mein summary</div>
-              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">4 colored boxes mein team ka average dikhta hai. Neeche recent submissions. <strong>Kisi bhi box pe click karo</strong> → us category ki activities ki list khulti hai with employee names.</div>
-            </div>
-          </div>
-
-          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
-            <div style="font-size:20px;flex-shrink:0;">🏆</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Winners — Kaun best perform kar raha hai</div>
-              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Sabse zyada VA% wala employee → <strong>recognition do.</strong> Sabse kam NVA% wala → <strong>role model hai.</strong> Department ranking bhi dikhti hai — kaun sa department productive hai.</div>
-            </div>
-          </div>
-
-          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
-            <div style="font-size:20px;flex-shrink:0;">👥</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Employees — Har employee ki individual performance</div>
-              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Table mein har employee ka average dikh raha hai. <strong>Row pe click karo</strong> → right side panel mein us employee ka din-by-din breakdown dikhta hai — daily log bhi dekh sakte hain.</div>
-            </div>
-          </div>
-
-          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
-            <div style="font-size:20px;flex-shrink:0;">🏢</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Departments — Department vs Department comparison</div>
-              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Kaun sa department kitna value add kar raha hai — VA% ke hisaab se ranked. Quickly identify karein kahan improvement chahiye.</div>
-            </div>
-          </div>
-
-          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);border-left:3px solid var(--bn);">
-            <div style="font-size:20px;flex-shrink:0;">📈</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--bn);margin-bottom:3px;">Productivity Report — ⭐ Sabse Important Section</div>
-              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Exact Days × 420 formula se calculation. Ek employee ne multiple forms fill kiye toh sab add hote hain, phir percentage niklti hai. <strong>Filter lagao</strong> — kisi bhi date range ka, kisi bhi department ka report dekho. <strong>Export CSV</strong> button se Excel mein download karo.</div>
-            </div>
-          </div>
-
-          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
-            <div style="font-size:20px;flex-shrink:0;">📋</div>
-            <div>
-              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Detail Log — Raw data har ek submission ka</div>
-              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Har form submission ka complete record — date, minutes, percentage sab ek jagah. Audit ya verification ke liye useful.</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Filters -->
-        <div class="guide-card" style="margin-bottom:1.25rem;">
-          <div class="guide-title">🔍 Filters — Specific Data Kaise Dekhein</div>
-          <div class="guide-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.5rem;">
-              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
-                <strong style="font-size:12px;">Department Filter</strong><br/>
-                <span style="font-size:12px;color:var(--tx2);">Sirf ek department ka data dekhna ho toh uska button dabao. "All" dabao toh wapas poora data.</span>
-              </div>
-              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
-                <strong style="font-size:12px;">Date Filter</strong><br/>
-                <span style="font-size:12px;color:var(--tx2);">Today / This Week / This Month — ya "From" aur "To" mein specific date range daalo.</span>
-              </div>
-              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
-                <strong style="font-size:12px;">20 tarikh ka data dekhna ho?</strong><br/>
-                <span style="font-size:12px;color:var(--tx2);">From = 2026-05-20, To = 2026-05-20 daalo → sirf us din ka data.</span>
-              </div>
-              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
-                <strong style="font-size:12px;">Refresh</strong><br/>
-                <span style="font-size:12px;color:var(--tx2);">Sidebar ya topbar mein "Refresh" button — nayi submissions turant dikh jaayengi.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -641,10 +522,7 @@ tr:hover .row-arr{color:var(--bn);}
 <div class="drill-ov" id="drill-ov" onclick="if(event.target===this)closeDrill()">
   <div class="drill-panel">
     <div class="drill-hdr">
-      <div class="drill-hdr-left">
-        <div class="drill-av" id="d-av">?</div>
-        <div><div class="drill-name" id="d-name">—</div><div class="drill-dept" id="d-dept">—</div></div>
-      </div>
+      <div class="drill-hdr-left"><div class="drill-av" id="d-av">?</div><div><div class="drill-name" id="d-name">—</div><div class="drill-dept" id="d-dept">—</div></div></div>
       <button class="drill-close" onclick="closeDrill()">✕ Close</button>
     </div>
     <div class="drill-tabs">
@@ -658,156 +536,138 @@ tr:hover .row-arr{color:var(--bn);}
 <!-- CATEGORY MODAL -->
 <div class="cat-ov" id="cat-ov" onclick="if(event.target===this)closeCat()">
   <div class="cat-box">
-    <div class="cat-hdr">
-      <div><div class="cat-title" id="cat-title">—</div><div class="cat-sub" id="cat-sub">—</div></div>
-      <button class="cat-close" onclick="closeCat()">✕</button>
-    </div>
+    <div class="cat-hdr"><div><div class="cat-title" id="cat-title">—</div><div class="cat-sub" id="cat-sub">—</div></div><button class="cat-close" onclick="closeCat()">✕</button></div>
     <div class="cat-body" id="cat-body"></div>
   </div>
 </div>
 
 <script>
-var SCRIPT_API = "https://script.google.com/macros/s/AKfycbyhpoDWpdpUp3Q3sZgw7BZ2Sg5GpkXDbWaVGKaDU7XRjPfbVYPHPEAPnxLmyr1GIJDu/exec";
-var W = 420;
-var ALL = [];
-var DEPT = 'all';
-var PAL = ['#059669','#2563eb','#dc2626','#7c3aed','#d97706','#0891b2','#db2777','#65a30d'];
-var CMAP = {};
+var SCRIPT_API="https://script.google.com/macros/s/AKfycbyhpoDWpdpUp3Q3sZgw7BZ2Sg5GpkXDbWaVGKaDU7XRjPfbVYPHPEAPnxLmyr1GIJDu/exec";
+var W=420, ALL=[], DEPT='all';
+var PAL=['#059669','#2563eb','#dc2626','#7c3aed','#d97706','#0891b2','#db2777','#65a30d'];
+var CMAP={};
+function getC(n){if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length];return CMAP[n];}
+function ini(n){var p=(n||'').trim().split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase();}
 
-function getC(n){ if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length]; return CMAP[n]; }
-function ini(n){ var p=(n||'').trim().split(' '); return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase(); }
+// EMBEDDED DATA — all rows from Google Sheet
+var EMBEDDED=[
+  {name:"Dev",date:"2026-05-16",department:"IT Support",vatimemin:"78",bnvatimemin:"30",nvatimemin:"40",vaactivities:"First-visit resolution of hardware issues(23min)|Preventive hardware maintenance(55min)",bnvaactivities:"Antivirus and patch management(30min)",nvaactivities:"ERP modules paid for never implemented(40min)"},
+  {name:"Pushpa",date:"2026-05-18",department:"Marketing",vatimemin:"30",bnvatimemin:"20",nvatimemin:"137",vaactivities:"EPC and consultant approved vendor list pursuit(30min)",bnvaactivities:"Press release for significant events(20min)",nvaactivities:"Generic brochure with no application context(39min)|Budget spent with no measurable return(46min)|Exhibition without post-event follow-up(52min)"},
+  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"20",bnvatimemin:"38",nvatimemin:"32",vaactivities:"ERP configuration matching actual process(20min)",bnvaactivities:"Antivirus and patch management(38min)",nvaactivities:"System access not ready on Day 1(20min)|No backup restoration test ever(12min)"},
+  {name:"Preeti",date:"2026-05-18",department:"Service / Post-Sales",vatimemin:"55",bnvatimemin:"65",nvatimemin:"50",vaactivities:"Installed base register with service history(35min)|First-visit resolution with right spares(20min)",bnvaactivities:"Service invoice raising(33min)|Service report with customer sign-off(32min)",nvaactivities:"Field visit without right spares(40min)|Failed components discarded without analysis(10min)"},
+  {name:"Pawan Kushwaha",date:"2026-05-18",department:"Product Design / BOM",vatimemin:"20",bnvatimemin:"15",nvatimemin:"10",vaactivities:"Cross-functional design review(20min)",bnvaactivities:"Document archiving with revision history(10min)|Statutory compliance documentation(5min)",nvaactivities:"Verbal instructions supplementing drawings(10min)"},
+  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"75",bnvatimemin:"20",nvatimemin:"60",vaactivities:"Root cause resolution of incidents(30min)|First-visit resolution of hardware issues(30min)|Network security and segregation(15min)",bnvaactivities:"Asset register maintenance(20min)",nvaactivities:"IT resolving symptom not root cause(60min)"},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"30",nvatimemin:"0",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams(30min)",nvaactivities:""},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(30min)|Creating engaging video content(60min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(60min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"0",nvatimemin:"99",vaactivities:"",bnvaactivities:"",nvaactivities:"Excessive scrolling(20min)|Exporting same video multiple times(20min)|Waiting for approvals(19min)|Re-editing videos(20min)|Searching for missing footage(20min)"}
+];
 
-// ── VIEW ─────────────────────────────────────────────────────────
-function showView(id, btn){
-  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+// VIEW
+function showView(id,btn){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
   document.getElementById('view-'+id).classList.add('active');
-  document.querySelectorAll('.s-btn').forEach(function(b){ b.classList.remove('active'); });
-  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.s-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
   renderAll();
-  if(id === 'productivity') renderProd();
+  if(id==='productivity')renderProd();
+  if(id==='minutes')renderMinutes();
 }
 
-// ── LOAD DATA FROM APPS SCRIPT ───────────────────────────────────
+// LOAD DATA
 function loadData(){
-  document.getElementById('tb-up').textContent = 'Refreshing...';
-  fetch(SCRIPT_API + '?action=get&t=' + Date.now())
-    .then(function(r){ return r.json(); })
+  document.getElementById('tb-up').textContent='Refreshing...';
+  fetch(SCRIPT_API+'?action=get&t='+Date.now())
+    .then(function(r){return r.json();})
     .then(function(json){
-      if(json && json.data && json.data.length > 0){
-        ALL = normalizeRows(json.data);
-        var now = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-        document.getElementById('tb-up').textContent = 'Live · '+now+' · '+ALL.length+' rows';
-        document.getElementById('s-time').textContent = 'Synced '+now;
+      if(json&&json.data&&json.data.length>0){
+        ALL=normalizeRows(json.data);
+        var now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+        document.getElementById('tb-up').textContent='Live · '+now+' · '+ALL.length+' rows';
+        document.getElementById('s-time').textContent='Synced '+now;
+        renderAll();
+        if(document.getElementById('view-productivity').classList.contains('active'))renderProd();
+        if(document.getElementById('view-minutes').classList.contains('active'))renderMinutes();
       } else {
-        document.getElementById('tb-up').textContent = 'Live · cached data';
+        document.getElementById('tb-up').textContent='Showing cached data';
       }
-      renderAll();
-      renderProd();
     })
-    .catch(function(){
-      // Fetch failed silently - EMBEDDED data already showing
-      document.getElementById('tb-up').textContent = 'Showing cached data';
-    });
+    .catch(function(){document.getElementById('tb-up').textContent='Showing cached data';});
 }
 
 function normalizeRows(rows){
   return rows.map(function(r){
-    var obj = {};
-    Object.keys(r).forEach(function(k){
-      obj[k.toLowerCase().replace(/[^a-z0-9]/g,'')] = String(r[k]).trim();
-    });
+    var obj={};
+    Object.keys(r).forEach(function(k){obj[k.toLowerCase().replace(/[^a-z0-9]/g,'')]=String(r[k]).trim();});
     return obj;
-  }).filter(function(r){ return r.name && r.name.length > 0; });
+  }).filter(function(r){return r.name&&r.name.length>0;});
 }
 
-// ── CALC: minutes from row ───────────────────────────────────────
+// CALC — cap at 420 per submission
 function getMin(r){
-  var va  = parseFloat(r.vatimemin  || r['vatimemin']  || 0) || 0;
-  var bn  = parseFloat(r.bnvatimemin|| r['bnvatimemin']|| 0) || 0;
-  var nv  = parseFloat(r.nvatimemin || r['nvatimemin'] || 0) || 0;
-  if(!va && !bn && !nv){
-    var vP = parseFloat(r.va   || 0) || 0;
-    var bP = parseFloat(r.bnva || 0) || 0;
-    var nP = parseFloat(r.nva  || 0) || 0;
-    if(vP||bP||nP){ va=Math.round(vP/100*W); bn=Math.round(bP/100*W); nv=Math.round(nP/100*W); }
+  var va=parseFloat(r.vatimemin||0)||0;
+  var bn=parseFloat(r.bnvatimemin||0)||0;
+  var nv=parseFloat(r.nvatimemin||0)||0;
+  if(!va&&!bn&&!nv){
+    var vP=parseFloat(r.va||0)||0,bP=parseFloat(r.bnva||0)||0,nP=parseFloat(r.nva||0)||0;
+    if(vP||bP||nP){va=Math.round(vP/100*W);bn=Math.round(bP/100*W);nv=Math.round(nP/100*W);}
   }
-  // Cap total at 420 per submission
-  var total = va + bn + nv;
-  if(total > W){
-    var scale = W / total;
-    va = Math.round(va * scale);
-    bn = Math.round(bn * scale);
-    nv = Math.round(nv * scale);
-  }
-  var un = Math.max(0, W - va - bn - nv);
-  return { va:va, bn:bn, nv:nv, un:un,
-    vaP:Math.round(va/W*100), bnP:Math.round(bn/W*100), nvP:Math.round(nv/W*100), unP:Math.round(un/W*100) };
+  var tot=va+bn+nv;
+  if(tot>W){var s=W/tot;va=Math.round(va*s);bn=Math.round(bn*s);nv=Math.round(nv*s);}
+  var un=Math.max(0,W-va-bn-nv);
+  return{va:va,bn:bn,nv:nv,un:un,vaP:Math.round(va/W*100),bnP:Math.round(bn/W*100),nvP:Math.round(nv/W*100),unP:Math.round(un/W*100)};
 }
 
-// ── FILTER ───────────────────────────────────────────────────────
+// FILTER
 function setDept(d,btn){
-  document.querySelectorAll('.fbar .fp:not(select)').forEach(function(b){ b.classList.remove('on'); });
-  btn.classList.add('on'); DEPT=d; renderAll();
+  document.querySelectorAll('.fbar .fp:not(select)').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');DEPT=d;renderAll();
 }
-function clearDates(){ document.getElementById('dateFrom').value=''; document.getElementById('dateTo').value=''; renderAll(); }
-
+function clearDates(){document.getElementById('dateFrom').value='';document.getElementById('dateTo').value='';renderAll();}
 function filteredData(){
-  var df = document.getElementById('dateF').value;
-  var fr = document.getElementById('dateFrom').value;
-  var to = document.getElementById('dateTo').value;
-  var today = new Date().toISOString().slice(0,10);
-  var wk  = new Date(Date.now()-7*864e5).toISOString().slice(0,10);
-  var mo  = new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+  var df=document.getElementById('dateF').value;
+  var fr=document.getElementById('dateFrom').value;
+  var to=document.getElementById('dateTo').value;
+  var today=new Date().toISOString().slice(0,10);
+  var wk=new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  var mo=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
   return ALL.filter(function(r){
-    var dOk = DEPT==='all' || (r.department||'').indexOf(DEPT)>=0;
+    var dOk=DEPT==='all'||(r.department||'').indexOf(DEPT)>=0;
     var tOk;
-    if(fr||to) tOk=(!fr||r.date>=fr)&&(!to||r.date<=to);
+    if(fr||to)tOk=(!fr||r.date>=fr)&&(!to||r.date<=to);
     else tOk=df==='all'||(df==='today'&&r.date===today)||(df==='week'&&r.date>=wk)||(df==='month'&&r.date>=mo);
     return dOk&&tOk;
   });
 }
+function avgK(d,k){if(!d.length)return 0;var s=0;d.forEach(function(r){s+=getMin(r)[k];});return Math.round(s/d.length);}
 
-function avgK(d,k){ if(!d.length)return 0; var s=0; d.forEach(function(r){s+=getMin(r)[k];}); return Math.round(s/d.length); }
-
-// ── RENDER ALL ───────────────────────────────────────────────────
+// RENDER ALL
 function renderAll(){
-  var d = filteredData();
-  renderHero(d);
-  renderBoxes(d);
-  renderOvTable(d);
-  renderEmpTable(d);
-  renderDeptTable(d);
-  renderWinners(d);
-  renderDetailTable(d);
-}
-
-function renderHero(d){
+  var d=filteredData();
+  // Hero
   var names={},dates={};
   d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
   document.getElementById('h-tot').textContent=d.length||'0';
   document.getElementById('h-emp').textContent=Object.keys(names).length||'0';
   document.getElementById('h-days').textContent=Object.keys(dates).length||'0';
   document.getElementById('ov-meta').textContent=d.length+' entries';
-}
-
-function renderBoxes(d){
-  var vaP=d.length?avgK(d,'vaP'):0, bnP=d.length?avgK(d,'bnP'):0;
-  var nvP=d.length?avgK(d,'nvP'):0, unP=d.length?avgK(d,'unP'):0;
-  var vaM=d.length?avgK(d,'va'):0,  bnM=d.length?avgK(d,'bn'):0;
-  var nvM=d.length?avgK(d,'nv'):0;
-  document.getElementById('cb-va').textContent = d.length?vaP+'%':'—';
-  document.getElementById('cb-bn').textContent = d.length?bnP+'%':'—';
-  document.getElementById('cb-nv').textContent = d.length?nvP+'%':'—';
-  document.getElementById('cb-un').textContent = d.length?unP+'%':'—';
-  document.getElementById('cb-va-s').textContent = d.length?'~'+vaM+' min avg · click to explore':'click to explore';
-  document.getElementById('cb-bn-s').textContent = d.length?'~'+bnM+' min avg · click to explore':'click to explore';
-  document.getElementById('cb-nv-s').textContent = d.length?'~'+nvM+' min avg · click to explore':'click to explore';
+  // Boxes
+  var vaP=avgK(d,'vaP'),bnP=avgK(d,'bnP'),nvP=avgK(d,'nvP'),unP=avgK(d,'unP');
+  var vaM=avgK(d,'va'),bnM=avgK(d,'bn'),nvM=avgK(d,'nv');
+  document.getElementById('cb-va').textContent=d.length?vaP+'%':'—';
+  document.getElementById('cb-bn').textContent=d.length?bnP+'%':'—';
+  document.getElementById('cb-nv').textContent=d.length?nvP+'%':'—';
+  document.getElementById('cb-un').textContent=d.length?unP+'%':'—';
+  document.getElementById('cb-va-s').textContent=d.length?'~'+vaM+' min avg':'avg per workday';
+  document.getElementById('cb-bn-s').textContent=d.length?'~'+bnM+' min avg':'avg per workday';
+  document.getElementById('cb-nv-s').textContent=d.length?'~'+nvM+' min avg':'avg per workday';
   setTimeout(function(){
     document.getElementById('cbf-va').style.width=vaP+'%';
     document.getElementById('cbf-bn').style.width=bnP+'%';
     document.getElementById('cbf-nv').style.width=nvP+'%';
     document.getElementById('cbf-un').style.width=unP+'%';
   },120);
+  renderOvTable(d);renderEmpTable(d);renderDeptTable(d);renderWinners(d);renderDetailTable(d);
 }
 
 function msRow(c){
@@ -822,14 +682,13 @@ function msRow(c){
 function renderOvTable(d){
   var b=document.getElementById('ov-tbody');
   if(!d.length){b.innerHTML='<tr><td colspan="8" class="empty">No submissions yet.</td></tr>';return;}
-  var s=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).slice(0,10);
-  b.innerHTML=s.map(function(r){
+  b.innerHTML=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).slice(0,10).map(function(r){
     var c=getMin(r),col=getC(r.name);
     return '<tr onclick="openDrill(\''+r.name+'\')">' +
       '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
       '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+(r.department||'')+'</div></div></div></td>'+
       '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+(r.date||'—')+'</td>'+
-      '<td>'+msRow(c)+'<div style="font-size:10px;color:var(--mu);font-family:var(--mono);margin-top:2px">'+c.va+'m·'+c.bn+'m·'+c.nv+'m·'+c.un+'m</div></td>'+
+      '<td>'+msRow(c)+'</td>'+
       '<td><span class="pct va">'+c.vaP+'%</span></td>'+
       '<td><span class="pct bn">'+c.bnP+'%</span></td>'+
       '<td><span class="pct nv">'+c.nvP+'%</span></td>'+
@@ -843,10 +702,8 @@ function renderEmpTable(d){
   var q=(document.getElementById('emp-search').value||'').toLowerCase();
   var map={};
   d.forEach(function(r){
-    var n=r.name;
-    if(!map[n])map[n]={name:n,dept:r.department||'',rows:[],dates:[]};
-    map[n].rows.push(r);
-    if(r.date&&map[n].dates.indexOf(r.date)<0)map[n].dates.push(r.date);
+    var n=r.name;if(!map[n])map[n]={name:n,dept:r.department||'',rows:[],dates:[]};
+    map[n].rows.push(r);if(r.date&&map[n].dates.indexOf(r.date)<0)map[n].dates.push(r.date);
   });
   var emps=Object.values(map).map(function(e){
     var tot={va:0,bn:0,nv:0,un:0};
@@ -860,19 +717,17 @@ function renderEmpTable(d){
   document.getElementById('emp-count').textContent='('+emps.length+' employees)';
   if(!emps.length){b.innerHTML='<tr><td colspan="9" class="empty">No data.</td></tr>';return;}
   b.innerHTML=emps.map(function(e){
-    var col=getC(e.name);
-    var c={va:Math.round(e.va/100*W),bn:Math.round(e.bn/100*W),nv:Math.round(e.nv/100*W),un:Math.round(e.un/100*W)};
-    return '<tr onclick="openDrill(\''+e.name+'\')">'+
+    var col=getC(e.name),c={va:Math.round(e.va/100*W),bn:Math.round(e.bn/100*W),nv:Math.round(e.nv/100*W),un:Math.round(e.un/100*W)};
+    return '<tr onclick="openDrill(\''+e.name+'\')">' +
       '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(e.name)+'</div>'+
       '<div><div class="emp-name">'+e.name+'</div><div class="emp-dept">'+e.dept+'</div></div></div></td>'+
       '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+e.date+'</td>'+
-      '<td style="font-weight:600;color:var(--tx2);text-align:center">'+e.count+'</td>'+
+      '<td style="text-align:center;font-weight:600;color:var(--tx2)">'+e.count+'</td>'+
       '<td><span class="pct va">'+e.va+'%</span></td>'+
       '<td><span class="pct bn">'+e.bn+'%</span></td>'+
       '<td><span class="pct nv">'+e.nv+'%</span></td>'+
       '<td><span class="pct un">'+e.un+'%</span></td>'+
-      '<td>'+msRow(c)+'</td>'+
-      '<td class="row-arr">›</td></tr>';
+      '<td>'+msRow(c)+'</td><td class="row-arr">›</td></tr>';
   }).join('');
 }
 
@@ -881,21 +736,16 @@ function renderDeptTable(d){
   if(!d.length){b.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
   var map={};
   d.forEach(function(r){var n=r.department||'Unknown';if(!map[n])map[n]={rows:[],emps:{}};map[n].rows.push(r);if(r.name)map[n].emps[r.name]=1;});
-  var depts=Object.keys(map).map(function(n){
-    var rows=map[n].rows;
-    return{name:n,count:rows.length,emps:Object.keys(map[n].emps).length,
-      va:avgK(rows,'vaP'),bn:avgK(rows,'bnP'),nv:avgK(rows,'nvP'),un:avgK(rows,'unP')};
-  }).sort(function(a,b){return b.va-a.va;});
-  b.innerHTML=depts.map(function(d){
-    var c={va:Math.round(d.va/100*W),bn:Math.round(d.bn/100*W),nv:Math.round(d.nv/100*W),un:Math.round(d.un/100*W)};
-    return '<tr>'+
-      '<td><strong>'+d.name+'</strong></td>'+
-      '<td style="color:var(--mu)">'+d.count+'</td>'+
-      '<td style="color:var(--mu)">'+d.emps+'</td>'+
-      '<td><span class="pct va">'+d.va+'%</span></td>'+
-      '<td><span class="pct bn">'+d.bn+'%</span></td>'+
-      '<td><span class="pct nv">'+d.nv+'%</span></td>'+
-      '<td><span class="pct un">'+d.un+'%</span></td>'+
+  b.innerHTML=Object.keys(map).map(function(n){
+    var rows=map[n].rows,va=avgK(rows,'vaP'),bn=avgK(rows,'bnP'),nv=avgK(rows,'nvP'),un=avgK(rows,'unP');
+    var c={va:Math.round(va/100*W),bn:Math.round(bn/100*W),nv:Math.round(nv/100*W),un:Math.round(un/100*W)};
+    return '<tr><td><strong>'+n+'</strong></td>'+
+      '<td style="color:var(--mu)">'+rows.length+'</td>'+
+      '<td style="color:var(--mu)">'+Object.keys(map[n].emps).length+'</td>'+
+      '<td><span class="pct va">'+va+'%</span></td>'+
+      '<td><span class="pct bn">'+bn+'%</span></td>'+
+      '<td><span class="pct nv">'+nv+'%</span></td>'+
+      '<td><span class="pct un">'+un+'%</span></td>'+
       '<td>'+msRow(c)+'</td></tr>';
   }).join('');
 }
@@ -910,9 +760,9 @@ function renderWinners(d){
   var topBN=emps.slice().sort(function(a,b){return b.bn-a.bn;})[0];
   var lowNV=emps.slice().sort(function(a,b){return a.nv-b.nv;})[0];
   wb.innerHTML=[
-    {icon:'🏆',cat:'Highest VA',cls:'va',emp:topVA,score:topVA?topVA.va+'%':'—',msg:'Sabse zyada time value-creating kaam mein lagaya'},
-    {icon:'🥇',cat:'Highest BNVA',cls:'bn',emp:topBN,score:topBN?topBN.bn+'%':'—',msg:'Compliance aur zaruri kaam mein focused'},
-    {icon:'🎯',cat:'Lowest NVA',cls:'nv',emp:lowNV,score:lowNV?lowNV.nv+'%':'—',msg:'Sabse kam waste generate kiya — role model'},
+    {icon:'🏆',cat:'Highest VA',cls:'va',emp:topVA,score:topVA?topVA.va+'%':'—',msg:'Sabse zyada time value-creating kaam mein'},
+    {icon:'🥇',cat:'Highest BNVA',cls:'bn',emp:topBN,score:topBN?topBN.bn+'%':'—',msg:'Compliance kaam mein focused'},
+    {icon:'🎯',cat:'Lowest NVA',cls:'nv',emp:lowNV,score:lowNV?lowNV.nv+'%':'—',msg:'Sabse kam waste — role model'},
   ].map(function(w){
     return '<tr><td><span class="chip '+w.cls+'">'+w.icon+' '+w.cat+'</span></td>'+
       '<td><strong>'+(w.emp?w.emp.name:'—')+'</strong></td>'+
@@ -923,12 +773,14 @@ function renderWinners(d){
   var dmap={};
   d.forEach(function(r){var n=r.department||'Unknown';if(!dmap[n])dmap[n]=[];dmap[n].push(r);});
   db.innerHTML=Object.keys(dmap).map(function(n){return{name:n,rows:dmap[n]};}).sort(function(a,b){return avgK(b.rows,'vaP')-avgK(a.rows,'vaP');}).map(function(d,i){
-    var c={va:Math.round(avgK(d.rows,'vaP')/100*W),bn:Math.round(avgK(d.rows,'bnP')/100*W),nv:Math.round(avgK(d.rows,'nvP')/100*W),un:Math.round(avgK(d.rows,'unP')/100*W)};
-    return '<tr><td style="font-weight:700;color:var(--bn)">'+(i+1)+'</td><td><strong>'+d.name+'</strong></td><td style="color:var(--mu)">'+d.rows.length+'</td>'+
-      '<td><span class="pct va">'+avgK(d.rows,'vaP')+'%</span></td>'+
-      '<td><span class="pct bn">'+avgK(d.rows,'bnP')+'%</span></td>'+
-      '<td><span class="pct nv">'+avgK(d.rows,'nvP')+'%</span></td>'+
-      '<td><span class="pct un">'+avgK(d.rows,'unP')+'%</span></td>'+
+    var va=avgK(d.rows,'vaP'),bn=avgK(d.rows,'bnP'),nv=avgK(d.rows,'nvP'),un=avgK(d.rows,'unP');
+    var c={va:Math.round(va/100*W),bn:Math.round(bn/100*W),nv:Math.round(nv/100*W),un:Math.round(un/100*W)};
+    return '<tr><td style="font-weight:700;color:var(--bn)">'+(i+1)+'</td><td><strong>'+d.name+'</strong></td>'+
+      '<td style="color:var(--mu)">'+d.rows.length+'</td>'+
+      '<td><span class="pct va">'+va+'%</span></td>'+
+      '<td><span class="pct bn">'+bn+'%</span></td>'+
+      '<td><span class="pct nv">'+nv+'%</span></td>'+
+      '<td><span class="pct un">'+un+'%</span></td>'+
       '<td>'+msRow(c)+'</td></tr>';
   }).join('');
 }
@@ -951,139 +803,232 @@ function renderDetailTable(d){
   }).join('');
 }
 
-// ── PRODUCTIVITY REPORT (Days × 420 logic) ─────────────────────
-function renderProd(){
-  var deptF = document.getElementById('prod-dept').value;
-  var fromD = document.getElementById('prod-from').value;
-  var toD   = document.getElementById('prod-to').value;
-  var query = (document.getElementById('prod-search').value||'').toLowerCase();
-
-  var data = ALL.filter(function(r){
-    var dOk = deptF==='all'||(r.department||'').indexOf(deptF)>=0;
-    var tOk = (!fromD||r.date>=fromD)&&(!toD||r.date<=toD);
-    return dOk&&tOk;
+// PRODUCTIVITY REPORT
+function prodGetRows(){
+  var deptF=document.getElementById('prod-dept').value;
+  var fromD=document.getElementById('prod-from').value;
+  var toD=document.getElementById('prod-to').value;
+  var query=(document.getElementById('prod-search').value||'').toLowerCase();
+  var data=ALL.filter(function(r){
+    return (deptF==='all'||(r.department||'').indexOf(deptF)>=0)&&(!fromD||r.date>=fromD)&&(!toD||r.date<=toD);
   });
-
-  // Group by employee — collect ALL submissions, count UNIQUE dates
-  var map = {};
+  var map={};
   data.forEach(function(r){
-    var n = r.name || 'Unknown';
-    if(!map[n]) map[n] = {name:n, dept:r.department||'', va:0, bn:0, nv:0, dates:[], submissions:0};
-    var c2 = getMin(r);
-    // Group by date to cap per-day total at 420
-    var dayKey = n + '|' + r.date;
-    if(!map[n].dayMins) map[n].dayMins = {};
-    if(!map[n].dayMins[r.date]) map[n].dayMins[r.date] = {va:0,bn:0,nv:0};
-    map[n].dayMins[r.date].va += c2.va;
-    map[n].dayMins[r.date].bn += c2.bn;
-    map[n].dayMins[r.date].nv += c2.nv;
-    map[n].submissions++;
-    if(map[n].dates.indexOf(r.date) < 0) map[n].dates.push(r.date);
+    var n=r.name||'Unknown';
+    if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,dates:[],subs:0,dayMins:{}};
+    var c=getMin(r),dt=r.date||'';
+    if(!map[n].dayMins[dt])map[n].dayMins[dt]={va:0,bn:0,nv:0};
+    map[n].dayMins[dt].va+=c.va;map[n].dayMins[dt].bn+=c.bn;map[n].dayMins[dt].nv+=c.nv;
+    map[n].subs++;
+    if(dt&&map[n].dates.indexOf(dt)<0)map[n].dates.push(dt);
   });
-
-  // Calculate totals from dayMins (capped per day at 420)
   Object.values(map).forEach(function(e){
-    e.va=0; e.bn=0; e.nv=0;
-    if(e.dayMins){
-      Object.keys(e.dayMins).forEach(function(dt){
-        var dm=e.dayMins[dt];
-        var dayTotal=dm.va+dm.bn+dm.nv;
-        if(dayTotal>W){
-          var scale=W/dayTotal;
-          dm.va=Math.round(dm.va*scale);
-          dm.bn=Math.round(dm.bn*scale);
-          dm.nv=Math.round(dm.nv*scale);
-        }
-        e.va+=dm.va; e.bn+=dm.bn; e.nv+=dm.nv;
-      });
+    e.va=0;e.bn=0;e.nv=0;
+    Object.keys(e.dayMins).forEach(function(dt){
+      var dm=e.dayMins[dt],tot=dm.va+dm.bn+dm.nv;
+      if(tot>W){var s=W/tot;dm.va=Math.round(dm.va*s);dm.bn=Math.round(dm.bn*s);dm.nv=Math.round(dm.nv*s);}
+      e.va+=dm.va;e.bn+=dm.bn;e.nv+=dm.nv;
+    });
+  });
+  var rows=Object.values(map).map(function(e){
+    var days=e.dates.length,total=days*W,un=Math.max(0,total-e.va-e.bn-e.nv);
+    return{name:e.name,dept:e.dept,days:days,subs:e.subs,total:total,
+      va:e.va,vaP:(total>0?e.va/total*100:0).toFixed(2),
+      bn:e.bn,bnP:(total>0?e.bn/total*100:0).toFixed(2),
+      nv:e.nv,nvP:(total>0?e.nv/total*100:0).toFixed(2),
+      un:un,unP:(total>0?un/total*100:0).toFixed(2)};
+  });
+  if(query)rows=rows.filter(function(r){return r.name.toLowerCase().indexOf(query)>=0||r.dept.toLowerCase().indexOf(query)>=0;});
+  rows.sort(function(a,b){return parseFloat(b.vaP)-parseFloat(a.vaP);});
+  return rows;
+}
+
+function renderProd(){
+  var rows=prodGetRows();
+  document.getElementById('prod-count').textContent='('+rows.length+' employees)';
+  var n=rows.length;
+  var avVA=n?rows.reduce(function(s,r){return s+parseFloat(r.vaP);},0)/n:0;
+  var avBN=n?rows.reduce(function(s,r){return s+parseFloat(r.bnP);},0)/n:0;
+  var avNV=n?rows.reduce(function(s,r){return s+parseFloat(r.nvP);},0)/n:0;
+  var avUN=n?rows.reduce(function(s,r){return s+parseFloat(r.unP);},0)/n:0;
+  var totalDays=rows.reduce(function(s,r){return s+r.days;},0);
+  document.getElementById('prod-cards').innerHTML=[
+    {cls:'va',ico:'✅',lbl:'Avg VA',val:avVA.toFixed(2)+'%',sub:'Team value-added avg'},
+    {cls:'bn',ico:'📋',lbl:'Avg BNVA',val:avBN.toFixed(2)+'%',sub:'Team necessary avg'},
+    {cls:'nv',ico:'⚠️',lbl:'Avg NVA',val:avNV.toFixed(2)+'%',sub:'Team waste avg'},
+    {cls:'un',ico:'❓',lbl:'Avg Unid',val:avUN.toFixed(2)+'%',sub:totalDays+' days · '+n+' employees'},
+  ].map(function(s){
+    var colors={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+    return '<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1rem;box-shadow:var(--shadow);">'+
+      '<div style="font-size:18px;margin-bottom:6px">'+s.ico+'</div>'+
+      '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:5px">'+s.lbl+'</div>'+
+      '<div style="font-family:var(--mono);font-size:24px;font-weight:500;color:'+colors[s.cls]+'">'+s.val+'</div>'+
+      '<div style="font-size:11px;color:var(--mu);margin-top:3px">'+s.sub+'</div>'+
+    '</div>';
+  }).join('');
+  var b=document.getElementById('prod-tbody');
+  if(!rows.length){b.innerHTML='<tr><td colspan="13" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=rows.map(function(r){
+    var col=getC(r.name);
+    function pb(pct,cls){
+      var colors2={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+      return '<div style="display:flex;align-items:center;gap:5px;">'+
+        '<span style="font-family:var(--mono);font-size:11px;font-weight:700;color:'+colors2[cls]+';background:rgba(0,0,0,.05);padding:2px 7px;border-radius:4px;white-space:nowrap">'+pct+'%</span>'+
+        '<div style="flex:1;height:3px;border-radius:99px;background:var(--bg2);overflow:hidden;min-width:20px;">'+
+          '<div style="height:3px;border-radius:99px;background:'+colors2[cls]+';width:'+Math.min(parseFloat(pct),100)+'%"></div>'+
+        '</div></div>';
     }
-  });
-
-  var rows = Object.values(map).map(function(e){
-    var days  = e.dates.length;           // unique days
-    var total = days * 420;               // Total Minutes = Days × 420
-    var un    = Math.max(0, total - e.va - e.bn - e.nv);
-    return {
-      name: e.name, dept: e.dept,
-      days: days, submissions: e.submissions, total: total,
-      va:e.va,   vaP: total>0 ? (e.va/total*100).toFixed(2)  : '0.00',
-      bn:e.bn,   bnP: total>0 ? (e.bn/total*100).toFixed(2)  : '0.00',
-      nv:e.nv,   nvP: total>0 ? (e.nv/total*100).toFixed(2)  : '0.00',
-      un:un,     unP: total>0 ? (un/total*100).toFixed(2)     : '0.00'
-    };
-  });
-
-  if(query) rows = rows.filter(function(r){
-    return r.name.toLowerCase().indexOf(query)>=0 || r.dept.toLowerCase().indexOf(query)>=0;
-  });
-  rows.sort(function(a,b){ return parseFloat(b.vaP)-parseFloat(a.vaP); });
-
-  document.getElementById('prod-count').textContent = '('+rows.length+' employees)';
-
-  // Summary cards — team average
-  var n = rows.length;
-  var avVA = n ? rows.reduce(function(s,r){return s+parseFloat(r.vaP);},0)/n : 0;
-  var avBN = n ? rows.reduce(function(s,r){return s+parseFloat(r.bnP);},0)/n : 0;
-  var avNV = n ? rows.reduce(function(s,r){return s+parseFloat(r.nvP);},0)/n : 0;
-  var avUN = n ? rows.reduce(function(s,r){return s+parseFloat(r.unP);},0)/n : 0;
-  var totalDays = rows.reduce(function(s,r){return s+r.days;},0);
-  var totalSubs = rows.reduce(function(s,r){return s+r.submissions;},0);
-
-  document.getElementById('prod-cards').innerHTML =
-    pCard('va','✅','Avg VA',avVA.toFixed(2)+'%','Team value-added average')+
-    pCard('bn','📋','Avg BNVA',avBN.toFixed(2)+'%','Team necessary work average')+
-    pCard('nv','⚠️','Avg NVA',avNV.toFixed(2)+'%','Team waste average')+
-    pCard('un','❓','Avg Unidentified',avUN.toFixed(2)+'%',totalSubs+' submissions · '+totalDays+' days · '+n+' employees');
-
-  // Render table
-  var b = document.getElementById('prod-tbody');
-  if(!rows.length){
-    b.innerHTML = '<tr><td colspan="13" class="empty">Koi data nahi.</td></tr>';
-    return;
-  }
-
-  b.innerHTML = rows.map(function(r){
-    var col = getC(r.name);
     return '<tr onclick="openDrill(this.getAttribute(\'data-n\'))" data-n="'+r.name+'">'+
-      '<td><div class="emp-cell">'+
-        '<div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
-        '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+r.dept+'</div></div>'+
-      '</div></td>'+
+      '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+      '<div><div class="emp-name">'+r.name+'</div></div></div></td>'+
       '<td style="color:var(--mu);font-size:12px">'+r.dept+'</td>'+
       '<td style="text-align:center;font-weight:600">'+r.days+'</td>'+
-      '<td style="text-align:center;font-size:11px;color:var(--mu)">'+r.submissions+'</td>'+
+      '<td style="text-align:center;font-size:11px;color:var(--mu)">'+r.subs+'</td>'+
       '<td style="text-align:center;font-family:var(--mono);font-size:12px;font-weight:600">'+r.total+'</td>'+
-      '<td style="text-align:center"><span class="pct nv">'+r.nv+'</span></td>'+
-      '<td>'+pctBar(r.nvP,'nv')+'</td>'+
-      '<td style="text-align:center"><span class="pct bn">'+r.bn+'</span></td>'+
-      '<td>'+pctBar(r.bnP,'bn')+'</td>'+
-      '<td style="text-align:center"><span class="pct va">'+r.va+'</span></td>'+
-      '<td>'+pctBar(r.vaP,'va')+'</td>'+
-      '<td style="text-align:center"><span class="pct un">'+r.un+'</span></td>'+
-      '<td>'+pctBar(r.unP,'un')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#dc2626">'+r.nv+'</span></td>'+
+      '<td>'+pb(r.nvP,'nv')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#2563eb">'+r.bn+'</span></td>'+
+      '<td>'+pb(r.bnP,'bn')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#059669">'+r.va+'</span></td>'+
+      '<td>'+pb(r.vaP,'va')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#7c3aed">'+r.un+'</span></td>'+
+      '<td>'+pb(r.unP,'un')+'</td>'+
     '</tr>';
   }).join('');
 }
+function clearProdF(){document.getElementById('prod-dept').value='all';document.getElementById('prod-from').value='';document.getElementById('prod-to').value='';renderProd();}
 
-function pCard(cls,ico,lbl,val,sub){
-  return '<div class="prod-card '+cls+'">'+
-    '<div style="font-size:18px;margin-bottom:6px">'+ico+'</div>'+
-    '<div class="prod-card-lbl">'+lbl+'</div>'+
-    '<div class="prod-card-val">'+val+'</div>'+
-    '<div class="prod-card-sub">'+sub+'</div>'+
-  '</div>';
+// MINUTES REPORT
+function minGetRows(){
+  var deptF=document.getElementById('min-dept').value;
+  var fromD=document.getElementById('min-from').value;
+  var toD=document.getElementById('min-to').value;
+  var query=(document.getElementById('min-search').value||'').toLowerCase();
+  var data=ALL.filter(function(r){
+    return (deptF==='all'||(r.department||'').indexOf(deptF)>=0)&&(!fromD||r.date>=fromD)&&(!toD||r.date<=toD);
+  });
+  var map={};
+  data.forEach(function(r){
+    var n=r.name||'Unknown';
+    if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,dates:[],dayMins:{}};
+    var c=getMin(r),dt=r.date||'';
+    if(!map[n].dayMins[dt])map[n].dayMins[dt]={va:0,bn:0,nv:0};
+    map[n].dayMins[dt].va+=c.va;map[n].dayMins[dt].bn+=c.bn;map[n].dayMins[dt].nv+=c.nv;
+    if(dt&&map[n].dates.indexOf(dt)<0)map[n].dates.push(dt);
+  });
+  Object.values(map).forEach(function(e){
+    e.va=0;e.bn=0;e.nv=0;
+    Object.keys(e.dayMins).forEach(function(dt){
+      var dm=e.dayMins[dt],tot=dm.va+dm.bn+dm.nv;
+      if(tot>W){var s=W/tot;dm.va=Math.round(dm.va*s);dm.bn=Math.round(dm.bn*s);dm.nv=Math.round(dm.nv*s);}
+      e.va+=dm.va;e.bn+=dm.bn;e.nv+=dm.nv;
+    });
+  });
+  var rows=Object.values(map).map(function(e){
+    var days=e.dates.length,total=days*W,unid=Math.max(0,total-e.va-e.bn-e.nv);
+    return{name:e.name,dept:e.dept,days:days,total:total,va:e.va,bn:e.bn,nv:e.nv,unid:unid};
+  });
+  if(query)rows=rows.filter(function(r){return r.name.toLowerCase().indexOf(query)>=0||r.dept.toLowerCase().indexOf(query)>=0;});
+  rows.sort(function(a,b){return b.va-a.va;});
+  return rows;
 }
 
-function pctBar(pct,cls){
-  var colors={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
-  return '<div class="pct-with-bar">'+
-    '<span class="pct-badge '+cls+'">'+pct+'%</span>'+
-    '<div class="pct-bar"><div class="pct-bar-fill" style="width:'+Math.min(parseFloat(pct),100)+'%;background:'+colors[cls]+'"></div></div>'+
-  '</div>';
+function renderMinutes(){
+  var rows=minGetRows();
+  document.getElementById('min-count').textContent='('+rows.length+' employees)';
+  var cards=document.getElementById('min-cards');
+  if(rows.length){
+    var tD=0,tM=0,tV=0,tB=0,tN=0,tU=0;
+    rows.forEach(function(r){tD+=r.days;tM+=r.total;tV+=r.va;tB+=r.bn;tN+=r.nv;tU+=r.unid;});
+    cards.innerHTML=[
+      {lbl:'Total Days',val:tD,col:'#1a1d2e'},{lbl:'Total Min',val:tM,col:'#1a1d2e'},
+      {lbl:'NVA min',val:tN,col:'#dc2626'},{lbl:'BNVA min',val:tB,col:'#2563eb'},
+      {lbl:'VA min',val:tV,col:'#059669'},{lbl:'Unid min',val:tU,col:'#7c3aed'}
+    ].map(function(s){
+      return '<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;text-align:center;box-shadow:var(--shadow);">'+
+        '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:5px">'+s.lbl+'</div>'+
+        '<div style="font-family:var(--mono);font-size:22px;font-weight:500;color:'+s.col+'">'+s.val+'</div></div>';
+    }).join('');
+  }
+  var b=document.getElementById('min-tbody');
+  if(!rows.length){b.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=rows.map(function(r){
+    var col=getC(r.name);
+    return '<tr><td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+      '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+r.dept+'</div></div></div></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+r.dept+'</td>'+
+      '<td style="text-align:center;font-weight:600">'+r.days+'</td>'+
+      '<td style="text-align:center;font-family:var(--mono);font-weight:600">'+r.total+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#dc2626;background:rgba(220,38,38,.08);padding:3px 10px;border-radius:5px">'+r.nv+'</span></td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#2563eb;background:rgba(37,99,235,.08);padding:3px 10px;border-radius:5px">'+r.bn+'</span></td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#059669;background:rgba(5,150,105,.08);padding:3px 10px;border-radius:5px">'+r.va+'</span></td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#7c3aed;background:rgba(124,58,237,.08);padding:3px 10px;border-radius:5px">'+r.unid+'</span></td>'+
+    '</tr>';
+  }).join('');
+}
+function clearMinF(){document.getElementById('min-dept').value='all';document.getElementById('min-from').value='';document.getElementById('min-to').value='';renderMinutes();}
+
+function dlMinCSV(){
+  var rows=minGetRows();if(!rows.length){alert('No data!');return;}
+  var lines=['IOTAFLOW MINUTES REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Employee,Department,Days,Total Minutes,NVA (min),BNVA (min),VA (min),Unidentified (min)'];
+  rows.forEach(function(r){lines.push('"'+r.name+'","'+r.dept+'",'+r.days+','+r.total+','+r.nv+','+r.bn+','+r.va+','+r.unid);});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Minutes_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-// ── DRILL DOWN ───────────────────────────────────────────────────
-var drillN='',drillTabA='summary';
+function dlMinPPT(){
+  var rows=minGetRows();if(!rows.length){alert('No data!');return;}
+  var now=new Date().toLocaleDateString('en-IN');
+  var tD=0,tM=0,tV=0,tB=0,tN=0,tU=0;
+  rows.forEach(function(r){tD+=r.days;tM+=r.total;tV+=r.va;tB+=r.bn;tN+=r.nv;tU+=r.unid;});
+  var trs=rows.map(function(r){
+    return '<tr><td>'+r.name+'</td><td style="color:#8890aa;font-size:11px">'+r.dept+'</td>'+
+      '<td style="text-align:center">'+r.days+'</td><td style="text-align:center;font-weight:700">'+r.total+'</td>'+
+      '<td style="text-align:center;color:#dc2626;font-weight:700">'+r.nv+'</td>'+
+      '<td style="text-align:center;color:#2563eb;font-weight:700">'+r.bn+'</td>'+
+      '<td style="text-align:center;color:#059669;font-weight:700">'+r.va+'</td>'+
+      '<td style="text-align:center;color:#7c3aed;font-weight:700">'+r.unid+'</td></tr>';
+  }).join('');
+  function sc(l,v,col){return '<div style="border:1px solid #e2e6f0;border-radius:8px;padding:14px;text-align:center;background:#f8fafc;">'+
+    '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8890aa;margin-bottom:6px">'+l+'</div>'+
+    '<div style="font-size:22px;font-weight:700;font-family:monospace;color:'+col+'">'+v+'</div></div>';}
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Iotaflow Minutes Report</title>'+
+    '<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Segoe UI",Arial,sans-serif;background:#fff;width:1122px;margin:0 auto;}'+
+    '.slide{width:1122px;min-height:794px;padding:36px 44px;display:flex;flex-direction:column;gap:16px;}'+
+    '.top{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #e2e6f0;padding-bottom:12px;}'+
+    '.logo{width:36px;height:36px;background:linear-gradient(135deg,#1e3a8a,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;margin-right:10px;flex-shrink:0;}'+
+    '.title{font-size:20px;font-weight:700;color:#1a1d2e;}.sub{font-size:12px;color:#8890aa;margin-top:2px;}'+
+    '.meta{font-size:11px;color:#8890aa;text-align:right;}'+
+    '.summary{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}'+
+    'table{width:100%;border-collapse:collapse;font-size:12px;flex:1;}'+
+    'thead th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8890aa;padding:7px 10px;text-align:left;border-bottom:2px solid #e2e6f0;background:#f8fafc;white-space:nowrap;}'+
+    'tbody td{padding:6px 10px;border-bottom:1px solid #f0f2f8;color:#1a1d2e;}'+
+    'tbody tr:nth-child(even) td{background:#fafbff;}'+
+    'tbody tr:last-child td{border-bottom:none;}'+
+    '.footer{font-size:10px;color:#b8bed4;border-top:1px solid #f0f2f8;padding-top:10px;display:flex;justify-content:space-between;}'+
+    '@media print{@page{size:A4 landscape;margin:0;}body{width:100%;}.slide{min-height:100vh;padding:24px 32px;}}'+
+    '</style></head><body><div class="slide">'+
+    '<div class="top"><div style="display:flex;align-items:center"><div class="logo">IF</div>'+
+      '<div><div class="title">Minutes Report</div><div class="sub">Iotaflow Systems Pvt. Ltd. &nbsp;|&nbsp; Days × 420 min &nbsp;|&nbsp; Per day capped at 420</div></div></div>'+
+      '<div class="meta">Generated: '+now+'<br/>'+rows.length+' Employees &nbsp;|&nbsp; '+tD+' Days</div></div>'+
+    '<div class="summary">'+sc('Total Days',tD,'#1a1d2e')+sc('Total Min',tM,'#1a1d2e')+sc('NVA min',tN,'#dc2626')+sc('BNVA min',tB,'#2563eb')+sc('VA min',tV,'#059669')+sc('Unid min',tU,'#7c3aed')+'</div>'+
+    '<table><thead><tr><th>Employee</th><th>Department</th><th style="text-align:center">Days</th><th style="text-align:center">Total Min</th>'+
+      '<th style="text-align:center;color:#dc2626">NVA min</th><th style="text-align:center;color:#2563eb">BNVA min</th>'+
+      '<th style="text-align:center;color:#059669">VA min</th><th style="text-align:center;color:#7c3aed">Unid min</th></tr></thead>'+
+    '<tbody>'+trs+'</tbody></table>'+
+    '<div class="footer"><span>Iotaflow Systems Pvt. Ltd. — Confidential</span><span>Minutes Report &nbsp;|&nbsp; '+now+'</span></div>'+
+    '</div></body></html>';
+  var blob=new Blob([html],{type:'text/html;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Minutes_'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// DRILL
+var drillN='';
 function openDrill(name){
   var d=filteredData().filter(function(r){return r.name===name;});
   if(!d.length)return;
@@ -1097,7 +1042,6 @@ function openDrill(name){
   renderDrillTab('summary',d);
 }
 function dTab(tab,btn){
-  drillTabA=tab;
   document.querySelectorAll('.drill-tab').forEach(function(t){t.classList.remove('active');});
   btn.classList.add('active');
   renderDrillTab(tab,filteredData().filter(function(r){return r.name===drillN;}));
@@ -1105,22 +1049,21 @@ function dTab(tab,btn){
 function renderDrillTab(tab,rows){
   var body=document.getElementById('drill-body'),col=getC(drillN);
   if(tab==='summary'){
-    var tot={va:0,bn:0,nv:0,un:0,vaP:0,bnP:0,nvP:0,unP:0};
-    rows.forEach(function(r){var c=getMin(r);tot.va+=c.va;tot.bn+=c.bn;tot.nv+=c.nv;tot.un+=c.un;tot.vaP+=c.vaP;tot.bnP+=c.bnP;tot.nvP+=c.nvP;tot.unP+=c.unP;});
-    var n=rows.length;
-    var days=new Set(rows.map(function(r){return r.date;})).size;
-    var totalMin=days*420;
-    var unTotal=Math.max(0,totalMin-tot.va-tot.bn-tot.nv);
-    var aVA=(tot.va/totalMin*100).toFixed(2),aBN=(tot.bn/totalMin*100).toFixed(2),aNV=(tot.nv/totalMin*100).toFixed(2),aUN=(unTotal/totalMin*100).toFixed(2);
+    var tot={va:0,bn:0,nv:0,un:0};
+    rows.forEach(function(r){var c=getMin(r);tot.va+=c.va;tot.bn+=c.bn;tot.nv+=c.nv;tot.un+=c.un;});
+    var days=new Set?new Set(rows.map(function(r){return r.date;})).size:rows.length;
+    var totalMin=days*W,unTotal=Math.max(0,totalMin-tot.va-tot.bn-tot.nv);
+    var aVA=(tot.va/totalMin*100).toFixed(2),aBN=(tot.bn/totalMin*100).toFixed(2);
+    var aNV=(tot.nv/totalMin*100).toFixed(2),aUN=(unTotal/totalMin*100).toFixed(2);
     body.innerHTML=
       '<div class="drill-sum-grid">'+
-        '<div class="drill-sum-card"><div class="drill-sum-lbl">Days</div><div class="drill-sum-val" style="color:'+col+'">'+days+'</div><div class="drill-sum-sub">Total: '+totalMin+' min</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Days</div><div class="drill-sum-val" style="color:'+col+'">'+days+'</div><div class="drill-sum-sub">'+totalMin+' min total</div></div>'+
         '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg VA</div><div class="drill-sum-val" style="color:var(--va)">'+aVA+'%</div><div class="drill-sum-sub">'+tot.va+' min total</div></div>'+
         '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg NVA</div><div class="drill-sum-val" style="color:var(--nv)">'+aNV+'%</div><div class="drill-sum-sub">'+tot.nv+' min total</div></div>'+
-        '<div class="drill-sum-card"><div class="drill-sum-lbl">Unidentified</div><div class="drill-sum-val" style="color:var(--un)">'+aUN+'%</div><div class="drill-sum-sub">'+unTotal+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Unidentified</div><div class="drill-sum-val" style="color:var(--un)">'+aUN+'%</div><div class="drill-sum-sub">'+unTotal+' min</div></div>'+
       '</div>'+
       '<div class="drill-stack-wrap">'+
-        '<div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">Avg Workday ('+days+' days × 420 min)</div>'+
+        '<div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">Workday ('+days+' days × 420 min)</div>'+
         '<div class="drill-stack">'+
           '<div class="drill-seg va" style="width:'+aVA+'%"></div>'+
           '<div class="drill-seg bn" style="width:'+aBN+'%"></div>'+
@@ -1139,16 +1082,17 @@ function renderDrillTab(tab,rows){
     body.innerHTML='<table class="day-tbl"><thead><tr><th>Date</th><th>VA</th><th>BNVA</th><th>NVA</th><th>Unid</th></tr></thead><tbody>'+
       sorted.map(function(r){var c=getMin(r);return '<tr>'+
         '<td style="font-family:var(--mono);font-size:11px">'+r.date+'</td>'+
-        '<td class="pct va">'+c.vaP+'%<div style="height:3px;width:'+c.vaP+'%;background:var(--va);border-radius:99px;margin-top:2px"></div></td>'+
-        '<td class="pct bn">'+c.bnP+'%<div style="height:3px;width:'+c.bnP+'%;background:var(--bn);border-radius:99px;margin-top:2px"></div></td>'+
-        '<td class="pct nv">'+c.nvP+'%<div style="height:3px;width:'+c.nvP+'%;background:var(--nv);border-radius:99px;margin-top:2px"></div></td>'+
-        '<td class="pct un">'+c.unP+'%</td></tr>';}).join('')+'</tbody></table>';
+        '<td class="pct va">'+c.vaP+'%</td>'+
+        '<td class="pct bn">'+c.bnP+'%</td>'+
+        '<td class="pct nv">'+c.nvP+'%</td>'+
+        '<td class="pct un">'+c.unP+'%</td></tr>';}).join('')+
+      '</tbody></table>';
   }
 }
 function closeDrill(){document.getElementById('drill-ov').classList.remove('open');}
 
-// ── CATEGORY MODAL ───────────────────────────────────────────────
-var CAT_LABELS={va:'Value Added (VA)',bn:'Business Necessary (BNVA)',nv:'Non-Value Added (NVA)',un:'Unidentified Time'};
+// CATEGORY MODAL
+var CAT_LABELS={va:'Value Added (VA)',bn:'Business Necessary (BNVA)',nv:'Non-Value Added (NVA)',un:'Unidentified'};
 var CAT_COLORS={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
 function openCatModal(cat){
   var d=filteredData(),col=CAT_COLORS[cat];
@@ -1158,7 +1102,7 @@ function openCatModal(cat){
   if(cat==='un'){
     var rows=d.map(function(r){var c=getMin(r);return{name:r.name,dept:r.department,date:r.date,un:c.un,unP:c.unP};}).sort(function(a,b){return b.un-a.un;});
     var tot=rows.reduce(function(s,r){return s+r.un;},0);
-    sub.textContent=d.length+' submissions · '+tot+' min total unidentified';
+    sub.textContent=d.length+' submissions · '+tot+' min total';
     body.innerHTML=rows.map(function(r){return '<div class="cat-item"><div><div class="cat-item-name"><strong>'+r.name+'</strong></div><div class="cat-item-sub">'+r.dept+' · '+r.date+'</div></div><div class="cat-item-time" style="color:'+col+'">'+r.un+' min ('+r.unP+'%)</div></div>';}).join('')+
       '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+tot+' min</span></div>';
   } else {
@@ -1172,82 +1116,54 @@ function openCatModal(cat){
         var name=part.slice(0,bi).trim(),mins=parseInt(part.slice(bi+1))||0;
         if(!name)return;
         if(!actMap[name])actMap[name]={mins:0,emps:[]};
-        actMap[name].mins+=mins;
-        if(actMap[name].emps.indexOf(r.name)<0)actMap[name].emps.push(r.name);
+        actMap[name].mins+=mins;if(actMap[name].emps.indexOf(r.name)<0)actMap[name].emps.push(r.name);
         totalMins+=mins;
       });
     });
     var acts=Object.keys(actMap).map(function(k){return{name:k,mins:actMap[k].mins,emps:actMap[k].emps};}).sort(function(a,b){return b.mins-a.mins;});
     sub.textContent=acts.length+' activities · '+totalMins+' total minutes';
-    body.innerHTML=acts.length?acts.map(function(a){return '<div class="cat-item"><div><div class="cat-item-name">'+a.name+'</div><div class="cat-item-sub">'+a.emps.join(', ')+'</div></div><div class="cat-item-time" style="color:'+col+'">'+a.mins+' min</div></div>';}).join('')+'<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+totalMins+' min</span></div>':'<div class="empty">No activities logged yet.</div>';
+    body.innerHTML=acts.length?acts.map(function(a){return '<div class="cat-item"><div><div class="cat-item-name">'+a.name+'</div><div class="cat-item-sub">'+a.emps.join(', ')+'</div></div><div class="cat-item-time" style="color:'+col+'">'+a.mins+' min</div></div>';}).join('')+
+      '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+totalMins+' min</span></div>'
+      :'<div class="empty">No activities logged yet.</div>';
   }
   document.getElementById('cat-ov').classList.add('open');
 }
 function closeCat(){document.getElementById('cat-ov').classList.remove('open');}
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDrill();closeCat();}});
 
-// ── EXCEL DOWNLOAD ───────────────────────────────────────────────
+// EXCEL
 function dlExcel(){
-  var d=filteredData();
-  if(!d.length){alert('No data!');return;}
+  var d=filteredData();if(!d.length){alert('No data!');return;}
   var names={},dates={};d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
-  var csv='IOTAFLOW ACTIVITY REPORT\nGenerated: '+new Date().toLocaleString('en-IN')+'\n\n';
-  csv+='Summary\nSubmissions,'+d.length+'\nEmployees,'+Object.keys(names).length+'\nDays,'+Object.keys(dates).length+'\nAvg VA,'+avgK(d,'vaP')+'%\nAvg BNVA,'+avgK(d,'bnP')+'%\nAvg NVA,'+avgK(d,'nvP')+'%\nAvg Unid,'+avgK(d,'unP')+'%\n\n';
-  csv+='Detail\nEmployee,Department,Date,VA min,BNVA min,NVA min,Unid min,VA%,BNVA%,NVA%,Unid%\n';
-  d.forEach(function(r){var c=getMin(r);csv+='"'+r.name+'","'+r.department+'",'+r.date+','+c.va+','+c.bn+','+c.nv+','+c.un+','+c.vaP+'%,'+c.bnP+'%,'+c.nvP+'%,'+c.unP+'%\n';});
-  dlCSV(csv,'Iotaflow_Report');
-}
-
-function dlProdCSV(){
-  var rows=[];
-  var map={};
-  ALL.forEach(function(r){var n=r.name;if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,dates:new Set()};var c=getMin(r);map[n].va+=c.va;map[n].bn+=c.bn;map[n].nv+=c.nv;map[n].dates.add(r.date);});
-  Object.values(map).forEach(function(e){
-    var days=e.dates.size,total=days*420,un=Math.max(0,total-e.va-e.bn-e.nv);
-    rows.push({name:e.name,dept:e.dept,days:days,total:total,va:e.va,vaP:(total>0?e.va/total*100:0).toFixed(2),bn:e.bn,bnP:(total>0?e.bn/total*100:0).toFixed(2),nv:e.nv,nvP:(total>0?e.nv/total*100:0).toFixed(2),un:un,unP:(total>0?un/total*100:0).toFixed(2)});
-  });
-  rows.sort(function(a,b){return parseFloat(b.vaP)-parseFloat(a.vaP);});
-  var csv='IOTAFLOW PRODUCTIVITY REPORT\nGenerated: '+new Date().toLocaleString('en-IN')+'\nLogic: Total Minutes = Days x 420 | % = (Category / Total) x 100\n\n';
-  csv+='Employee Name,Department,Days,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unidentified (min),Unidentified %\n';
-  rows.forEach(function(r){csv+='"'+r.name+'","'+r.dept+'",'+r.days+','+r.total+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.un+','+r.unP+'%\n';});
-  dlCSV(csv,'Iotaflow_Productivity');
-}
-
-function dlCSV(csv,name){
-  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var lines=['IOTAFLOW ACTIVITY REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Summary','Submissions,'+d.length,'Employees,'+Object.keys(names).length,'Days,'+Object.keys(dates).length,
+    'Avg VA,'+avgK(d,'vaP')+'%','Avg BNVA,'+avgK(d,'bnP')+'%','Avg NVA,'+avgK(d,'nvP')+'%','',
+    'Detail','Employee,Department,Date,VA min,BNVA min,NVA min,Unid min,VA%,BNVA%,NVA%,Unid%'];
+  d.forEach(function(r){var c=getMin(r);lines.push('"'+r.name+'","'+r.department+'",'+r.date+','+c.va+','+c.bn+','+c.nv+','+c.un+','+c.vaP+'%,'+c.bnP+'%,'+c.nvP+'%,'+c.unP+'%');});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
   var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');a.href=url;a.download=name+'_'+new Date().toISOString().slice(0,10)+'.csv';
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Report_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function dlProdCSV(){
+  var rows=prodGetRows();if(!rows.length){alert('No data!');return;}
+  var lines=['IOTAFLOW PRODUCTIVITY REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Employee,Department,Days,Forms,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unid (min),Unid %'];
+  rows.forEach(function(r){lines.push('"'+r.name+'","'+r.dept+'",'+r.days+','+r.subs+','+r.total+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.un+','+r.unP+'%');});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Productivity_'+new Date().toISOString().slice(0,10)+'.csv';
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-// ── EMBEDDED DATA (all 10 rows from Google Sheet) ───────────────
-var EMBEDDED = [
-  {name:"Dev",date:"2026-05-16",department:"IT Support",vatimemin:"78",bnvatimemin:"30",nvatimemin:"40",vaactivities:"First-visit resolution of hardware issues(23min)|Preventive hardware maintenance(55min)",bnvaactivities:"Antivirus and patch management(30min)",nvaactivities:"ERP modules paid for never implemented(40min)"},
-  {name:"Pushpa",date:"2026-05-18",department:"Marketing",vatimemin:"30",bnvatimemin:"20",nvatimemin:"137",vaactivities:"EPC and consultant approved vendor list pursuit(30min)",bnvaactivities:"Press release for significant events(20min)",nvaactivities:"Generic brochure with no application context(39min)|Budget spent with no measurable return tracked(46min)|Exhibition without post-event follow-up(52min)"},
-  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"20",bnvatimemin:"38",nvatimemin:"32",vaactivities:"ERP configuration matching actual process(20min)",bnvaactivities:"Antivirus and patch management(38min)",nvaactivities:"System access not ready on Day 1(20min)|No backup restoration test ever(12min)"},
-  {name:"Preeti",date:"2026-05-18",department:"Service / Post-Sales",vatimemin:"55",bnvatimemin:"65",nvatimemin:"50",vaactivities:"Installed base register with service history(35min)|First-visit resolution with right spares(20min)",bnvaactivities:"Service invoice raising(33min)|Service report with customer sign-off(32min)",nvaactivities:"Field visit without right spares(40min)|Failed components discarded without analysis(10min)"},
-  {name:"Pawan Kushwaha",date:"2026-05-18",department:"Product Design / BOM",vatimemin:"20",bnvatimemin:"15",nvatimemin:"10",vaactivities:"Cross-functional design review(20min)",bnvaactivities:"Document archiving with revision history(10min)|Statutory compliance documentation(5min)",nvaactivities:"Verbal instructions supplementing drawings(10min)"},
-  {name:"Dev",date:"2026-05-18",department:"IT Support",vatimemin:"75",bnvatimemin:"20",nvatimemin:"60",vaactivities:"Root cause resolution of incidents(30min)|First-visit resolution of hardware issues(30min)|Network security and segregation(15min)",bnvaactivities:"Asset register maintenance(20min)",nvaactivities:"IT resolving symptom not root cause(60min)"},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"30",nvatimemin:"0",vaactivities:"",bnvaactivities:"Cross-checking technical diagrams(30min)",nvaactivities:""},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(30min)|Creating engaging video content(60min)",bnvaactivities:"",nvaactivities:""},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos(60min)",bnvaactivities:"",nvaactivities:""},
-  {name:"Akash",date:"2026-05-20",department:"Marketing",vatimemin:"0",bnvatimemin:"0",nvatimemin:"99",vaactivities:"",bnvaactivities:"",nvaactivities:"Excessive scrolling(20min)|Exporting same video multiple times(20min)|Waiting for approvals(19min)|Re-editing videos(20min)|Searching for missing footage(20min)"}
-];
-
-// ── INIT ─────────────────────────────────────────────────────────
-// Wait for DOM then load data
-window.addEventListener('DOMContentLoaded', function(){
-  // Load embedded data immediately - no network needed
-  ALL = EMBEDDED;
-  renderAll();
-  renderProd();
-  document.getElementById('tb-up').textContent = 'Showing ' + ALL.length + ' cached rows — click Refresh for latest';
-  // Try to load fresh data after 2 seconds (non-blocking)
-  setTimeout(function(){
-    loadData();
-  }, 2000);
-  setInterval(loadData, 300000);
-});
+// INIT — runs immediately, no DOMContentLoaded needed (script is at bottom)
+ALL = EMBEDDED;
+renderAll();
+renderProd();
+renderMinutes();
+document.getElementById('tb-up').textContent = 'Showing ' + ALL.length + ' rows — Refresh for latest';
+setTimeout(loadData, 2000);
+setInterval(loadData, 300000);
 </script>
 </body>
 </html>
