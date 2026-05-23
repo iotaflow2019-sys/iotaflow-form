@@ -494,12 +494,143 @@ tr:hover .row-arr{color:var(--bn);}
 
     <!-- GUIDE -->
     <div class="view" id="view-guide">
-      <div class="guide-grid">
-        <div class="guide-card"><div class="guide-title">🟢 Value Added (VA)</div><div class="guide-body">Kaam jo seedha customer ya product ke liye value create karta hai. Target: <strong style="color:var(--va)">50%+</strong></div></div>
-        <div class="guide-card"><div class="guide-title">🔵 Business Necessary (BNVA)</div><div class="guide-body">Zaruri kaam — compliance, filing. Value nahi banata lekin band nahi kar sakte. Minimize karo.</div></div>
-        <div class="guide-card"><div class="guide-title">🔴 Non-Value Added (NVA)</div><div class="guide-body">Pure waste — corrections, duplicate kaam. System ki failure hai. Target: <strong style="color:var(--nv)">below 20%</strong></div></div>
-        <div class="guide-card"><div class="guide-title">🟣 Unidentified Time</div><div class="guide-body">420 min mein se jo log nahi hua. Agar zyada hai — form fill nahi hua ya kaam track nahi hua.</div></div>
-        <div class="guide-card" style="grid-column:1/-1"><div class="guide-title">⏱ 420 Minutes Formula</div><div class="guide-body">1 working day = 420 minutes &nbsp;|&nbsp; Total Minutes = Days × 420 &nbsp;|&nbsp; % = (Category mins ÷ Total) × 100<br/><br/><strong>Employee row click karein</strong> → full daily breakdown right panel mein.</div></div>
+      <div style="max-width:860px;">
+
+        <!-- Header -->
+        <div style="background:var(--g-hero);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:1.5rem;box-shadow:var(--shadow-md);">
+          <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px;">Iotaflow Systems — Management</div>
+          <div style="color:#fff;font-size:22px;font-weight:800;letter-spacing:-.02em;">Dashboard Guide</div>
+          <div style="color:rgba(255,255,255,.75);font-size:13px;margin-top:6px;line-height:1.6;">Ye guide aapko dashboard ka poora system samjhata hai — categories ka matlab, formula, aur har section kaise use karein.</div>
+        </div>
+
+        <!-- Presentation Script -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:1.4rem;margin-bottom:1.25rem;box-shadow:var(--shadow);border-left:4px solid var(--bn);">
+          <div style="font-size:13px;font-weight:700;color:var(--bn);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.75rem;">💬 Boss ko Present Karne ka Script</div>
+          <div style="font-size:13px;color:var(--tx2);line-height:1.8;font-style:italic;">"Sir, humne ek system banaya hai jisme har employee roz apna kaam log karta hai. Har din 420 minutes hote hain — hum dekhte hain ki kitna time value create karne mein gaya, kitna compliance mein, kitna waste mein, aur kitna untracked raha.<br/><br/>Red jitna kam ho utna achha — matlab system theek se chal raha hai. Green jitna zyada ho utna achha — matlab team productive hai.<br/><br/>Productivity Report mein aap kisi bhi employee ka weekly ya monthly performance dekh sakte hain — exact minutes aur percentage ke saath."</div>
+        </div>
+
+        <!-- 4 Categories -->
+        <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:.75rem;">4 Categories — Kya Matlab Hai?</div>
+        <div class="guide-grid" style="margin-bottom:1.25rem;">
+          <div class="guide-card" style="border-top:3px solid var(--va);">
+            <div class="guide-title">🟢 Value Added (VA)</div>
+            <div class="guide-body">Kaam jo seedha customer ya product ke liye value create karta hai.<br/><br/><strong>Example:</strong> Invoice banana, product assembly, customer call.<br/><br/>Target: <strong style="color:var(--va)">50% se upar</strong> — jitna zyada green utna better.</div>
+          </div>
+          <div class="guide-card" style="border-top:3px solid var(--bn);">
+            <div class="guide-title">🔵 Business Necessary (BNVA)</div>
+            <div class="guide-body">Zaruri kaam jo karna padta hai — compliance, filing, reports.<br/><br/><strong>Example:</strong> GST filing, payroll, statutory records.<br/><br/>Value nahi banata lekin band nahi kar sakte. <strong style="color:var(--bn)">Minimize karo.</strong></div>
+          </div>
+          <div class="guide-card" style="border-top:3px solid var(--nv);">
+            <div class="guide-title">🔴 Non-Value Added (NVA)</div>
+            <div class="guide-body">Pure waste — system ki failure ki wajah se hota hai, employee ki galti nahi.<br/><br/><strong>Example:</strong> Corrections, duplicate entry, approvals ka wait.<br/><br/>Target: <strong style="color:var(--nv)">20% se neeche</strong> — jahan zyada ho, wahan process fix karo.</div>
+          </div>
+          <div class="guide-card" style="border-top:3px solid var(--un);">
+            <div class="guide-title">🟣 Unidentified Time</div>
+            <div class="guide-body">420 minutes mein se jo time log nahi hua — pata nahi kahaan gaya.<br/><br/><strong>Matlab:</strong> Ya toh form fill nahi hua, ya kaam track nahi kiya gaya.<br/><br/>Agar ye zyada hai — <strong style="color:var(--un)">form filling improve karni hogi.</strong></div>
+          </div>
+        </div>
+
+        <!-- Formula -->
+        <div class="guide-card" style="margin-bottom:1.25rem;border-top:3px solid var(--tx);">
+          <div class="guide-title">⏱ 420 Minutes Formula — Exactly Kaise Calculate Hota Hai</div>
+          <div class="guide-body">
+            <div style="background:var(--bg);border-radius:var(--rs);padding:1rem;margin:.75rem 0;font-family:var(--mono);font-size:12px;line-height:2;">
+              1 Working Day &nbsp;= &nbsp;420 minutes<br/>
+              Total Minutes &nbsp;= &nbsp;Days × 420<br/>
+              Category % &nbsp;&nbsp;&nbsp;= &nbsp;(Category minutes ÷ Total minutes) × 100
+            </div>
+            <strong>Example — Akash ne 4 forms fill kiye ek din mein:</strong><br/>
+            <div style="background:var(--bg);border-radius:var(--rs);padding:1rem;margin:.75rem 0;font-size:12px;line-height:2;">
+              Form 1: VA=0, BNVA=30, NVA=0<br/>
+              Form 2: VA=90, BNVA=0, NVA=0<br/>
+              Form 3: VA=60, BNVA=0, NVA=0<br/>
+              Form 4: VA=0, BNVA=0, NVA=99<br/>
+              <strong>Step 1 — Total karo:</strong> VA=150, BNVA=30, NVA=99<br/>
+              <strong>Step 2 — Total min:</strong> 1 day × 420 = 420 min<br/>
+              <strong>Step 3 — %:</strong> VA=35.71% | BNVA=7.14% | NVA=23.57% | Unid=33.57%
+            </div>
+          </div>
+        </div>
+
+        <!-- Left side sections -->
+        <div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:.75rem;">Left Side — Har Section Kya Karta Hai</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;">
+
+          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
+            <div style="font-size:20px;flex-shrink:0;">📊</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Overview — Poori team ki ek nazar mein summary</div>
+              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">4 colored boxes mein team ka average dikhta hai. Neeche recent submissions. <strong>Kisi bhi box pe click karo</strong> → us category ki activities ki list khulti hai with employee names.</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
+            <div style="font-size:20px;flex-shrink:0;">🏆</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Winners — Kaun best perform kar raha hai</div>
+              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Sabse zyada VA% wala employee → <strong>recognition do.</strong> Sabse kam NVA% wala → <strong>role model hai.</strong> Department ranking bhi dikhti hai — kaun sa department productive hai.</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
+            <div style="font-size:20px;flex-shrink:0;">👥</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Employees — Har employee ki individual performance</div>
+              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Table mein har employee ka average dikh raha hai. <strong>Row pe click karo</strong> → right side panel mein us employee ka din-by-din breakdown dikhta hai — daily log bhi dekh sakte hain.</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
+            <div style="font-size:20px;flex-shrink:0;">🏢</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Departments — Department vs Department comparison</div>
+              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Kaun sa department kitna value add kar raha hai — VA% ke hisaab se ranked. Quickly identify karein kahan improvement chahiye.</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);border-left:3px solid var(--bn);">
+            <div style="font-size:20px;flex-shrink:0;">📈</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--bn);margin-bottom:3px;">Productivity Report — ⭐ Sabse Important Section</div>
+              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Exact Days × 420 formula se calculation. Ek employee ne multiple forms fill kiye toh sab add hote hain, phir percentage niklti hai. <strong>Filter lagao</strong> — kisi bhi date range ka, kisi bhi department ka report dekho. <strong>Export CSV</strong> button se Excel mein download karo.</div>
+            </div>
+          </div>
+
+          <div style="background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:1rem 1.25rem;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow);">
+            <div style="font-size:20px;flex-shrink:0;">📋</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:3px;">Detail Log — Raw data har ek submission ka</div>
+              <div style="font-size:12px;color:var(--tx2);line-height:1.6;">Har form submission ka complete record — date, minutes, percentage sab ek jagah. Audit ya verification ke liye useful.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Filters -->
+        <div class="guide-card" style="margin-bottom:1.25rem;">
+          <div class="guide-title">🔍 Filters — Specific Data Kaise Dekhein</div>
+          <div class="guide-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.5rem;">
+              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
+                <strong style="font-size:12px;">Department Filter</strong><br/>
+                <span style="font-size:12px;color:var(--tx2);">Sirf ek department ka data dekhna ho toh uska button dabao. "All" dabao toh wapas poora data.</span>
+              </div>
+              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
+                <strong style="font-size:12px;">Date Filter</strong><br/>
+                <span style="font-size:12px;color:var(--tx2);">Today / This Week / This Month — ya "From" aur "To" mein specific date range daalo.</span>
+              </div>
+              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
+                <strong style="font-size:12px;">20 tarikh ka data dekhna ho?</strong><br/>
+                <span style="font-size:12px;color:var(--tx2);">From = 2026-05-20, To = 2026-05-20 daalo → sirf us din ka data.</span>
+              </div>
+              <div style="background:var(--bg);border-radius:var(--rs);padding:.75rem;">
+                <strong style="font-size:12px;">Refresh</strong><br/>
+                <span style="font-size:12px;color:var(--tx2);">Sidebar ya topbar mein "Refresh" button — nayi submissions turant dikh jaayengi.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -599,6 +730,14 @@ function getMin(r){
     var bP = parseFloat(r.bnva || 0) || 0;
     var nP = parseFloat(r.nva  || 0) || 0;
     if(vP||bP||nP){ va=Math.round(vP/100*W); bn=Math.round(bP/100*W); nv=Math.round(nP/100*W); }
+  }
+  // Cap total at 420 per submission
+  var total = va + bn + nv;
+  if(total > W){
+    var scale = W / total;
+    va = Math.round(va * scale);
+    bn = Math.round(bn * scale);
+    nv = Math.round(nv * scale);
   }
   var un = Math.max(0, W - va - bn - nv);
   return { va:va, bn:bn, nv:nv, un:un,
@@ -831,11 +970,33 @@ function renderProd(){
     var n = r.name || 'Unknown';
     if(!map[n]) map[n] = {name:n, dept:r.department||'', va:0, bn:0, nv:0, dates:[], submissions:0};
     var c2 = getMin(r);
-    map[n].va += c2.va;
-    map[n].bn += c2.bn;
-    map[n].nv += c2.nv;
+    // Group by date to cap per-day total at 420
+    var dayKey = n + '|' + r.date;
+    if(!map[n].dayMins) map[n].dayMins = {};
+    if(!map[n].dayMins[r.date]) map[n].dayMins[r.date] = {va:0,bn:0,nv:0};
+    map[n].dayMins[r.date].va += c2.va;
+    map[n].dayMins[r.date].bn += c2.bn;
+    map[n].dayMins[r.date].nv += c2.nv;
     map[n].submissions++;
-    if(map[n].dates.indexOf(r.date) < 0) map[n].dates.push(r.date); // unique dates only
+    if(map[n].dates.indexOf(r.date) < 0) map[n].dates.push(r.date);
+  });
+
+  // Calculate totals from dayMins (capped per day at 420)
+  Object.values(map).forEach(function(e){
+    e.va=0; e.bn=0; e.nv=0;
+    if(e.dayMins){
+      Object.keys(e.dayMins).forEach(function(dt){
+        var dm=e.dayMins[dt];
+        var dayTotal=dm.va+dm.bn+dm.nv;
+        if(dayTotal>W){
+          var scale=W/dayTotal;
+          dm.va=Math.round(dm.va*scale);
+          dm.bn=Math.round(dm.bn*scale);
+          dm.nv=Math.round(dm.nv*scale);
+        }
+        e.va+=dm.va; e.bn+=dm.bn; e.nv+=dm.nv;
+      });
+    }
   });
 
   var rows = Object.values(map).map(function(e){
