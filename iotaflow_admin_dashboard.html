@@ -563,7 +563,23 @@ function getC(n){if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length];re
 function ini(n){var p=(n||'').trim().split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase();}
 
 // EMBEDDED DATA — all rows from Google Sheet
-var EMBEDDED=[];
+var EMBEDDED=[
+  {name:"Gagan",date:"2026-05-23",department:"Sales & CRM",vatimemin:"90",bnvatimemin:"20",nvatimemin:"40",vaactivities:"Send offer with updated catalogue(90min)",bnvaactivities:"Update offer value probability and closing date in Odoo(20min)",nvaactivities:"Follow up for dispatch status(30min)|Follow up for payment(10min)"},
+  {name:"Akash",date:"2026-05-23",department:"Marketing",vatimemin:"60",bnvatimemin:"240",nvatimemin:"120",vaactivities:"Editing videos with clear storytelling(60min)",bnvaactivities:"Uploading videos to YouTube Instagram(60min)|Converting videos into different resolutions(60min)|Organizing raw footage project backups(60min)|Using AI tools for script generation(60min)",nvaactivities:"Searching for old diagrams logos fonts(60min)|Repeated corrections caused by unclear communication(60min)"},
+  {name:"Rajeev Kalra",date:"2026-05-23",department:"Sales & CRM",vatimemin:"19",bnvatimemin:"59",nvatimemin:"7",vaactivities:"Email revised offer with clarifications(12min)|Revised offer for technical query(7min)",bnvaactivities:"WhatsApp follow-up after call(25min)|Stay in touch until customer shares enquiry(34min)",nvaactivities:"Offer revision requested by Shailesh Sir / Abhishek Sir(7min)"},
+  {name:"Dev",date:"2026-05-23",department:"IT Support",vatimemin:"40",bnvatimemin:"45",nvatimemin:"0",vaactivities:"Resolving a user login issue(10min)|Installing requested software(30min)",bnvaactivities:"Backups and disaster recovery drills(45min)",nvaactivities:""},
+  {name:"Vipul",date:"2026-05-23",department:"Marketing",vatimemin:"199",bnvatimemin:"110",nvatimemin:"0",vaactivities:"Designing social media posts and creatives(10min)|Running targeted email marketing campaigns(100min)|Creating marketing automation workflows(60min)|Planning and managing digital ad campaigns(29min)",bnvaactivities:"Email verification and database cleaning(50min)|Preparing campaign reports and documentation(10min)|Generating captions hashtags thumbnails(5min)|Coordinating with sales management and vendors(30min)|Using AI tools for script generation(15min)",nvaactivities:"Sending campaigns to invalid or duplicate email databases(0min)"},
+  {name:"Pushpa",date:"2026-05-23",department:"Marketing",vatimemin:"330",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Creating marketing automation workflows(240min)|Preparing accurate print-ready sticker/artwork files(60min)|Creating technical diagrams wiring diagrams(30min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Priyanka",date:"2026-05-25",department:"Sales & CRM",vatimemin:"32",bnvatimemin:"104",nvatimemin:"115",vaactivities:"Discovery call: uncover customer pain with right questions(32min)",bnvaactivities:"Send PO acknowledgement on email(24min)|Ask customer to remit advance / balance payment(23min)|Add activity in Odoo(14min)|Stay in touch until customer shares enquiry(19min)|WhatsApp follow-up after call(24min)",nvaactivities:"Follow up for dispatch status(66min)|Inform Naveen Sir once payment received(10min)|Follow up for payment(19min)|Approve OPS / OAL(15min)|PO received send for Shailesh Sir / Abhishek Sir approval(5min)"},
+  {name:"Pushpa",date:"2026-05-29",department:"Marketing",vatimemin:"30",bnvatimemin:"75",nvatimemin:"0",vaactivities:"Designing catalogue layouts with technical hierarchy and product information(30min)",bnvaactivities:"Ticket booking and travel planning for exhibitions(15min)|Preparing campaign reports analytics tracking and documentation(60min)",nvaactivities:""},
+  {name:"Akash",date:"2026-05-30",department:"Marketing",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Designing catalogue layouts with technical hierarchy(60min)|Developing social media creatives and marketing posters(30min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"0",bnvatimemin:"120",nvatimemin:"0",vaactivities:"Creating marketing automation workflows(0min)",bnvaactivities:"Uploading videos to YouTube Instagram and other social media platforms(120min)",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"120",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos with clear storytelling subtitles transitions(120min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Managing YouTube and Instagram content strategy(60min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"0",bnvatimemin:"60",nvatimemin:"0",vaactivities:"",bnvaactivities:"Organizing raw footage project backups folders and version management(60min)",nvaactivities:""},
+  {name:"Vipul",date:"2026-06-01",department:"Marketing",vatimemin:"210",bnvatimemin:"30",nvatimemin:"0",vaactivities:"Designing social media posts and creatives(30min)|Creating marketing automation workflows(90min)|Running targeted email marketing campaigns(90min)",bnvaactivities:"Email verification and database cleaning before campaign execution(30min)",nvaactivities:""},
+  {name:"Priyanka",date:"2026-06-01",department:"Sales & CRM",vatimemin:"0",bnvatimemin:"0",nvatimemin:"0",vaactivities:"",bnvaactivities:"WhatsApp follow-up after call(0min)|Send PO acknowledgement on email(0min)",nvaactivities:"Approve OPS / OAL(0min)|Follow up for dispatch status(0min)|Send LR copy to customer(0min)"}
+];
 
 // VIEW
 function showView(id,btn){
@@ -1389,7 +1405,7 @@ renderAll();
 renderProd();
 renderMinutes();
 populateQuickSearch();
-document.getElementById('tb-up').textContent = 'Koi data nahi — employees se form bharo!';
+document.getElementById('tb-up').textContent = 'Showing ' + ALL.length + ' rows — Refresh for latest';
 setTimeout(loadData, 2000);
 setInterval(loadData, 300000);
 </script>
