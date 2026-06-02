@@ -290,6 +290,8 @@ tr:hover .row-arr{color:var(--bn);}
       <select class="fp" id="dateF" onchange="renderAll()">
         <option value="all">All Time</option>
         <option value="today">Today</option>
+        <option value="yesterday">Yesterday</option>
+        <option value="dayafter">Day Before Yesterday</option>
         <option value="week">This Week</option>
         <option value="month">This Month</option>
       </select>
@@ -653,13 +655,20 @@ function filteredData(){
   var fr=document.getElementById('dateFrom').value;
   var to=document.getElementById('dateTo').value;
   var today=new Date().toISOString().slice(0,10);
+  var yesterday=new Date(Date.now()-1*864e5).toISOString().slice(0,10);
+  var dayafter=new Date(Date.now()-2*864e5).toISOString().slice(0,10);
   var wk=new Date(Date.now()-7*864e5).toISOString().slice(0,10);
   var mo=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
   return ALL.filter(function(r){
     var dOk=DEPT==='all'||(r.department||'').indexOf(DEPT)>=0;
     var tOk;
     if(fr||to)tOk=(!fr||r.date>=fr)&&(!to||r.date<=to);
-    else tOk=df==='all'||(df==='today'&&r.date===today)||(df==='week'&&r.date>=wk)||(df==='month'&&r.date>=mo);
+    else tOk=df==='all'
+      ||(df==='today'&&r.date===today)
+      ||(df==='yesterday'&&r.date===yesterday)
+      ||(df==='dayafter'&&r.date===dayafter)
+      ||(df==='week'&&r.date>=wk)
+      ||(df==='month'&&r.date>=mo);
     return dOk&&tOk;
   });
 }
