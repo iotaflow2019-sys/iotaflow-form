@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Iotaflow Dashboard v2026b</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f0f2f8;--bg2:#e8ebf4;--white:#fff;--card:#fff;
+  --border:#e2e6f0;--border2:#c8cfe8;
+  --tx:#1a1d2e;--tx2:#4a5068;--mu:#8890aa;--mu2:#b8bed4;
+  --va:#059669;--vad:rgba(5,150,105,.1);--vab:rgba(5,150,105,.25);
+  --bn:#2563eb;--bnd:rgba(37,99,235,.1);--bnb:rgba(37,99,235,.25);
+  --nv:#dc2626;--nvd:rgba(220,38,38,.1);--nvb:rgba(220,38,38,.25);
+  --un:#7c3aed;--und:rgba(124,58,237,.1);--unb:rgba(124,58,237,.25);
+  --g-hero:linear-gradient(135deg,#1e3a8a,#2563eb 50%,#7c3aed);
+  --r:14px;--rs:8px;--font:'Plus Jakarta Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;-webkit-font-smoothing:antialiased;}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;}
+.s-logo{padding:1.1rem 1.25rem;border-bottom:1px solid var(--border);}
+.s-logo-inner{display:flex;align-items:center;gap:9px;}
+.s-mark{width:32px;height:32px;border-radius:8px;background:var(--g-hero);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.s-mark span{font-size:11px;font-weight:800;color:#fff;}
+.s-name{font-size:14px;font-weight:700;color:var(--tx);}
+.s-sub{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;}
+.s-nav{padding:.75rem .75rem;flex:1;overflow-y:auto;}
+.s-grp{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mu2);padding:0 .5rem;margin:1rem 0 5px;}
+.s-btn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--tx2);cursor:pointer;margin-bottom:2px;width:100%;text-align:left;border:none;background:transparent;font-family:var(--font);transition:all .15s;}
+.s-btn:hover{background:var(--bg);color:var(--tx);}
+.s-btn.active{background:var(--bnd);color:var(--bn);font-weight:600;}
+.s-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.s-bottom{padding:.75rem 1rem;border-top:1px solid var(--border);}
+.s-refresh{width:100%;padding:9px 12px;border-radius:var(--rs);background:linear-gradient(135deg,#059669,#10b981);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px;}
+.s-link{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--rs);font-size:12px;font-weight:500;color:var(--tx2);background:var(--bg);border:1px solid var(--border);text-decoration:none;margin-bottom:5px;font-family:var(--font);}
+.s-link:hover{color:var(--bn);}
+.s-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.s-time{font-size:9px;color:var(--mu2);font-family:var(--mono);text-align:center;margin-top:4px;}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.75rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:30;gap:10px;flex-wrap:wrap;}
+.tb-crumb{font-size:11px;color:var(--mu);margin-bottom:1px;}
+.tb-title{font-size:18px;font-weight:800;letter-spacing:-.025em;}
+.tb-right{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.live-pill{display:flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:99px;padding:4px 12px;font-size:11px;font-weight:600;color:#059669;}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#059669;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.tb-updated{font-size:11px;color:var(--mu);font-family:var(--mono);}
+.tbtn{background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 13px;color:var(--tx2);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;}
+.tbtn:hover{border-color:var(--border2);background:var(--bg);}
+.tbtn.green{background:linear-gradient(135deg,#059669,#10b981);border:none;color:#fff;}
+.tbtn.blue{background:linear-gradient(135deg,#2563eb,#60a5fa);border:none;color:#fff;}
+
+.content{padding:1.5rem 1.75rem;flex:1;}
+.view{display:none;}.view.active{display:block;}
+
+/* FILTER BAR */
+.fbar{display:flex;align-items:center;gap:7px;margin-bottom:1.5rem;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1rem;flex-wrap:wrap;box-shadow:var(--shadow);}
+.fbar-lbl{font-size:11px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+.fp{background:transparent;border:1px solid var(--border);border-radius:99px;padding:5px 13px;font-size:12px;font-weight:500;color:var(--tx2);cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;}
+.fp:hover{border-color:var(--bn);color:var(--bn);}
+.fp.on{background:linear-gradient(135deg,#2563eb,#60a5fa);color:#fff;border-color:transparent;font-weight:600;}
+.fp-sep{width:1px;height:22px;background:var(--border);flex-shrink:0;}
+select.fp{-webkit-appearance:none;padding-right:18px;background:var(--white);cursor:pointer;}
+.date-wrap{display:flex;align-items:center;gap:6px;}
+.date-lbl{font-size:11px;color:var(--mu);white-space:nowrap;}
+.date-inp{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 9px;font-family:var(--mono);font-size:11px;color:var(--tx);outline:none;cursor:pointer;width:125px;}
+.date-inp:focus{border-color:var(--bn);}
+
+/* HERO */
+.hero-strip{background:var(--g-hero);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow-md);flex-wrap:wrap;gap:1rem;}
+.hero-greeting{color:rgba(255,255,255,.7);font-size:12px;margin-bottom:3px;}
+.hero-title{color:#fff;font-size:20px;font-weight:800;letter-spacing:-.02em;}
+.hero-stats{display:flex;gap:2rem;}
+.hero-stat-val{font-family:var(--mono);font-size:22px;font-weight:500;color:#fff;}
+.hero-stat-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+/* 4 BOXES */
+.cboxes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem;}
+.cbox{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:all .2s;}
+.cbox:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.cbox::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
+.cbox.va::before{background:linear-gradient(90deg,#059669,#10b981);}
+.cbox.bn::before{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.cbox.nv::before{background:linear-gradient(90deg,#dc2626,#f87171);}
+.cbox.un::before{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+.cbox-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;}
+.cbox-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.cbox.va .cbox-icon{background:var(--vad);}
+.cbox.bn .cbox-icon{background:var(--bnd);}
+.cbox.nv .cbox-icon{background:var(--nvd);}
+.cbox.un .cbox-icon{background:var(--und);}
+.cbox-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:4px;}
+.cbox.va .cbox-badge{background:var(--vad);color:var(--va);}
+.cbox.bn .cbox-badge{background:var(--bnd);color:var(--bn);}
+.cbox.nv .cbox-badge{background:var(--nvd);color:var(--nv);}
+.cbox.un .cbox-badge{background:var(--und);color:var(--un);}
+.cbox-label{font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:4px;}
+.cbox-val{font-family:var(--mono);font-size:34px;font-weight:500;line-height:1;margin-bottom:4px;}
+.cbox.va .cbox-val{color:var(--va);}
+.cbox.bn .cbox-val{color:var(--bn);}
+.cbox.nv .cbox-val{color:var(--nv);}
+.cbox.un .cbox-val{color:var(--un);}
+.cbox-sub{font-size:11px;color:var(--mu);}
+.cbox-bar{height:3px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:12px;}
+.cbox-fill{height:3px;border-radius:99px;transition:width .9s ease;}
+.cbox.va .cbox-fill{background:linear-gradient(90deg,#059669,#10b981);}
+.cbox.bn .cbox-fill{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.cbox.nv .cbox-fill{background:linear-gradient(90deg,#dc2626,#f87171);}
+.cbox.un .cbox-fill{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+.cbox-hint{font-size:10px;color:var(--mu2);margin-top:6px;}
+.cbox:hover .cbox-hint{color:var(--bn);}
+
+/* SECTION */
+.sec{margin-bottom:1.5rem;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;}
+.sec-title{font-size:15px;font-weight:700;color:var(--tx);}
+.sec-meta{font-size:12px;color:var(--mu);}
+
+/* TABLE */
+.tbl-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
+.tbl-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.1rem;border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap;}
+.tbl-toolbar-title{font-size:13px;font-weight:700;color:var(--tx);}
+.tbl-search{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx);outline:none;width:200px;}
+.tbl-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:600px;}
+thead th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);white-space:nowrap;}
+tbody td{font-size:13px;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--tx);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr{cursor:pointer;transition:background .1s;}
+tbody tr:hover td{background:#f5f7ff;}
+.emp-cell{display:flex;align-items:center;gap:9px;}
+.emp-av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.emp-name{font-size:13px;font-weight:600;color:var(--tx);}
+.emp-dept{font-size:11px;color:var(--mu);}
+.pct{font-family:var(--mono);font-size:12px;font-weight:600;}
+.pct.va{color:var(--va);}.pct.bn{color:var(--bn);}.pct.nv{color:var(--nv);}.pct.un{color:var(--un);}
+.chip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;font-family:var(--mono);}
+.chip.va{background:var(--vad);color:var(--va);}.chip.bn{background:var(--bnd);color:var(--bn);}
+.chip.nv{background:var(--nvd);color:var(--nv);}.chip.un{background:var(--und);color:var(--un);}
+.mini-stack{height:5px;border-radius:99px;display:flex;overflow:hidden;gap:1px;background:var(--bg2);min-width:80px;}
+.ms{height:5px;}
+.ms.va{background:var(--va);}.ms.bn{background:var(--bn);}.ms.nv{background:var(--nv);}.ms.un{background:var(--un);opacity:.4;}
+.row-arr{color:var(--mu2);}
+tr:hover .row-arr{color:var(--bn);}
+
+/* DRILL PANEL */
+.drill-ov{position:fixed;inset:0;background:rgba(15,20,40,.3);backdrop-filter:blur(4px);z-index:100;display:none;justify-content:flex-end;}
+.drill-ov.open{display:flex;}
+.drill-panel{width:460px;height:100vh;background:var(--white);border-left:1px solid var(--border);display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.1);animation:slideIn .25s ease;}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.drill-hdr{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.drill-hdr-left{display:flex;align-items:center;gap:10px;}
+.drill-av{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;}
+.drill-name{font-size:15px;font-weight:700;color:var(--tx);}
+.drill-dept{font-size:11px;color:var(--mu);}
+.drill-close{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 12px;cursor:pointer;font-size:13px;color:var(--tx2);}
+.drill-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 1.4rem;}
+.drill-tab{padding:.7rem 1rem;font-size:12px;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
+.drill-tab.active{color:var(--bn);border-bottom-color:var(--bn);}
+.drill-body{flex:1;overflow-y:auto;padding:1.1rem 1.4rem;}
+.drill-sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem;}
+.drill-sum-card{background:var(--bg);border-radius:var(--rs);padding:.9rem;border:1px solid var(--border);}
+.drill-sum-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:4px;}
+.drill-sum-val{font-family:var(--mono);font-size:20px;font-weight:500;}
+.drill-sum-sub{font-size:10px;color:var(--mu);margin-top:2px;}
+.drill-stack-wrap{background:var(--bg);border-radius:var(--rs);padding:.9rem;margin-bottom:.75rem;border:1px solid var(--border);}
+.drill-stack{height:12px;border-radius:99px;display:flex;overflow:hidden;gap:2px;margin-bottom:6px;}
+.drill-seg{height:12px;border-radius:2px;}
+.drill-seg.va{background:linear-gradient(90deg,#059669,#10b981);}
+.drill-seg.bn{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+.drill-seg.nv{background:linear-gradient(90deg,#dc2626,#f87171);}
+.drill-seg.un{background:var(--un);opacity:.5;}
+.drill-leg{display:flex;gap:12px;flex-wrap:wrap;}
+.drill-leg-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2);font-family:var(--mono);}
+.drill-leg-pip{width:8px;height:8px;border-radius:3px;}
+.day-tbl{width:100%;border-collapse:collapse;}
+.day-tbl th{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg);}
+.day-tbl td{font-size:12px;padding:9px 10px;border-bottom:1px solid var(--border);color:var(--tx);}
+.day-tbl tr:last-child td{border-bottom:none;}
+
+/* CATEGORY MODAL */
+.cat-ov{position:fixed;inset:0;background:rgba(15,20,40,.35);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.cat-ov.open{display:flex;}
+.cat-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r);width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md);}
+.cat-hdr{display:flex;align-items:flex-start;justify-content:space-between;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);}
+.cat-title{font-size:16px;font-weight:700;}
+.cat-sub{font-size:12px;color:var(--mu);margin-top:2px;}
+.cat-close{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:5px 10px;color:var(--tx2);cursor:pointer;font-size:13px;}
+.cat-body{overflow-y:auto;padding:1.1rem 1.4rem;flex:1;}
+.cat-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:var(--rs);padding:9px 12px;border:1px solid var(--border);margin-bottom:6px;}
+.cat-item-name{font-size:13px;color:var(--tx);flex:1;}
+.cat-item-sub{font-size:10px;color:var(--mu);margin-top:2px;}
+.cat-item-time{font-family:var(--mono);font-size:12px;font-weight:600;margin-left:12px;white-space:nowrap;}
+.cat-total{display:flex;justify-content:space-between;padding:9px 12px;background:var(--bg2);border-radius:var(--rs);margin-top:8px;font-size:12px;font-weight:600;}
+
+/* GUIDE */
+.guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.guide-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow);}
+.guide-title{font-size:14px;font-weight:700;margin-bottom:.75rem;color:var(--tx);}
+.guide-body{font-size:13px;color:var(--tx2);line-height:1.7;}
+
+/* EMPTY */
+.empty{text-align:center;padding:3rem 2rem;color:var(--mu);font-size:13px;}
+.spin{width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--bn);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;margin-bottom:10px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* MIN REPORT FILTER BUTTONS */
+.min-btn{background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;}
+.ppt-btn{background:linear-gradient(135deg,#c2410c,#ea580c);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;}
+
+@media(max-width:1100px){.cboxes{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:900px){.sidebar{width:56px;}.s-name,.s-sub,.s-grp,.s-btn span,.s-time,.s-link span{display:none;}.s-btn{justify-content:center;}.s-logo-inner{justify-content:center;}.main{margin-left:56px;}}
+@media(max-width:640px){.sidebar{display:none;}.main{margin-left:0;}.content{padding:1rem;}.cboxes{grid-template-columns:1fr 1fr;}.drill-panel{width:100%;}.guide-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="s-logo">
+    <div class="s-logo-inner">
+      <div class="s-mark"><span>IF</span></div>
+      <div><div class="s-name">Iotaflow</div><div class="s-sub">Management</div></div>
+    </div>
+  </div>
+  <div class="s-nav">
+    <div class="s-grp">Views</div>
+    <button class="s-btn active" onclick="showView('overview',this)"><div class="s-ico" style="background:#eff6ff">📊</div><span>Overview</span></button>
+    <button class="s-btn" onclick="showView('winners',this)"><div class="s-ico" style="background:#fefce8">🏆</div><span>Winners</span></button>
+    <button class="s-btn" onclick="showView('employees',this)"><div class="s-ico" style="background:#eff6ff">👥</div><span>Employees</span></button>
+    <button class="s-btn" onclick="showView('departments',this)"><div class="s-ico" style="background:#f5f3ff">🏢</div><span>Departments</span></button>
+    <button class="s-btn" onclick="showView('productivity',this)"><div class="s-ico" style="background:#fefce8">📈</div><span>Productivity Report</span></button>
+    <button class="s-btn" onclick="showView('minutes',this)"><div class="s-ico" style="background:#ecfdf5">🎯</div><span>Activity Slides</span></button>
+
+    <button class="s-btn" onclick="showView('guide',this)"><div class="s-ico" style="background:#f0fdf4">💡</div><span>Dashboard Guide</span></button>
+  </div>
+  <div class="s-bottom">
+    <!-- Quick Employee Search -->
+    <div style="margin-bottom:8px;">
+      <div style="font-size:10px;font-weight:700;color:var(--mu2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;">Quick Search</div>
+      <select id="emp-quick-search" onchange="quickEmpSearch(this.value)" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:7px 10px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+        <option value="">🔍 Employee search...</option>
+      </select>
+    </div>
+    <button class="s-refresh" onclick="loadData()">↻ <span>Refresh</span></button>
+    <a class="s-link" href="https://iotaflow2019-sys.github.io/iotaflow-form/" target="_blank"><div class="s-dot" style="background:var(--va)"></div><span>Employee Form</span></a>
+    <a class="s-link" href="https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit" target="_blank"><div class="s-dot" style="background:var(--bn)"></div><span>Google Sheet</span></a>
+    <div class="s-time" id="s-time">—</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div><div class="tb-crumb">Iotaflow / Management</div><div class="tb-title">Activity Dashboard</div></div>
+    <div class="tb-right">
+      <div class="live-pill"><div class="live-dot"></div>Live</div>
+      <div class="tb-updated" id="tb-up">Loading...</div>
+      <button class="tbtn" onclick="loadData()">↻ Refresh</button>
+      <button class="tbtn blue" onclick="window.open('https://docs.google.com/spreadsheets/d/1LN1PZt0dKZKipsRDTHv20kbcPN7D15zLbdmFWA2VySQ/edit','_blank')">📊 Sheet</button>
+      <button class="tbtn green" onclick="dlExcel()">⬇ Excel</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- FILTER BAR -->
+    <div class="fbar">
+      <span class="fbar-lbl">Dept</span>
+      <button class="fp on" onclick="setDept('all',this)">All</button>
+      <button class="fp" onclick="setDept('Accounts',this)">Accounts</button>
+      <button class="fp" onclick="setDept('HR',this)">HR</button>
+      <button class="fp" onclick="setDept('IT',this)">IT</button>
+      <button class="fp" onclick="setDept('Purchase',this)">Purchase</button>
+      <button class="fp" onclick="setDept('Design',this)">Design</button>
+      <button class="fp" onclick="setDept('Sales',this)">Sales</button>
+      <button class="fp" onclick="setDept('Marketing',this)">Marketing</button>
+      <button class="fp" onclick="setDept('Service',this)">Service</button>
+      <button class="fp" onclick="setDept('Store',this)">Store</button>
+      <div class="fp-sep"></div>
+      <select class="fp" id="dateF" onchange="onDateFChange()">
+        <option value="all">All Time</option>
+        <option value="today" id="opt-today">Today</option>
+        <option value="yesterday" id="opt-yesterday">Yesterday</option>
+        <option value="dayafter" id="opt-dayafter">Day Before Yesterday</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+      </select>
+      <div class="fp-sep"></div>
+      <div class="date-wrap">
+        <span class="date-lbl">From</span>
+        <input type="date" class="date-inp" id="dateFrom" onchange="document.getElementById('dateF').value='all';renderAll()"/>
+        <span class="date-lbl">To</span>
+        <input type="date" class="date-inp" id="dateTo" onchange="document.getElementById('dateF').value='all';renderAll()"/>
+        <button class="fp" onclick="clearDates()" style="padding:4px 8px;font-size:11px;">✕</button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="view active" id="view-overview">
+      <div class="hero-strip">
+        <div><div class="hero-greeting">Iotaflow Systems — Management View</div><div class="hero-title">Activity Overview</div></div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-val" id="h-tot">—</div><div class="hero-stat-lbl">Submissions</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" id="h-emp">—</div><div class="hero-stat-lbl">Employees</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" id="h-days">—</div><div class="hero-stat-lbl">Days Tracked</div></div>
+        </div>
+      </div>
+      <div class="cboxes">
+        <div class="cbox va" onclick="openCatModal('va')">
+          <div class="cbox-top"><div class="cbox-icon">✅</div><span class="cbox-badge">VA</span></div>
+          <div class="cbox-label">Value Added</div>
+          <div class="cbox-val" id="cb-va">—</div>
+          <div class="cbox-sub" id="cb-va-s">avg per workday</div>
+          <div class="cbox-bar"><div class="cbox-fill" id="cbf-va" style="width:0%"></div></div>
+          <div class="cbox-hint">↗ Click to see activities</div>
+        </div>
+        <div class="cbox bn" onclick="openCatModal('bn')">
+          <div class="cbox-top"><div class="cbox-icon">📋</div><span class="cbox-badge">BNVA</span></div>
+          <div class="cbox-label">Business Necessary</div>
+          <div class="cbox-val" id="cb-bn">—</div>
+          <div class="cbox-sub" id="cb-bn-s">avg per workday</div>
+          <div class="cbox-bar"><div class="cbox-fill" id="cbf-bn" style="width:0%"></div></div>
+          <div class="cbox-hint">↗ Click to see activities</div>
+        </div>
+        <div class="cbox nv" onclick="openCatModal('nv')">
+          <div class="cbox-top"><div class="cbox-icon">⚠️</div><span class="cbox-badge">NVA</span></div>
+          <div class="cbox-label">Non-Value Added</div>
+          <div class="cbox-val" id="cb-nv">—</div>
+          <div class="cbox-sub" id="cb-nv-s">avg per workday</div>
+          <div class="cbox-bar"><div class="cbox-fill" id="cbf-nv" style="width:0%"></div></div>
+          <div class="cbox-hint">↗ Click to see activities</div>
+        </div>
+        <div class="cbox un" onclick="openCatModal('un')">
+          <div class="cbox-top"><div class="cbox-icon">❓</div><span class="cbox-badge">UNID</span></div>
+          <div class="cbox-label">Unidentified</div>
+          <div class="cbox-val" id="cb-un">—</div>
+          <div class="cbox-sub">time not logged</div>
+          <div class="cbox-bar"><div class="cbox-fill" id="cbf-un" style="width:0%"></div></div>
+          <div class="cbox-hint">↗ Click for breakdown</div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">Recent Submissions</div><div class="sec-meta" id="ov-meta"></div></div>
+        <div class="tbl-card"><div class="tbl-scroll"><table>
+          <thead><tr><th>Employee</th><th>Date</th><th>Breakdown</th><th>VA</th><th>BNVA</th><th>NVA</th><th>Unid.</th><th></th></tr></thead>
+          <tbody id="ov-tbody"></tbody>
+        </table></div></div>
+      </div>
+    </div>
+
+    <!-- WINNERS -->
+    <div class="view" id="view-winners">
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">🏆 Category Leaders</div></div>
+        <div class="tbl-card"><div class="tbl-scroll"><table>
+          <thead><tr><th>Category</th><th>Winner</th><th>Department</th><th>Score</th><th>Meaning</th></tr></thead>
+          <tbody id="win-tbody"></tbody>
+        </table></div></div>
+      </div>
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">🏢 Department Leaderboard</div></div>
+        <div class="tbl-card"><div class="tbl-scroll"><table>
+          <thead><tr><th>#</th><th>Department</th><th>Submissions</th><th>VA%</th><th>BNVA%</th><th>NVA%</th><th>Unid%</th><th>Split</th></tr></thead>
+          <tbody id="dept-win-tbody"></tbody>
+        </table></div></div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEES -->
+    <div class="view" id="view-employees">
+      <div class="sec">
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">All Employees <span id="emp-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" class="tbl-search" id="emp-search" placeholder="Search..." oninput="renderEmpTable(filteredData())"/>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Employee</th><th>Latest Date</th><th>Submissions</th><th>Avg VA%</th><th>Avg BNVA%</th><th>Avg NVA%</th><th>Avg Unid%</th><th>Split</th><th></th></tr></thead>
+            <tbody id="emp-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPARTMENTS -->
+    <div class="view" id="view-departments">
+      <div class="sec">
+        <div class="tbl-card">
+          <div class="tbl-toolbar"><div class="tbl-toolbar-title">Department Summary</div><div style="font-size:12px;color:var(--mu)">420 min · averages</div></div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Department</th><th>Submissions</th><th>Employees</th><th>Avg VA%</th><th>Avg BNVA%</th><th>Avg NVA%</th><th>Avg Unid%</th><th>Split</th></tr></thead>
+            <tbody id="dept-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTIVITY REPORT -->
+    <div class="view" id="view-productivity">
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">📈 Productivity Report</div><div class="sec-meta">Days × 420 | % = mins ÷ total × 100</div></div>
+        <div style="display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+          <select id="prod-dept" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+            <option value="all">All Departments</option>
+            <option value="Accounts">Accounts</option>
+            <option value="HR">HR & Admin</option>
+            <option value="IT">IT Support</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Design">Product Design</option>
+            <option value="Service">Service</option>
+            <option value="Sales">Sales & CRM</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Store">Store</option>
+          </select>
+          <input type="date" id="prod-from" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <input type="date" id="prod-to" onchange="renderProd()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <button onclick="clearProdF()" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
+          <button onclick="dlProdCSV()" style="background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;margin-left:auto;">⬇ Export CSV</button>
+        </div>
+        <div class="prod-cards" id="prod-cards" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem;"></div>
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">Employee-wise <span id="prod-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" class="tbl-search" id="prod-search" placeholder="Search..." oninput="renderProd()"/>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr>
+              <th>Employee</th><th>Dept</th><th style="text-align:center">Days</th><th style="text-align:center">Forms</th><th style="text-align:center">Total Min</th>
+              <th style="color:#dc2626">NVA min</th><th style="color:#dc2626">NVA %</th>
+              <th style="color:#2563eb">BNVA min</th><th style="color:#2563eb">BNVA %</th>
+              <th style="color:#059669">VA min</th><th style="color:#059669">VA %</th>
+              <th style="color:#7c3aed">Unid min</th><th style="color:#7c3aed">Unid %</th>
+            </tr></thead>
+            <tbody id="prod-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MINUTES REPORT -->
+    <div class="view" id="view-minutes">
+      <div class="sec">
+        <div class="sec-head"><div class="sec-title">🎯 Activity Slides</div><div class="sec-meta">Actual minutes · no percentages · Days × 420 min</div></div>
+        <div style="display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+          <select id="min-dept" onchange="renderMinutes()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--tx2);cursor:pointer;outline:none;">
+            <option value="all">All Departments</option>
+            <option value="Accounts">Accounts</option>
+            <option value="HR">HR & Admin</option>
+            <option value="IT">IT Support</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Design">Product Design</option>
+            <option value="Service">Service</option>
+            <option value="Sales">Sales & CRM</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Store">Store</option>
+          </select>
+          <input type="date" id="min-from" onchange="renderMinutes()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <input type="date" id="min-to" onchange="renderMinutes()" style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:6px 10px;font-family:var(--mono);font-size:12px;color:var(--tx2);outline:none;"/>
+          <button onclick="clearMinF()" style="background:transparent;border:1px solid var(--border);border-radius:var(--rs);padding:6px 12px;font-family:var(--font);font-size:12px;color:var(--mu);cursor:pointer;">✕ Clear</button>
+          <div style="margin-left:auto;display:flex;gap:8px;">
+            <button class="min-btn" onclick="dlMinCSV()">⬇ Excel</button>
+            <button class="ppt-btn" onclick="dlMinPPT()">📊 PPT Download</button>
+          </div>
+        </div>
+        <div id="min-cards" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:1.25rem;"></div>
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">Employee Minutes <span id="min-count" style="font-weight:400;color:var(--mu);font-size:12px;margin-left:6px;"></span></div>
+            <input type="text" class="tbl-search" id="min-search" placeholder="Search..." oninput="renderMinutes()"/>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr>
+              <th>Employee</th><th>Department</th>
+              <th style="text-align:center">Days</th>
+              <th style="text-align:center">Total Min</th>
+              <th style="text-align:center;color:#dc2626">NVA min</th>
+              <th style="text-align:center;color:#2563eb">BNVA min</th>
+              <th style="text-align:center;color:#059669">VA min</th>
+              <th style="text-align:center;color:#7c3aed">Unid min</th>
+            </tr></thead>
+            <tbody id="min-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL LOG -->
+    <div class="view" id="view-table">
+      <div class="sec">
+        <div class="tbl-card">
+          <div class="tbl-toolbar">
+            <div class="tbl-toolbar-title">Activity Slides — Full Log</div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div id="tbl-meta" style="font-size:12px;color:var(--mu)"></div>
+              <button class="ppt-btn" onclick="dlDetailPPT()" style="background:linear-gradient(135deg,#c2410c,#ea580c);border:none;border-radius:var(--rs);padding:6px 14px;font-family:var(--font);font-size:12px;color:#fff;cursor:pointer;font-weight:600;white-space:nowrap;">📊 PPT Download</button>
+            </div>
+          </div>
+          <div class="tbl-scroll"><table>
+            <thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>VA min</th><th>BNVA min</th><th>NVA min</th><th>Unid min</th><th>VA%</th><th>BNVA%</th><th>NVA%</th><th>Unid%</th></tr></thead>
+            <tbody id="tbl-tbody"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUIDE -->
+    <div class="view" id="view-guide">
+      <div style="max-width:860px;">
+        <div style="background:var(--g-hero);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:1.5rem;box-shadow:var(--shadow-md);">
+          <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:4px;">Iotaflow Systems — Management</div>
+          <div style="color:#fff;font-size:22px;font-weight:800;letter-spacing:-.02em;">Dashboard Guide</div>
+        </div>
+        <div class="guide-grid" style="margin-bottom:1.25rem;">
+          <div class="guide-card" style="border-top:3px solid var(--va);"><div class="guide-title">🟢 Value Added (VA)</div><div class="guide-body">Kaam jo seedha customer ya product ke liye value banata hai. Target: <strong style="color:var(--va)">50%+</strong></div></div>
+          <div class="guide-card" style="border-top:3px solid var(--bn);"><div class="guide-title">🔵 Business Necessary (BNVA)</div><div class="guide-body">Zaruri compliance kaam — band nahi kar sakte. Minimize karo.</div></div>
+          <div class="guide-card" style="border-top:3px solid var(--nv);"><div class="guide-title">🔴 Non-Value Added (NVA)</div><div class="guide-body">Pure waste — system ki failure. Target: <strong style="color:var(--nv)">below 20%</strong></div></div>
+          <div class="guide-card" style="border-top:3px solid var(--un);"><div class="guide-title">🟣 Unidentified Time</div><div class="guide-body">420 min mein se jo log nahi hua. Form fill nahi hua ya kaam track nahi hua.</div></div>
+          <div class="guide-card" style="grid-column:1/-1;border-top:3px solid var(--tx);"><div class="guide-title">⏱ Formula</div><div class="guide-body">1 day = 420 min &nbsp;|&nbsp; Total = Days × 420 &nbsp;|&nbsp; % = (mins ÷ total) × 100 &nbsp;|&nbsp; Employee row click → daily breakdown</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- DRILL PANEL -->
+<div class="drill-ov" id="drill-ov" onclick="if(event.target===this)closeDrill()">
+  <div class="drill-panel">
+    <div class="drill-hdr">
+      <div class="drill-hdr-left"><div class="drill-av" id="d-av">?</div><div><div class="drill-name" id="d-name">—</div><div class="drill-dept" id="d-dept">—</div></div></div>
+      <button class="drill-close" onclick="closeDrill()">✕ Close</button>
+    </div>
+    <div class="drill-tabs">
+      <div class="drill-tab active" onclick="dTab('summary',this)">Summary</div>
+      <div class="drill-tab" onclick="dTab('daily',this)">Daily Log</div>
+    </div>
+    <div class="drill-body" id="drill-body"></div>
+  </div>
+</div>
+
+<!-- CATEGORY MODAL -->
+<div class="cat-ov" id="cat-ov" onclick="if(event.target===this)closeCat()">
+  <div class="cat-box">
+    <div class="cat-hdr"><div><div class="cat-title" id="cat-title">—</div><div class="cat-sub" id="cat-sub">—</div></div><button class="cat-close" onclick="closeCat()">✕</button></div>
+    <div class="cat-body" id="cat-body"></div>
+  </div>
+</div>
+
+<script>
+var SCRIPT_API="https://script.google.com/macros/s/AKfycbyhpoDWpdpUp3Q3sZgw7BZ2Sg5GpkXDbWaVGKaDU7XRjPfbVYPHPEAPnxLmyr1GIJDu/exec";
+var W=420, ALL=[], DEPT='all';
+var PAL=['#059669','#2563eb','#dc2626','#7c3aed','#d97706','#0891b2','#db2777','#65a30d'];
+var CMAP={};
+function getC(n){if(!CMAP[n])CMAP[n]=PAL[Object.keys(CMAP).length%PAL.length];return CMAP[n];}
+function ini(n){var p=(n||'').trim().split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(n||'??').slice(0,2).toUpperCase();}
+
+// EMBEDDED DATA — all rows from Google Sheet
+var EMBEDDED=[
+  {name:"Gagan",date:"2026-05-23",department:"Sales & CRM",vatimemin:"90",bnvatimemin:"20",nvatimemin:"40",vaactivities:"Send offer with updated catalogue(90min)",bnvaactivities:"Update offer value probability and closing date in Odoo(20min)",nvaactivities:"Follow up for dispatch status(30min)|Follow up for payment(10min)"},
+  {name:"Akash",date:"2026-05-23",department:"Marketing",vatimemin:"60",bnvatimemin:"240",nvatimemin:"120",vaactivities:"Editing videos with clear storytelling(60min)",bnvaactivities:"Uploading videos to YouTube Instagram(60min)|Converting videos into different resolutions(60min)|Organizing raw footage project backups(60min)|Using AI tools for script generation(60min)",nvaactivities:"Searching for old diagrams logos fonts(60min)|Repeated corrections caused by unclear communication(60min)"},
+  {name:"Rajeev Kalra",date:"2026-05-23",department:"Sales & CRM",vatimemin:"19",bnvatimemin:"59",nvatimemin:"7",vaactivities:"Email revised offer with clarifications(12min)|Revised offer for technical query(7min)",bnvaactivities:"WhatsApp follow-up after call(25min)|Stay in touch until customer shares enquiry(34min)",nvaactivities:"Offer revision requested by Shailesh Sir / Abhishek Sir(7min)"},
+  {name:"Dev",date:"2026-05-23",department:"IT Support",vatimemin:"40",bnvatimemin:"45",nvatimemin:"0",vaactivities:"Resolving a user login issue(10min)|Installing requested software(30min)",bnvaactivities:"Backups and disaster recovery drills(45min)",nvaactivities:""},
+  {name:"Vipul",date:"2026-05-23",department:"Marketing",vatimemin:"199",bnvatimemin:"110",nvatimemin:"0",vaactivities:"Designing social media posts and creatives(10min)|Running targeted email marketing campaigns(100min)|Creating marketing automation workflows(60min)|Planning and managing digital ad campaigns(29min)",bnvaactivities:"Email verification and database cleaning(50min)|Preparing campaign reports and documentation(10min)|Generating captions hashtags thumbnails(5min)|Coordinating with sales management and vendors(30min)|Using AI tools for script generation(15min)",nvaactivities:"Sending campaigns to invalid or duplicate email databases(0min)"},
+  {name:"Pushpa",date:"2026-05-23",department:"Marketing",vatimemin:"330",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Creating marketing automation workflows(240min)|Preparing accurate print-ready sticker/artwork files(60min)|Creating technical diagrams wiring diagrams(30min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Priyanka",date:"2026-05-25",department:"Sales & CRM",vatimemin:"32",bnvatimemin:"104",nvatimemin:"115",vaactivities:"Discovery call: uncover customer pain with right questions(32min)",bnvaactivities:"Send PO acknowledgement on email(24min)|Ask customer to remit advance / balance payment(23min)|Add activity in Odoo(14min)|Stay in touch until customer shares enquiry(19min)|WhatsApp follow-up after call(24min)",nvaactivities:"Follow up for dispatch status(66min)|Inform Naveen Sir once payment received(10min)|Follow up for payment(19min)|Approve OPS / OAL(15min)|PO received send for approval(5min)"},
+  {name:"Pushpa",date:"2026-05-29",department:"Marketing",vatimemin:"30",bnvatimemin:"75",nvatimemin:"0",vaactivities:"Designing catalogue layouts with technical hierarchy(30min)",bnvaactivities:"Ticket booking and travel planning for exhibitions(15min)|Preparing campaign reports analytics tracking and documentation(60min)",nvaactivities:""},
+  {name:"Akash",date:"2026-05-30",department:"Marketing",vatimemin:"90",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Designing catalogue layouts with technical hierarchy(60min)|Developing social media creatives and marketing posters(30min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"0",bnvatimemin:"120",nvatimemin:"0",vaactivities:"Creating marketing automation workflows(0min)",bnvaactivities:"Uploading videos to YouTube Instagram and other social media platforms(120min)",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"120",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Editing videos with clear storytelling subtitles transitions(120min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"60",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Managing YouTube and Instagram content strategy(60min)",bnvaactivities:"",nvaactivities:""},
+  {name:"Akash",date:"2026-06-01",department:"Marketing",vatimemin:"0",bnvatimemin:"60",nvatimemin:"0",vaactivities:"",bnvaactivities:"Organizing raw footage project backups folders and version management(60min)",nvaactivities:""},
+  {name:"Vipul",date:"2026-06-01",department:"Marketing",vatimemin:"210",bnvatimemin:"30",nvatimemin:"0",vaactivities:"Designing social media posts and creatives(30min)|Creating marketing automation workflows(90min)|Running targeted email marketing campaigns(90min)",bnvaactivities:"Email verification and database cleaning before campaign execution(30min)",nvaactivities:""},
+  {name:"Priyanka",date:"2026-06-01",department:"Sales & CRM",vatimemin:"0",bnvatimemin:"0",nvatimemin:"0",vaactivities:"",bnvaactivities:"WhatsApp follow-up after call(0min)|Send PO acknowledgement on email(0min)",nvaactivities:"Approve OPS / OAL(0min)|Follow up for dispatch status(0min)|Send LR copy to customer(0min)"},
+  {name:"Minaxi",date:"2026-06-01",department:"Sales & CRM",vatimemin:"278",bnvatimemin:"125",nvatimemin:"17",vaactivities:"Discovery call: uncover customer pain with right questions(193min)|Send company introduction email with relevant product(40min)|Handle objection: Why IOTAFLOW over other brands?(20min)|Find relevant product for received enquiry(15min)|Follow up: technically qualified? Budgetary or urgent?(10min)",bnvaactivities:"LinkedIn research for product-customer fit(60min)|LinkedIn message to solve customer challenges(30min)|WhatsApp follow-up after call(30min)|Send PO acknowledgement on email(5min)",nvaactivities:"PO received send for Shailesh Sir / Abhishek Sir approval(2min)|Request Mehak Mam to create new product code(10min)|Follow up for dispatch status(5min)"},
+  {name:"Parvinder",date:"2026-06-01",department:"Store",vatimemin:"3",bnvatimemin:"0",nvatimemin:"30",vaactivities:"Quality check (गुणवत्ता जांच)(2min)|Right availability of goods(1min)|On-time delivery(0min)",bnvaactivities:"",nvaactivities:"Inventory record update (manual)(30min)"},
+  {name:"Pushpa",date:"2026-06-01",department:"Marketing",vatimemin:"300",bnvatimemin:"60",nvatimemin:"0",vaactivities:"Preparing accurate print-ready sticker/artwork files(120min)|Editing videos with clear storytelling(180min)",bnvaactivities:"Checking print compatibility color profiles dimensions(30min)|Using AI tools for script generation(30min)",nvaactivities:""},
+  {name:"Mehvish Khan",date:"2026-06-01",department:"HR & Admin",vatimemin:"135",bnvatimemin:"0",nvatimemin:"50",vaactivities:"Sourcing candidates for open approved roles(90min)|Screening resumes for job fit(30min)|Candidate status updates to hiring managers(15min)",bnvaactivities:"",nvaactivities:"Manual entry of timesheet data(30min)|Over-documenting beyond requirements(20min)"},
+  {name:"Avinash",date:"2026-06-01",department:"Service / Post-Sales",vatimemin:"0",bnvatimemin:"0",nvatimemin:"0",vaactivities:"Application ke anusar sahi flow meter selection(0min)",bnvaactivities:"",nvaactivities:"Travel time to site(0min)"}
+];
+
+// VIEW
+function showView(id,btn){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.s-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  renderAll();
+  if(id==='productivity')renderProd();
+  if(id==='minutes')renderMinutes();
+}
+
+// LOAD DATA
+function loadData(){
+  document.getElementById('tb-up').textContent='Refreshing...';
+  fetch(SCRIPT_API+'?action=get&t='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(json){
+      if(json && json.data && json.data.length > 0){
+        var fresh = normalizeRows(json.data);
+        if(fresh.length > 0){
+          ALL = fresh;
+          var now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+          document.getElementById('tb-up').textContent='Live · '+now+' · '+ALL.length+' rows';
+          document.getElementById('s-time').textContent='Synced '+now;
+        } else {
+          document.getElementById('tb-up').textContent='Cached · '+ALL.length+' rows';
+        }
+      } else {
+        document.getElementById('tb-up').textContent='Cached · '+ALL.length+' rows';
+      }
+      renderAll();
+      populateQuickSearch();
+      if(document.getElementById('view-productivity').classList.contains('active'))renderProd();
+      if(document.getElementById('view-minutes').classList.contains('active'))renderMinutes();
+    })
+    .catch(function(){
+      document.getElementById('tb-up').textContent='Cached · '+ALL.length+' rows';
+      renderAll();
+    });
+}
+
+
+function cleanDate(val){
+  if(!val) return '';
+  val = String(val).trim();
+  // Already YYYY-MM-DD - perfect
+  if(val.length===10 && val[4]==='-' && val[7]==='-') return val;
+  // ISO with T: "2026-06-01T00:00:00.000Z" -> slice first 10
+  if(val.indexOf('T') > -1) return val.slice(0,10);
+  // Slash: "6/1/2026" or "06/01/2026"
+  if(val.indexOf('/') > -1){
+    var p = val.split('/');
+    if(p.length===3){
+      var yr = p[2].length===4 ? p[2] : '20'+p[2];
+      return yr+'-'+String(p[0]).padStart(2,'0')+'-'+String(p[1]).padStart(2,'0');
+    }
+  }
+  // "Sun May 23 2026 00:00:00 GMT+0530" or any JS date string
+  // Use Date.parse but fix timezone by extracting date parts directly
+  try{
+    var d = new Date(val);
+    if(!isNaN(d.getTime())){
+      // Get LOCAL date parts (not UTC) to match what user sees
+      var yr = d.getFullYear();
+      var mo = d.getMonth()+1;
+      var dy = d.getDate();
+      // If time part pushes UTC date back 1 day, adjust
+      // Check if original string had a timezone offset issue
+      var result = yr+'-'+String(mo).padStart(2,'0')+'-'+String(dy).padStart(2,'0');
+      return result;
+    }
+  }catch(e){}
+  return val;
+}
+
+function normalizeRows(rows){
+  return rows.map(function(r){
+    var obj={};
+    Object.keys(r).forEach(function(k){
+      var nk = k.toLowerCase().replace(/[^a-z0-9]/g,'');
+      var val = String(r[k]).trim();
+      if(nk === 'date') val = cleanDate(val);
+      obj[nk] = val;
+    });
+    return obj;
+  }).filter(function(r){return r.name && r.name.length > 0;});
+}
+
+// CALC — cap at 420 per submission
+function getMin(r){
+  var va=parseFloat(r.vatimemin||0)||0;
+  var bn=parseFloat(r.bnvatimemin||0)||0;
+  var nv=parseFloat(r.nvatimemin||0)||0;
+  if(!va&&!bn&&!nv){
+    var vP=parseFloat(r.va||0)||0,bP=parseFloat(r.bnva||0)||0,nP=parseFloat(r.nva||0)||0;
+    if(vP||bP||nP){va=Math.round(vP/100*W);bn=Math.round(bP/100*W);nv=Math.round(nP/100*W);}
+  }
+  var tot=va+bn+nv;
+  if(tot>W){var s=W/tot;va=Math.round(va*s);bn=Math.round(bn*s);nv=Math.round(nv*s);}
+  var un=Math.max(0,W-va-bn-nv);
+  return{va:va,bn:bn,nv:nv,un:un,vaP:Math.round(va/W*100),bnP:Math.round(bn/W*100),nvP:Math.round(nv/W*100),unP:Math.round(un/W*100)};
+}
+
+// FILTER
+function onDateFChange(){
+  // Clear From/To inputs completely
+  var frEl = document.getElementById('dateFrom');
+  var toEl = document.getElementById('dateTo');
+  if(frEl) frEl.value = '';
+  if(toEl) toEl.value = '';
+  renderAll();
+}
+
+function setDept(d,btn){
+  document.querySelectorAll('.fbar .fp:not(select)').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');DEPT=d;renderAll();
+}
+function clearDates(){document.getElementById('dateFrom').value='';document.getElementById('dateTo').value='';document.getElementById('dateF').value='all';renderAll();}
+function localDate(offset){
+  var d=new Date();
+  d.setDate(d.getDate()-offset);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function filteredData(){
+  var df  = document.getElementById('dateF').value;
+  var frEl= document.getElementById('dateFrom');
+  var toEl= document.getElementById('dateTo');
+  // Only use from/to if they have valid YYYY-MM-DD values
+  var fr  = (frEl && frEl.value && frEl.value.length===10) ? frEl.value : '';
+  var to  = (toEl && toEl.value && toEl.value.length===10) ? toEl.value : '';
+
+  var today     = localDate(0);
+  var yesterday = localDate(1);
+  var dayafter  = localDate(2);
+  var wk        = localDate(7);
+  var mo        = localDate(30);
+
+  return ALL.filter(function(r){
+    var dOk = DEPT==='all' || (r.department||'').indexOf(DEPT)>=0;
+    // Always clean the row date
+    var rd  = cleanDate(r.date||'');
+    var tOk;
+    // If manual date range is set, use it
+    if(fr || to){
+      tOk = (!fr || rd >= fr) && (!to || rd <= to);
+    } else {
+      // Use quick filter dropdown
+      switch(df){
+        case 'today':     tOk = rd === today;     break;
+        case 'yesterday': tOk = rd === yesterday; break;
+        case 'dayafter':  tOk = rd === dayafter;  break;
+        case 'week':      tOk = rd >= wk;         break;
+        case 'month':     tOk = rd >= mo;         break;
+        default:          tOk = true;             break; // 'all'
+      }
+    }
+    return dOk && tOk;
+  });
+}
+function avgK(d,k){if(!d.length)return 0;var s=0;d.forEach(function(r){s+=getMin(r)[k];});return Math.round(s/d.length);}
+
+// RENDER ALL
+function renderAll(){
+  var d=filteredData();
+  // Hero
+  var names={},dates={};
+  d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
+  document.getElementById('h-tot').textContent=d.length||'0';
+  document.getElementById('h-emp').textContent=Object.keys(names).length||'0';
+  document.getElementById('h-days').textContent=Object.keys(dates).length||'0';
+  document.getElementById('ov-meta').textContent=d.length+' entries';
+  // Boxes
+  var vaP=avgK(d,'vaP'),bnP=avgK(d,'bnP'),nvP=avgK(d,'nvP'),unP=avgK(d,'unP');
+  var vaM=avgK(d,'va'),bnM=avgK(d,'bn'),nvM=avgK(d,'nv');
+  document.getElementById('cb-va').textContent=d.length?vaP+'%':'—';
+  document.getElementById('cb-bn').textContent=d.length?bnP+'%':'—';
+  document.getElementById('cb-nv').textContent=d.length?nvP+'%':'—';
+  document.getElementById('cb-un').textContent=d.length?unP+'%':'—';
+  document.getElementById('cb-va-s').textContent=d.length?'~'+vaM+' min avg':'avg per workday';
+  document.getElementById('cb-bn-s').textContent=d.length?'~'+bnM+' min avg':'avg per workday';
+  document.getElementById('cb-nv-s').textContent=d.length?'~'+nvM+' min avg':'avg per workday';
+  setTimeout(function(){
+    document.getElementById('cbf-va').style.width=vaP+'%';
+    document.getElementById('cbf-bn').style.width=bnP+'%';
+    document.getElementById('cbf-nv').style.width=nvP+'%';
+    document.getElementById('cbf-un').style.width=unP+'%';
+  },120);
+  renderOvTable(d);renderEmpTable(d);renderDeptTable(d);renderWinners(d);renderDetailTable(d);
+}
+
+function msRow(c){
+  return '<div class="mini-stack">'+
+    '<div class="ms va" style="width:'+Math.round(c.va/W*100)+'%"></div>'+
+    '<div class="ms bn" style="width:'+Math.round(c.bn/W*100)+'%"></div>'+
+    '<div class="ms nv" style="width:'+Math.round(c.nv/W*100)+'%"></div>'+
+    '<div class="ms un" style="width:'+Math.round(c.un/W*100)+'%"></div>'+
+  '</div>';
+}
+
+function renderOvTable(d){
+  var b=document.getElementById('ov-tbody');
+  if(!d.length){b.innerHTML='<tr><td colspan="8" class="empty">No submissions yet.</td></tr>';return;}
+  b.innerHTML=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).slice(0,10).map(function(r){
+    var c=getMin(r),col=getC(r.name);
+    return '<tr onclick="openDrill(\''+r.name+'\')">' +
+      '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+      '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+(r.department||'')+'</div></div></div></td>'+
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+(r.date||'—')+'</td>'+
+      '<td>'+msRow(c)+'</td>'+
+      '<td><span class="pct va">'+c.vaP+'%</span></td>'+
+      '<td><span class="pct bn">'+c.bnP+'%</span></td>'+
+      '<td><span class="pct nv">'+c.nvP+'%</span></td>'+
+      '<td><span class="pct un">'+c.unP+'%</span></td>'+
+      '<td class="row-arr">›</td></tr>';
+  }).join('');
+}
+
+function renderEmpTable(d){
+  var b=document.getElementById('emp-tbody');
+  var q=(document.getElementById('emp-search').value||'').toLowerCase();
+  var map={};
+  d.forEach(function(r){
+    var n=r.name;if(!map[n])map[n]={name:n,dept:r.department||'',rows:[],dates:[]};
+    map[n].rows.push(r);if(r.date&&map[n].dates.indexOf(r.date)<0)map[n].dates.push(r.date);
+  });
+  var emps=Object.values(map).map(function(e){
+    var tot={va:0,bn:0,nv:0,un:0};
+    e.rows.forEach(function(r){var c=getMin(r);tot.va+=c.vaP;tot.bn+=c.bnP;tot.nv+=c.nvP;tot.un+=c.unP;});
+    var n=e.rows.length;
+    return{name:e.name,dept:e.dept,count:n,date:e.dates.slice().sort().reverse()[0]||'',
+      va:Math.round(tot.va/n),bn:Math.round(tot.bn/n),nv:Math.round(tot.nv/n),un:Math.round(tot.un/n)};
+  });
+  if(q)emps=emps.filter(function(e){return e.name.toLowerCase().indexOf(q)>=0||e.dept.toLowerCase().indexOf(q)>=0;});
+  emps.sort(function(a,b){return b.va-a.va;});
+  document.getElementById('emp-count').textContent='('+emps.length+' employees)';
+  if(!emps.length){b.innerHTML='<tr><td colspan="9" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=emps.map(function(e){
+    var col=getC(e.name),c={va:Math.round(e.va/100*W),bn:Math.round(e.bn/100*W),nv:Math.round(e.nv/100*W),un:Math.round(e.un/100*W)};
+    return '<tr onclick="openDrill(\''+e.name+'\')">' +
+      '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(e.name)+'</div>'+
+      '<div><div class="emp-name">'+e.name+'</div><div class="emp-dept">'+e.dept+'</div></div></div></td>'+
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+e.date+'</td>'+
+      '<td style="text-align:center;font-weight:600;color:var(--tx2)">'+e.count+'</td>'+
+      '<td><span class="pct va">'+e.va+'%</span></td>'+
+      '<td><span class="pct bn">'+e.bn+'%</span></td>'+
+      '<td><span class="pct nv">'+e.nv+'%</span></td>'+
+      '<td><span class="pct un">'+e.un+'%</span></td>'+
+      '<td>'+msRow(c)+'</td><td class="row-arr">›</td></tr>';
+  }).join('');
+}
+
+function renderDeptTable(d){
+  var b=document.getElementById('dept-tbody');
+  if(!d.length){b.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
+  var map={};
+  d.forEach(function(r){var n=r.department||'Unknown';if(!map[n])map[n]={rows:[],emps:{}};map[n].rows.push(r);if(r.name)map[n].emps[r.name]=1;});
+  b.innerHTML=Object.keys(map).map(function(n){
+    var rows=map[n].rows,va=avgK(rows,'vaP'),bn=avgK(rows,'bnP'),nv=avgK(rows,'nvP'),un=avgK(rows,'unP');
+    var c={va:Math.round(va/100*W),bn:Math.round(bn/100*W),nv:Math.round(nv/100*W),un:Math.round(un/100*W)};
+    return '<tr><td><strong>'+n+'</strong></td>'+
+      '<td style="color:var(--mu)">'+rows.length+'</td>'+
+      '<td style="color:var(--mu)">'+Object.keys(map[n].emps).length+'</td>'+
+      '<td><span class="pct va">'+va+'%</span></td>'+
+      '<td><span class="pct bn">'+bn+'%</span></td>'+
+      '<td><span class="pct nv">'+nv+'%</span></td>'+
+      '<td><span class="pct un">'+un+'%</span></td>'+
+      '<td>'+msRow(c)+'</td></tr>';
+  }).join('');
+}
+
+function renderWinners(d){
+  var wb=document.getElementById('win-tbody'),db=document.getElementById('dept-win-tbody');
+  if(!d.length){wb.innerHTML='<tr><td colspan="5" class="empty">No data.</td></tr>';db.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
+  var map={};
+  d.forEach(function(r){var n=r.name;if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,cnt:0};var c=getMin(r);map[n].va+=c.vaP;map[n].bn+=c.bnP;map[n].nv+=c.nvP;map[n].cnt++;});
+  var emps=Object.values(map).map(function(e){return{name:e.name,dept:e.dept,va:Math.round(e.va/e.cnt),bn:Math.round(e.bn/e.cnt),nv:Math.round(e.nv/e.cnt)};});
+  var topVA=emps.slice().sort(function(a,b){return b.va-a.va;})[0];
+  var topBN=emps.slice().sort(function(a,b){return b.bn-a.bn;})[0];
+  var lowNV=emps.slice().sort(function(a,b){return a.nv-b.nv;})[0];
+  wb.innerHTML=[
+    {icon:'🏆',cat:'Highest VA',cls:'va',emp:topVA,score:topVA?topVA.va+'%':'—',msg:'Sabse zyada time value-creating kaam mein'},
+    {icon:'🥇',cat:'Highest BNVA',cls:'bn',emp:topBN,score:topBN?topBN.bn+'%':'—',msg:'Compliance kaam mein focused'},
+    {icon:'🎯',cat:'Lowest NVA',cls:'nv',emp:lowNV,score:lowNV?lowNV.nv+'%':'—',msg:'Sabse kam waste — role model'},
+  ].map(function(w){
+    return '<tr><td><span class="chip '+w.cls+'">'+w.icon+' '+w.cat+'</span></td>'+
+      '<td><strong>'+(w.emp?w.emp.name:'—')+'</strong></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+(w.emp?w.emp.dept:'')+'</td>'+
+      '<td><span class="pct '+w.cls+'">'+w.score+'</span></td>'+
+      '<td style="font-size:12px;color:var(--tx2)">'+w.msg+'</td></tr>';
+  }).join('');
+  var dmap={};
+  d.forEach(function(r){var n=r.department||'Unknown';if(!dmap[n])dmap[n]=[];dmap[n].push(r);});
+  db.innerHTML=Object.keys(dmap).map(function(n){return{name:n,rows:dmap[n]};}).sort(function(a,b){return avgK(b.rows,'vaP')-avgK(a.rows,'vaP');}).map(function(d,i){
+    var va=avgK(d.rows,'vaP'),bn=avgK(d.rows,'bnP'),nv=avgK(d.rows,'nvP'),un=avgK(d.rows,'unP');
+    var c={va:Math.round(va/100*W),bn:Math.round(bn/100*W),nv:Math.round(nv/100*W),un:Math.round(un/100*W)};
+    return '<tr><td style="font-weight:700;color:var(--bn)">'+(i+1)+'</td><td><strong>'+d.name+'</strong></td>'+
+      '<td style="color:var(--mu)">'+d.rows.length+'</td>'+
+      '<td><span class="pct va">'+va+'%</span></td>'+
+      '<td><span class="pct bn">'+bn+'%</span></td>'+
+      '<td><span class="pct nv">'+nv+'%</span></td>'+
+      '<td><span class="pct un">'+un+'%</span></td>'+
+      '<td>'+msRow(c)+'</td></tr>';
+  }).join('');
+}
+
+function renderDetailTable(d){
+  var b=document.getElementById('tbl-tbody');
+  document.getElementById('tbl-meta').textContent=d.length+' rows';
+  if(!d.length){b.innerHTML='<tr><td colspan="11" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);}).map(function(r){
+    var c=getMin(r);
+    return '<tr><td><strong>'+(r.name||'—')+'</strong></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+(r.department||'—')+'</td>'+
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--mu)">'+(r.date||'—')+'</td>'+
+      '<td><span class="chip va">'+c.va+'</span></td>'+
+      '<td><span class="chip bn">'+c.bn+'</span></td>'+
+      '<td><span class="chip nv">'+c.nv+'</span></td>'+
+      '<td><span class="chip un">'+c.un+'</span></td>'+
+      '<td class="pct va">'+c.vaP+'%</td><td class="pct bn">'+c.bnP+'%</td>'+
+      '<td class="pct nv">'+c.nvP+'%</td><td class="pct un">'+c.unP+'%</td></tr>';
+  }).join('');
+}
+
+// PRODUCTIVITY REPORT
+function prodGetRows(){
+  var deptF=document.getElementById('prod-dept').value;
+  var fromD=document.getElementById('prod-from').value;
+  var toD=document.getElementById('prod-to').value;
+  var query=(document.getElementById('prod-search').value||'').toLowerCase();
+  var data=ALL.filter(function(r){
+    return (deptF==='all'||(r.department||'').indexOf(deptF)>=0)&&(!fromD||r.date>=fromD)&&(!toD||r.date<=toD);
+  });
+  var map={};
+  data.forEach(function(r){
+    var n=r.name||'Unknown';
+    if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,dates:[],subs:0,dayMins:{}};
+    var c=getMin(r),dt=r.date||'';
+    if(!map[n].dayMins[dt])map[n].dayMins[dt]={va:0,bn:0,nv:0};
+    map[n].dayMins[dt].va+=c.va;map[n].dayMins[dt].bn+=c.bn;map[n].dayMins[dt].nv+=c.nv;
+    map[n].subs++;
+    if(dt&&map[n].dates.indexOf(dt)<0)map[n].dates.push(dt);
+  });
+  Object.values(map).forEach(function(e){
+    e.va=0;e.bn=0;e.nv=0;
+    Object.keys(e.dayMins).forEach(function(dt){
+      var dm=e.dayMins[dt],tot=dm.va+dm.bn+dm.nv;
+      if(tot>W){var s=W/tot;dm.va=Math.round(dm.va*s);dm.bn=Math.round(dm.bn*s);dm.nv=Math.round(dm.nv*s);}
+      e.va+=dm.va;e.bn+=dm.bn;e.nv+=dm.nv;
+    });
+  });
+  var rows=Object.values(map).map(function(e){
+    var days=e.dates.length,total=days*W,un=Math.max(0,total-e.va-e.bn-e.nv);
+    return{name:e.name,dept:e.dept,days:days,subs:e.subs,total:total,
+      va:e.va,vaP:(total>0?e.va/total*100:0).toFixed(2),
+      bn:e.bn,bnP:(total>0?e.bn/total*100:0).toFixed(2),
+      nv:e.nv,nvP:(total>0?e.nv/total*100:0).toFixed(2),
+      un:un,unP:(total>0?un/total*100:0).toFixed(2)};
+  });
+  if(query)rows=rows.filter(function(r){return r.name.toLowerCase().indexOf(query)>=0||r.dept.toLowerCase().indexOf(query)>=0;});
+  rows.sort(function(a,b){return parseFloat(b.vaP)-parseFloat(a.vaP);});
+  return rows;
+}
+
+function renderProd(){
+  var rows=prodGetRows();
+  document.getElementById('prod-count').textContent='('+rows.length+' employees)';
+  var n=rows.length;
+  var avVA=n?rows.reduce(function(s,r){return s+parseFloat(r.vaP);},0)/n:0;
+  var avBN=n?rows.reduce(function(s,r){return s+parseFloat(r.bnP);},0)/n:0;
+  var avNV=n?rows.reduce(function(s,r){return s+parseFloat(r.nvP);},0)/n:0;
+  var avUN=n?rows.reduce(function(s,r){return s+parseFloat(r.unP);},0)/n:0;
+  var totalDays=rows.reduce(function(s,r){return s+r.days;},0);
+  document.getElementById('prod-cards').innerHTML=[
+    {cls:'va',ico:'✅',lbl:'Avg VA',val:avVA.toFixed(2)+'%',sub:'Team value-added avg'},
+    {cls:'bn',ico:'📋',lbl:'Avg BNVA',val:avBN.toFixed(2)+'%',sub:'Team necessary avg'},
+    {cls:'nv',ico:'⚠️',lbl:'Avg NVA',val:avNV.toFixed(2)+'%',sub:'Team waste avg'},
+    {cls:'un',ico:'❓',lbl:'Avg Unid',val:avUN.toFixed(2)+'%',sub:totalDays+' days · '+n+' employees'},
+  ].map(function(s){
+    var colors={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+    return '<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:1rem;box-shadow:var(--shadow);">'+
+      '<div style="font-size:18px;margin-bottom:6px">'+s.ico+'</div>'+
+      '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:5px">'+s.lbl+'</div>'+
+      '<div style="font-family:var(--mono);font-size:24px;font-weight:500;color:'+colors[s.cls]+'">'+s.val+'</div>'+
+      '<div style="font-size:11px;color:var(--mu);margin-top:3px">'+s.sub+'</div>'+
+    '</div>';
+  }).join('');
+  var b=document.getElementById('prod-tbody');
+  if(!rows.length){b.innerHTML='<tr><td colspan="13" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=rows.map(function(r){
+    var col=getC(r.name);
+    function pb(pct,cls){
+      var colors2={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+      return '<div style="display:flex;align-items:center;gap:5px;">'+
+        '<span style="font-family:var(--mono);font-size:11px;font-weight:700;color:'+colors2[cls]+';background:rgba(0,0,0,.05);padding:2px 7px;border-radius:4px;white-space:nowrap">'+pct+'%</span>'+
+        '<div style="flex:1;height:3px;border-radius:99px;background:var(--bg2);overflow:hidden;min-width:20px;">'+
+          '<div style="height:3px;border-radius:99px;background:'+colors2[cls]+';width:'+Math.min(parseFloat(pct),100)+'%"></div>'+
+        '</div></div>';
+    }
+    return '<tr onclick="openDrill(this.getAttribute(\'data-n\'))" data-n="'+r.name+'">'+
+      '<td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+      '<div><div class="emp-name">'+r.name+'</div></div></div></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+r.dept+'</td>'+
+      '<td style="text-align:center;font-weight:600">'+r.days+'</td>'+
+      '<td style="text-align:center;font-size:11px;color:var(--mu)">'+r.subs+'</td>'+
+      '<td style="text-align:center;font-family:var(--mono);font-size:12px;font-weight:600">'+r.total+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#dc2626">'+r.nv+'</span></td>'+
+      '<td>'+pb(r.nvP,'nv')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#2563eb">'+r.bn+'</span></td>'+
+      '<td>'+pb(r.bnP,'bn')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#059669">'+r.va+'</span></td>'+
+      '<td>'+pb(r.vaP,'va')+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-size:12px;font-weight:600;color:#7c3aed">'+r.un+'</span></td>'+
+      '<td>'+pb(r.unP,'un')+'</td>'+
+    '</tr>';
+  }).join('');
+}
+function clearProdF(){document.getElementById('prod-dept').value='all';document.getElementById('prod-from').value='';document.getElementById('prod-to').value='';renderProd();}
+
+// MINUTES REPORT
+function minGetRows(){
+  var deptF=document.getElementById('min-dept').value;
+  var fromD=document.getElementById('min-from').value;
+  var toD=document.getElementById('min-to').value;
+  var query=(document.getElementById('min-search').value||'').toLowerCase();
+  var data=ALL.filter(function(r){
+    return (deptF==='all'||(r.department||'').indexOf(deptF)>=0)&&(!fromD||r.date>=fromD)&&(!toD||r.date<=toD);
+  });
+  var map={};
+  data.forEach(function(r){
+    var n=r.name||'Unknown';
+    if(!map[n])map[n]={name:n,dept:r.department||'',va:0,bn:0,nv:0,dates:[],dayMins:{}};
+    var c=getMin(r),dt=r.date||'';
+    if(!map[n].dayMins[dt])map[n].dayMins[dt]={va:0,bn:0,nv:0};
+    map[n].dayMins[dt].va+=c.va;map[n].dayMins[dt].bn+=c.bn;map[n].dayMins[dt].nv+=c.nv;
+    if(dt&&map[n].dates.indexOf(dt)<0)map[n].dates.push(dt);
+  });
+  Object.values(map).forEach(function(e){
+    e.va=0;e.bn=0;e.nv=0;
+    Object.keys(e.dayMins).forEach(function(dt){
+      var dm=e.dayMins[dt],tot=dm.va+dm.bn+dm.nv;
+      if(tot>W){var s=W/tot;dm.va=Math.round(dm.va*s);dm.bn=Math.round(dm.bn*s);dm.nv=Math.round(dm.nv*s);}
+      e.va+=dm.va;e.bn+=dm.bn;e.nv+=dm.nv;
+    });
+  });
+  var rows=Object.values(map).map(function(e){
+    var days=e.dates.length,total=days*W,unid=Math.max(0,total-e.va-e.bn-e.nv);
+    return{name:e.name,dept:e.dept,days:days,total:total,va:e.va,bn:e.bn,nv:e.nv,unid:unid};
+  });
+  if(query)rows=rows.filter(function(r){return r.name.toLowerCase().indexOf(query)>=0||r.dept.toLowerCase().indexOf(query)>=0;});
+  rows.sort(function(a,b){return b.va-a.va;});
+  return rows;
+}
+
+function renderMinutes(){
+  var rows=minGetRows();
+  document.getElementById('min-count').textContent='('+rows.length+' employees)';
+  var cards=document.getElementById('min-cards');
+  if(rows.length){
+    var tD=0,tM=0,tV=0,tB=0,tN=0,tU=0;
+    rows.forEach(function(r){tD+=r.days;tM+=r.total;tV+=r.va;tB+=r.bn;tN+=r.nv;tU+=r.unid;});
+    cards.innerHTML=[
+      {lbl:'Total Days',val:tD,col:'#1a1d2e'},{lbl:'Total Min',val:tM,col:'#1a1d2e'},
+      {lbl:'NVA min',val:tN,col:'#dc2626'},{lbl:'BNVA min',val:tB,col:'#2563eb'},
+      {lbl:'VA min',val:tV,col:'#059669'},{lbl:'Unid min',val:tU,col:'#7c3aed'}
+    ].map(function(s){
+      return '<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;text-align:center;box-shadow:var(--shadow);">'+
+        '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);margin-bottom:5px">'+s.lbl+'</div>'+
+        '<div style="font-family:var(--mono);font-size:22px;font-weight:500;color:'+s.col+'">'+s.val+'</div></div>';
+    }).join('');
+  }
+  var b=document.getElementById('min-tbody');
+  if(!rows.length){b.innerHTML='<tr><td colspan="8" class="empty">No data.</td></tr>';return;}
+  b.innerHTML=rows.map(function(r){
+    var col=getC(r.name);
+    return '<tr><td><div class="emp-cell"><div class="emp-av" style="background:'+col+'">'+ini(r.name)+'</div>'+
+      '<div><div class="emp-name">'+r.name+'</div><div class="emp-dept">'+r.dept+'</div></div></div></td>'+
+      '<td style="color:var(--mu);font-size:12px">'+r.dept+'</td>'+
+      '<td style="text-align:center;font-weight:600">'+r.days+'</td>'+
+      '<td style="text-align:center;font-family:var(--mono);font-weight:600">'+r.total+'</td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#dc2626;background:rgba(220,38,38,.08);padding:3px 10px;border-radius:5px">'+r.nv+'</span></td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#2563eb;background:rgba(37,99,235,.08);padding:3px 10px;border-radius:5px">'+r.bn+'</span></td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#059669;background:rgba(5,150,105,.08);padding:3px 10px;border-radius:5px">'+r.va+'</span></td>'+
+      '<td style="text-align:center"><span style="font-family:var(--mono);font-weight:600;color:#7c3aed;background:rgba(124,58,237,.08);padding:3px 10px;border-radius:5px">'+r.unid+'</span></td>'+
+    '</tr>';
+  }).join('');
+}
+function clearMinF(){document.getElementById('min-dept').value='all';document.getElementById('min-from').value='';document.getElementById('min-to').value='';renderMinutes();}
+
+function dlMinCSV(){
+  var rows=minGetRows();if(!rows.length){alert('No data!');return;}
+  var lines=['IOTAFLOW MINUTES REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Employee,Department,Days,Total Minutes,NVA (min),BNVA (min),VA (min),Unidentified (min)'];
+  rows.forEach(function(r){lines.push('"'+r.name+'","'+r.dept+'",'+r.days+','+r.total+','+r.nv+','+r.bn+','+r.va+','+r.unid);});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Minutes_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function dlMinPPT(){
+  var rows=minGetRows();
+  if(!rows.length){alert('No data!');return;}
+  var now=new Date().toLocaleDateString('en-IN');
+  var tD=0,tM=0,tV=0,tB=0,tN=0,tU=0;
+  rows.forEach(function(r){tD+=r.days;tM+=r.total;tV+=r.va;tB+=r.bn;tN+=r.nv;tU+=r.unid;});
+
+  // Build all employee rows
+  var trs=rows.map(function(r,i){
+    var bg=i%2===0?'#f8faff':'#ffffff';
+    return '<tr style="background:'+bg+'">'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;"><div style="display:flex;align-items:center;gap:8px;">'+
+        '<div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;">'+
+          r.name.split(' ').map(function(p){return p[0];}).join('').slice(0,2).toUpperCase()+
+        '</div>'+
+        '<div><div style="font-size:12px;font-weight:700;color:#1a1d2e">'+r.name+'</div>'+
+        '<div style="font-size:10px;color:#8890aa">'+r.dept+'</div></div>'+
+      '</div></td>'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;text-align:center;font-weight:700;font-family:monospace;color:#1a1d2e">'+r.days+'</td>'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;text-align:center;font-weight:700;font-family:monospace;color:#1a1d2e">'+r.total+'</td>'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;text-align:center;">'+
+        '<div style="background:rgba(220,38,38,.1);border-radius:5px;padding:3px 8px;display:inline-block;font-family:monospace;font-weight:700;color:#dc2626;font-size:12px">'+r.nv+'</div></td>'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;text-align:center;">'+
+        '<div style="background:rgba(37,99,235,.1);border-radius:5px;padding:3px 8px;display:inline-block;font-family:monospace;font-weight:700;color:#2563eb;font-size:12px">'+r.bn+'</div></td>'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;text-align:center;">'+
+        '<div style="background:rgba(5,150,105,.1);border-radius:5px;padding:3px 8px;display:inline-block;font-family:monospace;font-weight:700;color:#059669;font-size:12px">'+r.va+'</div></td>'+
+      '<td style="padding:8px 12px;border-bottom:1px solid #e8edf8;text-align:center;">'+
+        '<div style="background:rgba(124,58,237,.1);border-radius:5px;padding:3px 8px;display:inline-block;font-family:monospace;font-weight:700;color:#7c3aed;font-size:12px">'+r.unid+'</div></td>'+
+    '</tr>';
+  }).join('');
+
+  var css=
+    '*{box-sizing:border-box;margin:0;padding:0;}'+
+    'body{font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);min-height:100vh;padding:24px;}'+
+    '.slide{width:1100px;margin:0 auto;background:linear-gradient(145deg,#1e3a8a08,#7c3aed08);'+
+      'border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden;'+
+      'box-shadow:0 25px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05);}'+
+    '.header{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#7c3aed 100%);padding:28px 36px;'+
+      'display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;}'+
+    '.header::before{content:"";position:absolute;top:-40px;right:-40px;width:200px;height:200px;'+
+      'background:rgba(255,255,255,.05);border-radius:50%;}'+
+    '.header::after{content:"";position:absolute;bottom:-60px;right:100px;width:150px;height:150px;'+
+      'background:rgba(255,255,255,.03);border-radius:50%;}'+
+    '.logo-wrap{display:flex;align-items:center;gap:14px;position:relative;z-index:1;}'+
+    '.logo{width:44px;height:44px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);'+
+      'border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;}'+
+    '.h-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.02em;}'+
+    '.h-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:3px;}'+
+    '.h-meta{text-align:right;position:relative;z-index:1;}'+
+    '.h-meta-val{font-size:12px;color:rgba(255,255,255,.8);margin-bottom:2px;}'+
+    '.h-date{font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;}'+
+    '.summary{display:grid;grid-template-columns:repeat(6,1fr);gap:0;'+
+      'background:linear-gradient(135deg,#1e1b4b,#0f172a);border-bottom:1px solid rgba(255,255,255,.08);}'+
+    '.sc{padding:16px 12px;text-align:center;border-right:1px solid rgba(255,255,255,.06);}'+
+    '.sc:last-child{border-right:none;}'+
+    '.sc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:6px;}'+
+    '.sc-val{font-size:22px;font-weight:700;font-family:monospace;}'+
+    '.tbl-wrap{background:#ffffff;padding:0;}'+
+    '.tbl-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;'+
+      'background:linear-gradient(135deg,#f0f2f8,#e8ecf8);border-bottom:2px solid #e2e6f0;}'+
+    '.tbl-head-title{font-size:13px;font-weight:700;color:#1a1d2e;}'+
+    '.tbl-head-badge{font-size:11px;color:#8890aa;background:#fff;padding:3px 10px;border-radius:99px;border:1px solid #e2e6f0;}'+
+    'table{width:100%;border-collapse:collapse;}'+
+    'thead th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;'+
+      'padding:10px 12px;text-align:left;background:linear-gradient(135deg,#f8faff,#f0f4ff);'+
+      'border-bottom:2px solid #e2e6f0;white-space:nowrap;}'+
+    '.footer{background:linear-gradient(135deg,#1e1b4b,#0f172a);padding:12px 28px;'+
+      'display:flex;justify-content:space-between;align-items:center;}'+
+    '.footer-txt{font-size:10px;color:rgba(255,255,255,.35);}'+
+    '.footer-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;'+
+      'color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);padding:4px 10px;border-radius:4px;}'+
+    '@media print{@page{size:A4 landscape;margin:0;}body{background:#fff;padding:0;}'+
+      '.slide{box-shadow:none;border:none;border-radius:0;width:100%;}}';
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"/>'+
+    '<title>Iotaflow Activity Slides</title>'+
+    '<style>'+css+'</style></head><body>'+
+    '<div class="slide">'+
+      '<div class="header">'+
+        '<div class="logo-wrap">'+
+          '<div class="logo">IF</div>'+
+          '<div>'+
+            '<div class="h-title">Activity Slides</div>'+
+            '<div class="h-sub">Iotaflow Systems Pvt. Ltd. &nbsp;·&nbsp; Days × 420 min &nbsp;·&nbsp; Per day capped at 420</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="h-meta">'+
+          '<div class="h-meta-val">'+rows.length+' Employees &nbsp;·&nbsp; '+tD+' Days Tracked</div>'+
+          '<div class="h-meta-val">Total '+tM+' min logged</div>'+
+          '<div class="h-date">Generated: '+now+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="summary">'+
+        '<div class="sc"><div class="sc-lbl">Total Days</div><div class="sc-val" style="color:#e2e8f0">'+tD+'</div></div>'+
+        '<div class="sc"><div class="sc-lbl">Total Min</div><div class="sc-val" style="color:#e2e8f0">'+tM+'</div></div>'+
+        '<div class="sc"><div class="sc-lbl">NVA min</div><div class="sc-val" style="color:#f87171">'+tN+'</div></div>'+
+        '<div class="sc"><div class="sc-lbl">BNVA min</div><div class="sc-val" style="color:#60a5fa">'+tB+'</div></div>'+
+        '<div class="sc"><div class="sc-lbl">VA min</div><div class="sc-val" style="color:#34d399">'+tV+'</div></div>'+
+        '<div class="sc"><div class="sc-lbl">Unid min</div><div class="sc-val" style="color:#a78bfa">'+tU+'</div></div>'+
+      '</div>'+
+      '<div class="tbl-wrap">'+
+        '<div class="tbl-head">'+
+          '<div class="tbl-head-title">Employee Breakdown — All '+rows.length+' Employees</div>'+
+          '<div class="tbl-head-badge">Days × 420 = Total Min</div>'+
+        '</div>'+
+        '<table>'+
+          '<thead><tr>'+
+            '<th style="color:#4a5068;min-width:180px">Employee</th>'+
+            '<th style="text-align:center;color:#4a5068">Days</th>'+
+            '<th style="text-align:center;color:#4a5068">Total Min</th>'+
+            '<th style="text-align:center;color:#dc2626">NVA min</th>'+
+            '<th style="text-align:center;color:#2563eb">BNVA min</th>'+
+            '<th style="text-align:center;color:#059669">VA min</th>'+
+            '<th style="text-align:center;color:#7c3aed">Unid min</th>'+
+          '</tr></thead>'+
+          '<tbody>'+trs+'</tbody>'+
+        '</table>'+
+      '</div>'+
+      '<div class="footer">'+
+        '<div class="footer-txt">Iotaflow Systems Pvt. Ltd. — Confidential &nbsp;|&nbsp; Not for external distribution</div>'+
+        '<div class="footer-badge">Activity Slides &nbsp;·&nbsp; '+now+'</div>'+
+      '</div>'+
+    '</div>'+
+  '</body></html>';
+
+  var blob=new Blob([html],{type:'text/html;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;
+  a.download='Iotaflow_Activity_Slides_'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+
+function dlDetailPPT(){
+  var d=filteredData();
+  if(!d.length){alert('No data!');return;}
+  var sorted=d.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+  var now=new Date().toLocaleDateString('en-IN');
+
+  function sc(l,v,col){
+    return '<div style="border:1px solid #e2e6f0;border-radius:8px;padding:12px;text-align:center;background:#f8fafc;">'+
+      '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8890aa;margin-bottom:5px">'+l+'</div>'+
+      '<div style="font-size:20px;font-weight:700;font-family:monospace;color:'+col+'">'+v+'</div></div>';
+  }
+
+  // Summary stats
+  var names={},dates={};
+  sorted.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
+  var avVA=avgK(sorted,'vaP'),avBN=avgK(sorted,'bnP'),avNV=avgK(sorted,'nvP'),avUN=avgK(sorted,'unP');
+
+  // Table rows
+  var trs=sorted.map(function(r){
+    var c=getMin(r);
+    return '<tr>'+
+      '<td><strong>'+r.name+'</strong></td>'+
+      '<td style="color:#8890aa;font-size:11px">'+(r.department||'')+'</td>'+
+      '<td style="text-align:center;font-family:monospace;font-size:11px;color:#8890aa">'+(r.date||'')+'</td>'+
+      '<td style="text-align:center;color:#dc2626;font-weight:700">'+c.nv+'</td>'+
+      '<td style="text-align:center;color:#dc2626">'+c.nvP+'%</td>'+
+      '<td style="text-align:center;color:#2563eb;font-weight:700">'+c.bn+'</td>'+
+      '<td style="text-align:center;color:#2563eb">'+c.bnP+'%</td>'+
+      '<td style="text-align:center;color:#059669;font-weight:700">'+c.va+'</td>'+
+      '<td style="text-align:center;color:#059669">'+c.vaP+'%</td>'+
+      '<td style="text-align:center;color:#7c3aed;font-weight:700">'+c.un+'</td>'+
+      '<td style="text-align:center;color:#7c3aed">'+c.unP+'%</td>'+
+    '</tr>';
+  }).join('');
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Iotaflow Activity Log</title>'+
+    '<style>'+
+    '*{box-sizing:border-box;margin:0;padding:0;}'+
+    'body{font-family:"Segoe UI",Arial,sans-serif;background:#fff;width:1122px;margin:0 auto;}'+
+    '.slide{width:1122px;min-height:794px;padding:36px 44px;display:flex;flex-direction:column;gap:16px;}'+
+    '.top{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #e2e6f0;padding-bottom:12px;}'+
+    '.logo{width:36px;height:36px;background:linear-gradient(135deg,#1e3a8a,#7c3aed);border-radius:8px;'+
+      'display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;margin-right:10px;flex-shrink:0;}'+
+    '.title{font-size:20px;font-weight:700;color:#1a1d2e;}.sub{font-size:12px;color:#8890aa;margin-top:2px;}'+
+    '.meta{font-size:11px;color:#8890aa;text-align:right;}'+
+    '.summary{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}'+
+    'table{width:100%;border-collapse:collapse;font-size:12px;flex:1;}'+
+    'thead th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#8890aa;'+
+      'padding:7px 10px;text-align:left;border-bottom:2px solid #e2e6f0;background:#f8fafc;white-space:nowrap;}'+
+    'tbody td{padding:6px 10px;border-bottom:1px solid #f0f2f8;color:#1a1d2e;}'+
+    'tbody tr:nth-child(even) td{background:#fafbff;}'+
+    'tbody tr:last-child td{border-bottom:none;}'+
+    '.footer{font-size:10px;color:#b8bed4;border-top:1px solid #f0f2f8;padding-top:10px;display:flex;justify-content:space-between;}'+
+    '@media print{@page{size:A4 landscape;margin:0;}body{width:100%;}.slide{min-height:100vh;padding:24px 32px;}}'+
+    '</style></head><body><div class="slide">'+
+    '<div class="top">'+
+      '<div style="display:flex;align-items:center">'+
+        '<div class="logo">IF</div>'+
+        '<div><div class="title">Activity Detail Log</div>'+
+          '<div class="sub">Iotaflow Systems Pvt. Ltd. &nbsp;|&nbsp; All submissions &nbsp;|&nbsp; 420 min workday</div></div>'+
+      '</div>'+
+      '<div class="meta">Generated: '+now+'<br/>'+
+        sorted.length+' submissions &nbsp;|&nbsp; '+Object.keys(names).length+' employees &nbsp;|&nbsp; '+Object.keys(dates).length+' days</div>'+
+    '</div>'+
+    '<div class="summary">'+
+      sc('Submissions',sorted.length,'#1a1d2e')+
+      sc('Employees',Object.keys(names).length,'#1a1d2e')+
+      sc('Avg NVA',avNV+'%','#dc2626')+
+      sc('Avg BNVA',avBN+'%','#2563eb')+
+      sc('Avg VA',avVA+'%','#059669')+
+      sc('Avg Unid',avUN+'%','#7c3aed')+
+    '</div>'+
+    '<table>'+
+      '<thead><tr>'+
+        '<th>Employee</th><th>Department</th><th>Date</th>'+
+        '<th style="text-align:center;color:#dc2626">NVA min</th>'+
+        '<th style="text-align:center;color:#dc2626">NVA %</th>'+
+        '<th style="text-align:center;color:#2563eb">BNVA min</th>'+
+        '<th style="text-align:center;color:#2563eb">BNVA %</th>'+
+        '<th style="text-align:center;color:#059669">VA min</th>'+
+        '<th style="text-align:center;color:#059669">VA %</th>'+
+        '<th style="text-align:center;color:#7c3aed">Unid min</th>'+
+        '<th style="text-align:center;color:#7c3aed">Unid %</th>'+
+      '</tr></thead>'+
+      '<tbody>'+trs+'</tbody>'+
+    '</table>'+
+    '<div class="footer">'+
+      '<span>Iotaflow Systems Pvt. Ltd. — Confidential</span>'+
+      '<span>Activity Detail Log &nbsp;|&nbsp; '+now+'</span>'+
+    '</div>'+
+  '</div></body></html>';
+
+  var blob=new Blob([html],{type:'text/html;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;
+  a.download='Iotaflow_Activity_Log_'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// DRILL PANEL
+var drillN='';
+function openDrill(name){
+  if(!name)return;
+  var d=filteredData().filter(function(r){return r.name===name;});
+  if(!d.length)return;
+  drillN=name;
+  var col=getC(name);
+  document.getElementById('d-av').textContent=ini(name);
+  document.getElementById('d-av').style.background=col;
+  document.getElementById('d-name').textContent=name;
+  document.getElementById('d-dept').textContent=d[0].department||'';
+  document.getElementById('drill-ov').classList.add('open');
+  document.querySelectorAll('.drill-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelector('.drill-tab').classList.add('active');
+  renderDrillTab('summary',d);
+}
+function dTab(tab,btn){
+  document.querySelectorAll('.drill-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  renderDrillTab(tab,filteredData().filter(function(r){return r.name===drillN;}));
+}
+function renderDrillTab(tab,rows){
+  var body=document.getElementById('drill-body'),col=getC(drillN);
+  if(tab==='summary'){
+    var tot={va:0,bn:0,nv:0};
+    rows.forEach(function(r){var c=getMin(r);tot.va+=c.va;tot.bn+=c.bn;tot.nv+=c.nv;});
+    var datesArr=[];
+    rows.forEach(function(r){if(r.date&&datesArr.indexOf(r.date)<0)datesArr.push(r.date);});
+    var days=datesArr.length||rows.length;
+    var totalMin=days*420;
+    var unTotal=Math.max(0,totalMin-tot.va-tot.bn-tot.nv);
+    var aVA=totalMin>0?(tot.va/totalMin*100).toFixed(2):'0.00';
+    var aBN=totalMin>0?(tot.bn/totalMin*100).toFixed(2):'0.00';
+    var aNV=totalMin>0?(tot.nv/totalMin*100).toFixed(2):'0.00';
+    var aUN=totalMin>0?(unTotal/totalMin*100).toFixed(2):'0.00';
+    body.innerHTML=
+      '<div class="drill-sum-grid">'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Days</div><div class="drill-sum-val" style="color:'+col+'">'+days+'</div><div class="drill-sum-sub">'+rows.length+' submissions</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg VA</div><div class="drill-sum-val" style="color:var(--va)">'+aVA+'%</div><div class="drill-sum-sub">'+tot.va+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Avg NVA</div><div class="drill-sum-val" style="color:var(--nv)">'+aNV+'%</div><div class="drill-sum-sub">'+tot.nv+' min total</div></div>'+
+        '<div class="drill-sum-card"><div class="drill-sum-lbl">Unidentified</div><div class="drill-sum-val" style="color:var(--un)">'+aUN+'%</div><div class="drill-sum-sub">'+unTotal+' min</div></div>'+
+      '</div>'+
+      '<div class="drill-stack-wrap">'+
+        '<div style="font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:6px">'+days+' days × 420 min</div>'+
+        '<div class="drill-stack">'+
+          '<div class="drill-seg va" style="width:'+aVA+'%"></div>'+
+          '<div class="drill-seg bn" style="width:'+aBN+'%"></div>'+
+          '<div class="drill-seg nv" style="width:'+aNV+'%"></div>'+
+          '<div class="drill-seg un" style="width:'+aUN+'%"></div>'+
+        '</div>'+
+        '<div class="drill-leg">'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--va)"></div>VA '+aVA+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--bn)"></div>BNVA '+aBN+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--nv)"></div>NVA '+aNV+'%</div>'+
+          '<div class="drill-leg-i"><div class="drill-leg-pip" style="background:var(--un)"></div>Unid '+aUN+'%</div>'+
+        '</div>'+
+      '</div>';
+  } else {
+    var sorted=rows.slice().sort(function(a,b){return b.date.localeCompare(a.date);});
+    body.innerHTML='<table class="day-tbl"><thead><tr>'+
+      '<th>Date</th><th>VA min</th><th>BNVA min</th><th>NVA min</th><th>Unid</th><th>VA%</th><th>NVA%</th>'+
+      '</tr></thead><tbody>'+
+      sorted.map(function(r){var c=getMin(r);return '<tr>'+
+        '<td style="font-family:var(--mono);font-size:11px">'+r.date+'</td>'+
+        '<td><span style="color:var(--va);font-weight:600;font-family:var(--mono)">'+c.va+'</span></td>'+
+        '<td><span style="color:var(--bn);font-weight:600;font-family:var(--mono)">'+c.bn+'</span></td>'+
+        '<td><span style="color:var(--nv);font-weight:600;font-family:var(--mono)">'+c.nv+'</span></td>'+
+        '<td><span style="color:var(--un);font-weight:600;font-family:var(--mono)">'+c.un+'</span></td>'+
+        '<td class="pct va">'+c.vaP+'%</td>'+
+        '<td class="pct nv">'+c.nvP+'%</td>'+
+      '</tr>';}).join('')+
+    '</tbody></table>';
+  }
+}
+function closeDrill(){document.getElementById('drill-ov').classList.remove('open');}
+
+// CATEGORY MODAL
+var CAT_LABELS={va:'Value Added (VA)',bn:'Business Necessary (BNVA)',nv:'Non-Value Added (NVA)',un:'Unidentified'};
+var CAT_COLORS={va:'var(--va)',bn:'var(--bn)',nv:'var(--nv)',un:'var(--un)'};
+function openCatModal(cat){
+  var d=filteredData(),col=CAT_COLORS[cat];
+  document.getElementById('cat-title').textContent=CAT_LABELS[cat];
+  document.getElementById('cat-title').style.color=col;
+  var body=document.getElementById('cat-body'),sub=document.getElementById('cat-sub');
+  if(cat==='un'){
+    var rows=d.map(function(r){var c=getMin(r);return{name:r.name,dept:r.department,date:r.date,un:c.un,unP:c.unP};}).sort(function(a,b){return b.un-a.un;});
+    var tot=rows.reduce(function(s,r){return s+r.un;},0);
+    sub.textContent=d.length+' submissions · '+tot+' min total';
+    body.innerHTML=rows.map(function(r){return '<div class="cat-item"><div><div class="cat-item-name"><strong>'+r.name+'</strong></div><div class="cat-item-sub">'+r.dept+' · '+r.date+'</div></div><div class="cat-item-time" style="color:'+col+'">'+r.un+' min ('+r.unP+'%)</div></div>';}).join('')+
+      '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+tot+' min</span></div>';
+  } else {
+    var colMap={va:'vaactivities',bn:'bnvaactivities',nv:'nvaactivities'};
+    var colKey=colMap[cat],actMap={},totalMins=0;
+    d.forEach(function(r){
+      var raw=r[colKey]||'';if(!raw)return;
+      raw.split('|').forEach(function(part){
+        part=part.trim();if(!part)return;
+        var bi=part.lastIndexOf('(');if(bi<0)return;
+        var name=part.slice(0,bi).trim(),mins=parseInt(part.slice(bi+1))||0;
+        if(!name)return;
+        if(!actMap[name])actMap[name]={mins:0,emps:[]};
+        actMap[name].mins+=mins;if(actMap[name].emps.indexOf(r.name)<0)actMap[name].emps.push(r.name);
+        totalMins+=mins;
+      });
+    });
+    var acts=Object.keys(actMap).map(function(k){return{name:k,mins:actMap[k].mins,emps:actMap[k].emps};}).sort(function(a,b){return b.mins-a.mins;});
+    sub.textContent=acts.length+' activities · '+totalMins+' min total';
+    body.innerHTML=acts.length?acts.map(function(a){return '<div class="cat-item"><div><div class="cat-item-name">'+a.name+'</div><div class="cat-item-sub">'+a.emps.join(', ')+'</div></div><div class="cat-item-time" style="color:'+col+'">'+a.mins+' min</div></div>';}).join('')+
+      '<div class="cat-total"><span>Total</span><span style="color:'+col+'">'+totalMins+' min</span></div>'
+      :'<div class="empty">No activities logged yet.</div>';
+  }
+  document.getElementById('cat-ov').classList.add('open');
+}
+function closeCat(){document.getElementById('cat-ov').classList.remove('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDrill();closeCat();}});
+
+// EXCEL
+function dlExcel(){
+  var d=filteredData();if(!d.length){alert('No data!');return;}
+  var names={},dates={};d.forEach(function(r){if(r.name)names[r.name]=1;if(r.date)dates[r.date]=1;});
+  var lines=['IOTAFLOW ACTIVITY REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Submissions,'+d.length,'Employees,'+Object.keys(names).length,'Days,'+Object.keys(dates).length,'',
+    'Employee,Department,Date,VA min,BNVA min,NVA min,Unid min,VA%,BNVA%,NVA%,Unid%'];
+  d.forEach(function(r){var c=getMin(r);lines.push('"'+r.name+'","'+(r.department||'')+'",'+r.date+','+c.va+','+c.bn+','+c.nv+','+c.un+','+c.vaP+'%,'+c.bnP+'%,'+c.nvP+'%,'+c.unP+'%');});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function dlProdCSV(){
+  var rows=prodGetRows();if(!rows.length){alert('No data!');return;}
+  var lines=['IOTAFLOW PRODUCTIVITY REPORT','Generated: '+new Date().toLocaleString('en-IN'),'',
+    'Employee,Department,Days,Forms,Total Minutes,NVA (min),NVA %,BNVA (min),BNVA %,VA (min),VA %,Unid (min),Unid %'];
+  rows.forEach(function(r){lines.push('"'+r.name+'","'+r.dept+'",'+r.days+','+r.subs+','+r.total+','+r.nv+','+r.nvP+'%,'+r.bn+','+r.bnP+'%,'+r.va+','+r.vaP+'%,'+r.un+','+r.unP+'%');});
+  var blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Iotaflow_Productivity_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// QUICK EMPLOYEE SEARCH
+function quickEmpSearch(name){
+  if(!name) return;
+  // Switch to employees view and open drill panel
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById('view-employees').classList.add('active');
+  document.querySelectorAll('.s-btn').forEach(function(b){ b.classList.remove('active'); });
+  renderAll();
+  setTimeout(function(){ openDrill(name); }, 100);
+  // Reset select
+  document.getElementById('emp-quick-search').value = '';
+}
+
+function populateQuickSearch(){
+  var sel = document.getElementById('emp-quick-search');
+  if(!sel) return;
+  var names = {};
+  ALL.forEach(function(r){ if(r.name) names[r.name] = r.department||''; });
+  var sorted = Object.keys(names).sort();
+  sel.innerHTML = '<option value="">🔍 Employee search...</option>';
+  sorted.forEach(function(n){
+    var o = document.createElement('option');
+    o.value = n;
+    o.textContent = n + ' — ' + names[n];
+    sel.appendChild(o);
+  });
+}
+
+// Update filter labels with actual dates
+(function(){
+  function ld(n){var d=new Date();d.setDate(d.getDate()-n);return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();}
+  var sel=document.getElementById('dateF');
+  if(sel){
+    for(var i=0;i<sel.options.length;i++){
+      if(sel.options[i].value==='today') sel.options[i].text='Today ('+ld(0)+')';
+      if(sel.options[i].value==='yesterday') sel.options[i].text='Yesterday ('+ld(1)+')';
+      if(sel.options[i].value==='dayafter') sel.options[i].text='Day Before ('+ld(2)+')';
+    }
+  }
+})();
+
+// INIT — runs immediately, no DOMContentLoaded needed (script is at bottom)
+ALL = EMBEDDED;
+renderAll();
+renderProd();
+renderMinutes();
+populateQuickSearch();
+document.getElementById('tb-up').textContent = 'Showing ' + ALL.length + ' rows — Refresh for latest';
+setTimeout(loadData, 2000);
+setInterval(loadData, 300000);
+</script>
+</body>
+</html>
