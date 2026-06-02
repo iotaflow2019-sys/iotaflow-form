@@ -610,8 +610,14 @@ function loadData(){
         var now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
         document.getElementById('tb-up').textContent='Live · '+now+' · '+ALL.length+' rows';
         document.getElementById('s-time').textContent='Synced '+now;
+        // Re-apply current date filter after fresh data loads
         renderAll();
         populateQuickSearch();
+        // If a specific date filter is active, re-trigger it
+        var curFilter = document.getElementById('dateF').value;
+        if(curFilter !== 'all'){
+          renderAll(); // call again to ensure filter is applied
+        }
         if(document.getElementById('view-productivity').classList.contains('active'))renderProd();
         if(document.getElementById('view-minutes').classList.contains('active'))renderMinutes();
       } else {
@@ -627,18 +633,37 @@ function normalizeRows(rows){
     Object.keys(r).forEach(function(k){
       var nk=k.toLowerCase().replace(/[^a-z0-9]/g,'');
       var val=String(r[k]).trim();
-      // Fix date format - could be "2026-06-01T00:00:00.000Z" or "6/1/2026" etc
-      if(nk==='date' && val){
-        // If it has T (ISO format), take first 10 chars
-        if(val.indexOf('T')>-1) val=val.slice(0,10);
-        // If it's "6/1/2026" format, convert to "2026-06-01"
-        else if(val.indexOf('/')>-1){
-          var p=val.split('/');
-          if(p.length===3){
-            var yr=p[2].length===4?p[2]:'20'+p[2];
-            val=yr+'-'+p[0].padStart(2,'0')+'-'+p[1].padStart(2,'0');
+      // Fix ALL possible date formats from Google Sheets
+      if(nk==='date' && val && val.length>0){
+        try{
+          // ISO: "2026-06-01T00:00:00.000Z"
+          if(val.indexOf('T')>-1) val=val.slice(0,10);
+          // Slash: "6/1/2026" or "06/01/2026"
+          else if(val.indexOf('/')>-1){
+            var p=val.split('/');
+            if(p.length===3){
+              var yr=p[2].length===4?p[2]:'20'+p[2];
+              val=yr+'-'+p[0].padStart(2,'0')+'-'+p[1].padStart(2,'0');
+            }
           }
-        }
+          // "Mon Jun 01 2026..." - JS Date string
+          else if(val.length>10 && isNaN(val)){
+            var dt=new Date(val);
+            if(!isNaN(dt.getTime())){
+              val=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
+            }
+          }
+          // Ensure YYYY-MM-DD format
+          if(val && val.length===10 && val.indexOf('-')===4) {
+            // already correct format
+          } else if(val.length!==10){
+            // try parsing as date
+            var dt2=new Date(val);
+            if(!isNaN(dt2.getTime())){
+              val=dt2.getFullYear()+'-'+String(dt2.getMonth()+1).padStart(2,'0')+'-'+String(dt2.getDate()).padStart(2,'0');
+            }
+          }
+        }catch(e){}
       }
       obj[nk]=val;
     });
@@ -1439,6 +1464,19 @@ function populateQuickSearch(){
     sel.appendChild(o);
   });
 }
+
+// Update filter labels with actual dates
+(function(){
+  function ld(n){var d=new Date();d.setDate(d.getDate()-n);return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear();}
+  var sel=document.getElementById('dateF');
+  if(sel){
+    for(var i=0;i<sel.options.length;i++){
+      if(sel.options[i].value==='today') sel.options[i].text='Today ('+ld(0)+')';
+      if(sel.options[i].value==='yesterday') sel.options[i].text='Yesterday ('+ld(1)+')';
+      if(sel.options[i].value==='dayafter') sel.options[i].text='Day Before ('+ld(2)+')';
+    }
+  }
+})();
 
 // INIT — runs immediately, no DOMContentLoaded needed (script is at bottom)
 ALL = EMBEDDED;
