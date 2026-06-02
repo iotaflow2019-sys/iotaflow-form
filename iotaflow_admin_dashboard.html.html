@@ -627,48 +627,50 @@ function loadData(){
     .catch(function(){document.getElementById('tb-up').textContent='Showing cached data';});
 }
 
+function cleanDate(val){
+  if(!val) return '';
+  val = String(val).trim();
+  // Already YYYY-MM-DD - perfect
+  if(val.length===10 && val[4]==='-' && val[7]==='-') return val;
+  // ISO with T: "2026-06-01T00:00:00.000Z" -> slice first 10
+  if(val.indexOf('T') > -1) return val.slice(0,10);
+  // Slash: "6/1/2026" or "06/01/2026"
+  if(val.indexOf('/') > -1){
+    var p = val.split('/');
+    if(p.length===3){
+      var yr = p[2].length===4 ? p[2] : '20'+p[2];
+      return yr+'-'+String(p[0]).padStart(2,'0')+'-'+String(p[1]).padStart(2,'0');
+    }
+  }
+  // "Sun May 23 2026 00:00:00 GMT+0530" or any JS date string
+  // Use Date.parse but fix timezone by extracting date parts directly
+  try{
+    var d = new Date(val);
+    if(!isNaN(d.getTime())){
+      // Get LOCAL date parts (not UTC) to match what user sees
+      var yr = d.getFullYear();
+      var mo = d.getMonth()+1;
+      var dy = d.getDate();
+      // If time part pushes UTC date back 1 day, adjust
+      // Check if original string had a timezone offset issue
+      var result = yr+'-'+String(mo).padStart(2,'0')+'-'+String(dy).padStart(2,'0');
+      return result;
+    }
+  }catch(e){}
+  return val;
+}
+
 function normalizeRows(rows){
   return rows.map(function(r){
     var obj={};
     Object.keys(r).forEach(function(k){
-      var nk=k.toLowerCase().replace(/[^a-z0-9]/g,'');
-      var val=String(r[k]).trim();
-      // Fix ALL possible date formats from Google Sheets
-      if(nk==='date' && val && val.length>0){
-        try{
-          // ISO: "2026-06-01T00:00:00.000Z"
-          if(val.indexOf('T')>-1) val=val.slice(0,10);
-          // Slash: "6/1/2026" or "06/01/2026"
-          else if(val.indexOf('/')>-1){
-            var p=val.split('/');
-            if(p.length===3){
-              var yr=p[2].length===4?p[2]:'20'+p[2];
-              val=yr+'-'+p[0].padStart(2,'0')+'-'+p[1].padStart(2,'0');
-            }
-          }
-          // "Mon Jun 01 2026..." - JS Date string
-          else if(val.length>10 && isNaN(val)){
-            var dt=new Date(val);
-            if(!isNaN(dt.getTime())){
-              val=dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');
-            }
-          }
-          // Ensure YYYY-MM-DD format
-          if(val && val.length===10 && val.indexOf('-')===4) {
-            // already correct format
-          } else if(val.length!==10){
-            // try parsing as date
-            var dt2=new Date(val);
-            if(!isNaN(dt2.getTime())){
-              val=dt2.getFullYear()+'-'+String(dt2.getMonth()+1).padStart(2,'0')+'-'+String(dt2.getDate()).padStart(2,'0');
-            }
-          }
-        }catch(e){}
-      }
-      obj[nk]=val;
+      var nk = k.toLowerCase().replace(/[^a-z0-9]/g,'');
+      var val = String(r[k]).trim();
+      if(nk === 'date') val = cleanDate(val);
+      obj[nk] = val;
     });
     return obj;
-  }).filter(function(r){return r.name&&r.name.length>0;});
+  }).filter(function(r){return r.name && r.name.length > 0;});
 }
 
 // CALC — cap at 420 per submission
@@ -712,8 +714,7 @@ function filteredData(){
     if(fr||to)tOk=(!fr||r.date>=fr)&&(!to||r.date<=to);
     else {
       // Normalize r.date to YYYY-MM-DD for comparison
-      var rd = (r.date||'').trim();
-      if(rd.indexOf('T')>-1) rd=rd.slice(0,10);
+      var rd = cleanDate(r.date||'');
       tOk=df==='all'
         ||(df==='today'&&rd===today)
         ||(df==='yesterday'&&rd===yesterday)
