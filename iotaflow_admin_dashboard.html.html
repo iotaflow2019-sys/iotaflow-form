@@ -605,27 +605,30 @@ function loadData(){
   fetch(SCRIPT_API+'?action=get&t='+Date.now())
     .then(function(r){return r.json();})
     .then(function(json){
-      if(json&&json.data&&json.data.length>0){
-        ALL=normalizeRows(json.data);
-        var now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-        document.getElementById('tb-up').textContent='Live · '+now+' · '+ALL.length+' rows';
-        document.getElementById('s-time').textContent='Synced '+now;
-        // Re-apply current date filter after fresh data loads
-        renderAll();
-        populateQuickSearch();
-        // If a specific date filter is active, re-trigger it
-        var curFilter = document.getElementById('dateF').value;
-        if(curFilter !== 'all'){
-          renderAll(); // call again to ensure filter is applied
+      if(json && json.data && json.data.length > 0){
+        var fresh = normalizeRows(json.data);
+        if(fresh.length > 0){
+          ALL = fresh;
+          var now=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+          document.getElementById('tb-up').textContent='Live · '+now+' · '+ALL.length+' rows';
+          document.getElementById('s-time').textContent='Synced '+now;
+        } else {
+          document.getElementById('tb-up').textContent='Cached · '+ALL.length+' rows';
         }
-        if(document.getElementById('view-productivity').classList.contains('active'))renderProd();
-        if(document.getElementById('view-minutes').classList.contains('active'))renderMinutes();
       } else {
-        document.getElementById('tb-up').textContent='Showing cached data';
+        document.getElementById('tb-up').textContent='Cached · '+ALL.length+' rows';
       }
+      renderAll();
+      populateQuickSearch();
+      if(document.getElementById('view-productivity').classList.contains('active'))renderProd();
+      if(document.getElementById('view-minutes').classList.contains('active'))renderMinutes();
     })
-    .catch(function(){document.getElementById('tb-up').textContent='Showing cached data';});
+    .catch(function(){
+      document.getElementById('tb-up').textContent='Cached · '+ALL.length+' rows';
+      renderAll();
+    });
 }
+
 
 function cleanDate(val){
   if(!val) return '';
