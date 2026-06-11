@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>Iotaflow — Daily Activity Log v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f0f2f8; --sf:#ffffff; --sf2:#f5f7ff;
+  --br:rgba(0,0,0,0.08); --brh:rgba(37,99,235,0.4);
+  --tx:#1a1d2e; --mu:rgba(26,29,46,0.5); --mu2:rgba(26,29,46,0.28);
+  --bn:#2563eb; --bnd:rgba(37,99,235,0.08); --bnb:rgba(37,99,235,0.25);
+  --va:#059669; --nv:#dc2626;
+  --r:12px; --rs:8px;
+  --font:'Outfit',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:var(--font);background:var(--bg);color:var(--tx);min-height:100vh;padding-bottom:90px;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(rgba(37,99,235,0.035) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.w{max-width:600px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+
+/* TOPBAR */
+.topbar{background:var(--bg);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:50;}
+.topbar-inner{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;}
+.logo-wrap img{height:40px;width:auto;object-fit:contain;display:block;mix-blend-mode:multiply;}
+.tlabel{font-size:11px;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;font-weight:500;}
+
+/* HERO */
+.hero{padding:1.5rem 0 1rem;}
+.htitle{font-family:'Outfit',sans-serif;font-size:30px;font-weight:800;line-height:1.08;letter-spacing:-.025em;color:var(--tx);}
+.htitle em{color:var(--bn);font-style:normal;}
+
+/* LABELS */
+.lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--bn);margin-bottom:8px;font-weight:700;}
+
+/* CARD */
+.card{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--shadow);}
+
+/* FIELDS */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:12px;color:var(--mu);font-weight:500;}
+input[type=date],input[type=number],select{background:var(--sf2);border:1px solid var(--br);border-radius:var(--rs);padding:11px 13px;font-family:var(--font);font-size:15px;color:var(--tx);outline:none;width:100%;-webkit-appearance:none;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:border .15s,box-shadow .15s;}
+input:focus,select:focus{border-color:var(--bn);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+input[type=date]::-webkit-calendar-picker-indicator{opacity:.5;}
+select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238890aa' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+
+/* DEPT BUTTONS */
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.dbtn{padding:12px 8px;background:var(--sf);border:1px solid var(--br);border-radius:var(--rs);font-family:var(--font);font-size:12px;font-weight:500;color:var(--mu);cursor:pointer;text-align:center;line-height:1.4;min-height:50px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .15s;}
+.dbtn:hover{border-color:var(--bn);color:var(--bn);background:#eff6ff;}
+.dbtn.on{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-color:transparent;font-weight:700;box-shadow:0 3px 12px rgba(37,99,235,.3);}
+
+/* DIVIDER */
+.divl{height:1px;background:var(--br);margin:1.25rem 0;}
+
+/* ACTIVITIES */
+#asec{display:none;}
+#asec.show{display:block;}
+.act-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.act-count-badge{font-size:11px;color:var(--mu);background:var(--sf2);border:1px solid var(--br);border-radius:99px;padding:3px 10px;font-weight:500;}
+
+/* FLAT ACTIVITY ITEM — no category label shown */
+.aitem{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;border:1px solid var(--br);border-radius:var(--rs);cursor:pointer;transition:all .14s;background:var(--sf);box-shadow:0 1px 2px rgba(0,0,0,.03);margin-bottom:5px;}
+.aitem:hover{border-color:var(--bn);background:#eff6ff;}
+.aitem.sel{background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.3);}
+.abox{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--br);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .14s;}
+.aitem.sel .abox{background:var(--bn);border-color:var(--bn);}
+.ck{display:none;width:10px;height:10px;}
+.aitem.sel .ck{display:block;}
+.atxt{font-size:13px;line-height:1.55;color:var(--tx);flex:1;font-weight:400;}
+
+/* TIME ROW */
+.trow{display:none;margin:-1px 0 7px 0;padding:9px 13px;background:#eff6ff;border:1px solid rgba(37,99,235,.2);border-radius:var(--rs);align-items:center;gap:10px;}
+.trow.show{display:flex;}
+.trow label{font-size:12px;color:var(--bn);font-weight:600;flex:1;}
+.tinp{width:75px!important;padding:7px 10px!important;font-size:14px!important;text-align:center;background:#fff!important;border-radius:var(--rs)!important;}
+.tunit{font-size:12px;color:var(--mu);}
+
+/* TOTAL TIME CARD */
+.totcard{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:1.1rem 1.25rem;margin-bottom:1rem;display:none;box-shadow:var(--shadow);}
+.totcard.show{display:block;}
+.totcard-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;}
+.tot-display{background:var(--sf2);border:1px solid var(--br);border-radius:var(--rs);padding:10px 13px;display:flex;justify-content:space-between;align-items:center;}
+.tot-display span:first-child{font-size:12px;color:var(--mu);}
+.totval{font-size:16px;font-weight:700;color:var(--bn);font-family:var(--mono);}
+
+/* STICKY BOTTOM BAR */
+.sbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--br);padding:10px 16px;z-index:99;display:none;box-shadow:0 -4px 24px rgba(0,0,0,.08);}
+.sbar.show{display:block;}
+.sinner{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:10px;}
+.sbadge{font-size:12px;color:var(--mu);background:var(--sf2);padding:7px 12px;border-radius:6px;border:1px solid var(--br);white-space:nowrap;flex-shrink:0;font-weight:500;}
+.brst{background:#fff;color:var(--mu);border:1px solid var(--br);border-radius:var(--rs);padding:11px 14px;font-family:var(--font);font-size:13px;cursor:pointer;white-space:nowrap;font-weight:500;}
+.bgo{flex:1;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border:none;border-radius:var(--rs);padding:12px 16px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;min-height:44px;box-shadow:0 4px 14px rgba(37,99,235,.35);letter-spacing:-.01em;}
+.bgo:hover{opacity:.9;}
+.bgo:disabled{opacity:.4;cursor:not-allowed;}
+
+/* SUCCESS SCREEN */
+#ok{display:none;}
+#ok.show{display:block;}
+.okwrap{text-align:center;padding:60px 20px 40px;}
+.okicon{width:56px;height:56px;background:rgba(5,150,105,.1);border:2px solid rgba(5,150,105,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.okt{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;margin-bottom:8px;color:var(--tx);letter-spacing:-.02em;}
+.oks{font-size:14px;color:var(--mu);line-height:1.7;margin-bottom:28px;}
+.okcard{background:var(--sf2);border:1px solid var(--br);border-radius:var(--r);padding:16px;text-align:left;margin-bottom:28px;box-shadow:var(--shadow);}
+.okrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--br);font-size:13px;}
+.okrow:last-child{border-bottom:none;}
+.okrow span:first-child{color:var(--mu);}
+.okrow strong{color:var(--tx);font-weight:600;}
+.okbtn{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border:none;border-radius:var(--rs);padding:13px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,.3);}
+
+/* SPINNER & TOAST */
+.spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(6px);background:var(--tx);color:#fff;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap;max-width:90vw;text-align:center;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(max-width:400px){
+  .dgrid{grid-template-columns:repeat(2,1fr);}
+  .field-row{grid-template-columns:1fr;}
+  .totcard-row{grid-template-columns:1fr;}
+  .htitle{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo-wrap" style="display:flex;align-items:center;gap:9px;">
+      <div style="width:30px;height:30px;background:linear-gradient(135deg,#1e3a8a,#2563eb);border-radius:7px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(37,99,235,0.3);flex-shrink:0;">
+        <span style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;color:#fff;">IF</span>
+      </div>
+      <div>
+        <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--tx);line-height:1.1;">Iotaflow Systems</div>
+        <div style="font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;">Pvt. Ltd.</div>
+      </div>
+    </div>
+    <span class="tlabel">Activity Log</span>
+  </div>
+</div>
+
+<div class="w">
+  <div id="fscreen">
+    <div class="hero">
+      <div class="htitle">Daily<br/><em>Activity Log</em></div>
+    </div>
+
+    <div class="lbl">Details</div>
+    <div class="card">
+      <div class="field-row">
+        <div class="field">
+          <label>Apna Naam Select Karein *</label>
+          <select id="fname"><option value="">-- Naam chunein --</option></select>
+        </div>
+        <div class="field">
+          <label>Date (Auto)</label>
+          <div id="fdate-display" style="background:var(--sf2);border:1px solid var(--br);border-radius:var(--rs);padding:11px 13px;font-family:var(--mono);font-size:14px;color:var(--tx);font-weight:500;"></div>
+          <input type="hidden" id="fdate"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="lbl" style="margin-top:.25rem;">Department *</div>
+    <div class="card">
+      <div class="dgrid">
+        <button class="dbtn" onclick="pickDept('accounts',this)">Accounts</button>
+        <button class="dbtn" onclick="pickDept('hr',this)">HR &amp; Admin</button>
+        <button class="dbtn" onclick="pickDept('it',this)">IT</button>
+        <button class="dbtn" onclick="pickDept('purchase',this)">Purchase</button>
+        <button class="dbtn" onclick="pickDept('store',this)">Store</button>
+        <button class="dbtn" onclick="pickDept('design',this)">Design</button>
+        <button class="dbtn" onclick="pickDept('service',this)">Service</button>
+        <button class="dbtn" onclick="pickDept('sales',this)">Sales &amp; CRM</button>
+        <button class="dbtn" onclick="pickDept('marketing',this)">Marketing</button>
+      </div>
+    </div>
+
+    <div id="asec">
+      <div class="divl"></div>
+      <div class="act-header">
+        <div class="lbl" id="aseclbl" style="margin-bottom:0;">Aaj aapne kya kiya?</div>
+        <div class="act-count-badge"><strong id="seln">0</strong> selected &middot; <strong id="seltime">0 min</strong></div>
+      </div>
+      <div id="alist"></div>
+      <div class="totcard" id="totcard">
+        <div class="lbl" style="margin-bottom:0;">Time Summary</div>
+        <div class="totcard-row">
+          <div class="field">
+            <label style="font-size:12px;color:var(--mu);font-weight:500;margin-bottom:5px;">Aaj total kitne ghante kaam kiya</label>
+            <input type="number" id="whours" min="1" max="14" step="0.5" placeholder="e.g. 8"/>
+          </div>
+          <div class="tot-display" style="flex-direction:column;gap:4px;align-items:stretch;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span>Activities ka total</span>
+              <span class="totval" id="acttime">0 min</span>
+            </div>
+            <div style="height:5px;border-radius:99px;background:var(--bg2);overflow:hidden;">
+              <div id="time-progress" style="height:5px;border-radius:99px;background:var(--va);transition:width .4s,background .3s;width:0%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--mu);">
+              <span>0 min</span><span>420 min (1 din)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ok">
+    <div class="okwrap">
+      <div class="okicon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 5 9 16 4 11"/></svg>
+      </div>
+      <div class="okt">Submit ho gaya!</div>
+      <div class="oks">Aapka data record ho gaya hai.<br/>Management review karegi.</div>
+      <div class="okcard" id="okcard"></div>
+      <button class="okbtn" onclick="resetAll()">Nayi Entry Karein</button>
+    </div>
+  </div>
+</div>
+
+<!-- 420 min warning -->
+<div id="time-warning" style="display:none;position:fixed;bottom:70px;left:0;right:0;z-index:98;padding:0 16px;">
+  <div style="max-width:600px;margin:0 auto;background:#fff3cd;border:1px solid #f59e0b;border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,.1);">
+    <span class="warn-txt" style="font-size:13px;font-weight:500;color:#92400e;flex:1;"></span>
+  </div>
+</div>
+
+<div class="sbar" id="sbar">
+  <div class="sinner">
+    <div class="sbadge"><strong id="seln2">0</strong> selected</div>
+    <button class="brst" onclick="resetDept()">Reset</button>
+    <button class="bgo" id="gobtn" onclick="doSubmit()">Submit &#x2192;</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var SCRIPT_URL="https://script.google.com/macros/s/AKfycbwp5kUjc4OFr41eQ027iFkG1-dIlNJi_xX8TBVJI_mZnohlg2WrQgry1bx14jTxK5Zr2Q/exec";
+
+var EMPLOYEES={
+  accounts:["Barun Kr. Dey","Kartik Wahi"],
+  hr:["Mehvish Khan","Resham"],
+  it:["Dev"],
+  purchase:["Aditya","Mukul","Neha Dutta"],
+  store:["Naveen Pandey","Parvinder","Rupesh Tiwari"],
+  design:["Pawan Kushwaha","Shailesh Yadav"],
+  service:["Avinash","Lavlesh","Pawan Arya","Pradeep","Preeti","Roshan Gupta","Roze Ali"],
+  sales:["Gagan","Ekta Shah","Fahim Mansuri","Gargee Mridha","Gufran Shaikh","Minaxi","Nitesh Kumar Jha","Rathi Devi","Shobika","Suraj Borate","Rajeev Kalra","Priyanka"],
+  marketing:["Akash","Pushpa","Vipul"]
+};
+
+// Name → Department mapping (from Excel)
+var NAME_TO_DEPT = {
+  "Aditya":"purchase","Akash":"marketing","Avinash":"service",
+  "Barun Kr. Dey":"accounts","Dev":"it","Gagan":"sales",
+  "Kartik Wahi":"accounts","Ekta Shah":"sales","Fahim Mansuri":"sales",
+  "Gargee Mridha":"sales","Gufran Shaikh":"sales","Lavlesh":"service",
+  "Minaxi":"sales","Nitesh Kumar Jha":"sales","Rathi Devi":"sales",
+  "Shobika":"sales","Suraj Borate":"sales","Mehvish Khan":"hr",
+  "Mukul":"purchase","Naveen Pandey":"store","Neha Dutta":"purchase",
+  "Parvinder":"store","Pawan Arya":"service","Pawan Kushwaha":"design",
+  "Pradeep":"service","Preeti":"service","Priyanka":"sales",
+  "Pushpa":"marketing","Rajeev Kalra":"sales","Resham":"hr",
+  "Roshan Gupta":"service","Roze Ali":"service","Rupesh Tiwari":"store",
+  "Shailesh Yadav":"design","Vipul":"marketing"
+};
+
+// Dept key → button text mapping
+var DEPT_BTN = {
+  "accounts":"Accounts","hr":"HR & Admin","it":"IT",
+  "purchase":"Purchase","store":"Store","design":"Design",
+  "service":"Service","sales":"Sales & CRM","marketing":"Marketing"
+};
+
+var NVA_INFO={
+  "Festive poster design":{cause:"B2B companies don't buy products because of festive posters. This time gives zero return.",fix:"Before taking any design task, ask — will this bring enquiry or show our product? If no, say no to the task.",owner:"Vipul / Akash"},
+  "Meme creation":{cause:"Our customers are engineers and procurement teams — memes don't help them decide to buy.",fix:"Stop making memes. Use that time for product photos, technical posts, or catalogue work.",owner:"Akash"},
+  "Caption on random video":{cause:"Adding captions to random videos that have no sales goal is wasted effort.",fix:"Only work on videos that have a clear purpose — product demo, how-to, or customer story.",owner:"Akash"},
+  "Rework in design":{cause:"Work had to be redone because the brief wasn't clear before starting.",fix:"Before starting any design, get a written brief approved. If brief changes after work starts, that's extra logged time.",owner:"Vipul / Pushpa"},
+  "Content changes after design starts":{cause:"Someone asked for changes after the design was already made.",fix:"All content must be finalised and approved before design begins. No changes allowed mid-work.",owner:"Vipul / Pushpa"},
+  "Version confusion":{cause:"Multiple versions of the same file floating around — nobody knows which is final.",fix:"Name files properly: Date_Type_Description. Keep only one FINAL version in the shared folder.",owner:"Akash / Pushpa"},
+  "Searching files":{cause:"Files are not organised so everyone wastes time searching for them.",fix:"Make proper folders: Year > Month > Type > Project. Takes one day to set up, saves hours every week.",owner:"Akash"},
+  "Unnecessary meetings":{cause:"Meetings happen without a clear agenda — people sit, talk, and nothing gets decided.",fix:"No meeting without a written agenda shared beforehand. If no agenda, cancel the meeting.",owner:"Vipul"},
+  "Unnecessary follow-ups":{cause:"You're following up because someone didn't do what they promised earlier.",fix:"Find why the original task didn't happen and fix that. Don't just keep following up.",owner:"Vipul"},
+  "Communication delays":{cause:"Waiting for reply from someone in the team — they didn't respond on time.",fix:"Internal messages must be replied to within 4 hours. If urgent, call directly.",owner:"Vipul"},
+  "Waiting":{cause:"Work is stuck because you're waiting for someone's approval or input.",fix:"Write down every time you wait — who, how long, why. Use this to fix the approval process.",owner:"Vipul"},
+  "BOM update flop from design team":{cause:"Design team changed the product but didn't update the parts list (BOM). Store team then picks wrong parts.",fix:"Design change is not done until BOM is updated in Odoo. Store team must confirm before design closes the task.",owner:"Shailesh Yadav"},
+  "Rework on own code":{cause:"Code had bugs that should have been caught before it was used.",fix:"Always review your own code before submitting. Get a second person to check anything important.",owner:"Dev"},
+  "Debugging own errors":{cause:"Errors were made that could have been avoided with proper testing.",fix:"Write simple tests before you start coding. Check your work before marking it done.",owner:"Dev"},
+  "Follow-up for part code approval":{cause:"Sales is wasting time chasing an internal approval that should happen automatically.",fix:"Part code approval must happen within 4 hours. If not, it goes to the next person automatically.",owner:"Shailesh / Mehak"},
+  "Asking delivery status":{cause:"Sales has to call operations to ask about delivery — operations should inform without being asked.",fix:"Operations team must send delivery update to sales on their own — no sales follow-up should be needed.",owner:"Naveen"},
+  "Chasing LR copy":{cause:"Sales has to chase logistics to get the delivery receipt (LR) — it should come automatically.",fix:"Parvinder sends LR copy to sales and customer the same day dispatch happens. Always, every time.",owner:"Parvinder"},
+  "Tracking dispatched material":{cause:"Sales is tracking delivery themselves because dispatch team doesn't inform them.",fix:"Dispatch team shares tracking number with sales the moment product is shipped. No follow-up needed.",owner:"Parvinder"},
+  "Repeated data entry from Focus crash":{cause:"The Focus software crashes and the data entered is lost, so it has to be typed again.",fix:"Dev / IT must fix Focus crashes within 2 weeks. Every crash must be reported with time and details.",owner:"Dev"},
+  "Rework on Focus random stop":{cause:"Same issue — Focus stops suddenly and work is lost.",fix:"Same fix: IT resolves permanently. If it can't be fixed, move to a better system.",owner:"Dev"},
+  "Guide visitors":{cause:"Purchase team is doing reception work — this is not their job and wastes their time.",fix:"A proper reception process must be set up. Purchase team should never be guiding visitors.",owner:"Resham / Admin"},
+  "Arrange drinking water":{cause:"This is a facility task — not something Purchase team should be doing.",fix:"Assign this to admin or a designated person. Remove it from Purchase team completely.",owner:"Resham / Admin"},
+  "Visitor register":{cause:"Maintaining visitor log is admin work, not purchase work.",fix:"Admin or reception handles visitor log. Purchase team's time should go to purchasing.",owner:"Resham / Admin"},
+  "Updating recruitment data in multiple sheets and systems":{cause:"Same recruitment data is being entered in 2-3 different places — same work done multiple times.",fix:"Pick one system (Odoo or one master sheet). Delete all other copies. Enter data once, in one place only.",owner:"Mehvish Khan"}
+};
+
+
+// Category lookup for each activity
+var BNVA_ACTS=[
+  // Accounts
+  "GST Payment and Documentation","EPF Payment and Documentation","ESI Payment and Documentation",
+  "TDS Payable Data Process","Advance Tax / Income Tax","Salary Documentation",
+  "Bank Statement Download","Documentation with Bank","Follow-up with Bank",
+  "BG and FDR List Update","Insurance Documentation (Import / Local)",
+  "Purchase Invoices Pending Status","Imprest and Advance Request",
+  "Ledger Master Creation / Update","Item Creation","Correspondence",
+  "BOE Payments Knock Off",
+  // HR
+  "Scheduling and coordinating interviews","Sharing recruitment updates with management",
+  "Maintaining candidate records and recruitment trackers",
+  "Compliance reporting (statutory)","Maintaining statutory records","Filing regulatory reports",
+  // IT
+  "Performing mandatory security patches","Compliance-driven system checks",
+  "Asset register maintenance","User access management",
+  // Purchase
+  "Cheque or RTGS Bank payment","Bank Cash withdrawal / Deposit",
+  "Rubber Liner Certificate","PJV Bill Entry / Focus","Voucher / Bill Filling",
+  "Payment Follow-up","Bill of Entry book in Focus","Work sheet maintenance",
+  "Maintain JV and Amazon bill records","Maintain courier details in Excel",
+  "Vendor follow-up","DHL label making","Import documentation arrange / handling",
+  "PO approve","Import shipment status update","Courier receive",
+  "Record incoming Argon Gas cylinders","Payment Knock-off",
+  // Store
+  "MRN (Material Receipt Note)","ISP (Inward Stores Process)",
+  "RCP (Receipt / Collection Process)","Delivery Note Local",
+  "Sheet Update (Sheet update करना)","Cared Sheet Update",
+  "Mail Check","Delivery Note work when Rupesh absent",
+  "Docket share via WhatsApp and Mail to customer and Sales",
+  // Design
+  "Document Control","Certification","TPI (Third Party Inspection)","Purchase Support",
+  // Service
+  "SO Sheet Management","Managing Sales and Service Co-ordination","Vendor Coordination",
+  "Complaint Board Update",
+  // Sales
+  "Enquiry Adding in Odoo","PO Acknowledgement","Approve OPS and OAL",
+  "Order Attached in Odoo and Getting Approval","Getting Part Code Approval in Odoo",
+  "Request Naveen Sir for Delivery Period","Scheduling Meetings with High Profile Officials",
+  "CRM Updating and Sales Reporting","Delivery Status to Customer",
+  "Connect with Internal Team for Service / Order Updates",
+  "Site Visit Arrangement for Service and Calibration","Finding Relevant Part Code",
+  // Marketing
+  "Social Media Posting","Instagram / YouTube Upload Video",
+  "Scheduling (Publishing Calendar)","Database Management",
+  "Coordination (Internal)","Reporting","File Management",
+  "Sticker design","Label design",
+  "Sticker Design and Print","Label Design and Print / Sticker Cutting",
+  "Scanning the Document","Visiting Card and ID Card Design and Print",
+  "Courier Documents to Sales Team"
+];
+
+function getActCat(txt){
+  var t=txt.toLowerCase();
+  // Check NVA first
+  var nvaKeys=Object.keys(NVA_INFO);
+  for(var i=0;i<nvaKeys.length;i++){
+    var k=nvaKeys[i].toLowerCase();
+    if(t===k||t.indexOf(k)>=0||(k.length>6&&t.indexOf(k.slice(0,Math.floor(k.length*0.75)))>=0))
+      return "NVA";
+  }
+  // Check BNVA
+  for(var j=0;j<BNVA_ACTS.length;j++){
+    if(t===BNVA_ACTS[j].toLowerCase()||t.indexOf(BNVA_ACTS[j].toLowerCase())>=0)
+      return "BNVA";
+  }
+  return "VA";
+}
+
+var DEPTS={
+  marketing:{name:"Marketing",a:[
+    "Email marketing","Video creation","Post design","Content creation",
+    "Catalogue and manual design","PPT","Product shoot","WhatsApp marketing","Sticker design","Label design",
+    "Festive poster design","Meme creation","Caption on random video",
+    "Rework in design","Content changes after design starts","Version confusion","Searching files",
+    "Unnecessary meetings","Unnecessary follow-ups","Communication delays","Waiting"
+  ]},
+  store:{name:"Store",a:[
+    "OAL bin ready","OAL bin send assembly","OAL bin checking","OAL BOM checking","Kanban PR","OAL PR",
+    "MRN","ISP","RCP","Delivery Note","GRN",
+    "OAL Status Board","Daily Score","OAL Live board labels",
+    "BOM update flop from design team"
+  ]},
+  it:{name:"IT",a:[
+    "Technical design","Coding","AI automation",
+    "Security patches","Compliance checks","Backups","Documenting resolutions",
+    "Rework on own code","Debugging own errors"
+  ]},
+  sales:{name:"Sales & CRM",a:[
+    "Cold call","LinkedIn search","Lead creation","Intro email","WhatsApp intro","Discovery call",
+    "Offer follow-up","Enquiry follow-up","Offer creation","Offer send","Payment follow-up","Order follow-up",
+    "Follow-up for part code approval","Asking delivery status","Chasing LR copy","Tracking dispatched material",
+    "Enquiry in Odoo","PO acknowledgement","Approve OPS/OAL","Order in Odoo"
+  ]},
+  purchase:{name:"Purchase",a:[
+    "PR creation","PO creation","Bill booking","Vendor rate confirmation","Delivery date confirmation",
+    "Repeated data entry from Focus crash","Rework on Focus random stop",
+    "Guide visitors","Arrange drinking water","Visitor register"
+  ]},
+  hr:{name:"HR & Admin",a:[
+    "Naukri sourcing","LinkedIn headhunting","Resume screening","HR screening call","Job posting",
+    "Updating recruitment data in multiple sheets and systems"
+  ]},
+  service:{name:"Service / Post-Sales",a:[
+    "Service invoice","Calibration certificate","In-house reports","Material dispatch",
+    "Complaint board update","In-house board update"
+  ]},
+  design:{name:"Design",a:[
+    "3D drawing","2D drawing","CAM programming","BOM creation","DFA","DFM","GA drawing","Design optimization",
+    "Machine shop support","Assembly floor support","Technical support to sales/service"
+  ]},
+  accounts:{name:"Accounts",a:[
+    "Purchase entry","Sales billing","Receipt knock-off","Payment knock-off","GST returns","Bank reconciliation",
+    "EPF","ESI","GST payment","TDS","Advance tax"
+  ]}
+};
+
+var NAME_TO_DEPT = {
+  "Aditya":"purchase","Akash":"marketing","Avinash":"service",
+  "Barun Kr. Dey":"accounts","Dev":"it","Gagan":"sales",
+  "Kartik Wahi":"accounts","Ekta Shah":"sales","Fahim Mansuri":"sales",
+  "Gargee Mridha":"sales","Gufran Shaikh":"sales","Lavlesh":"service",
+  "Minaxi":"sales","Nitesh Kumar Jha":"sales","Rathi Devi":"sales",
+  "Shobika":"sales","Suraj Borate":"sales","Mehvish Khan":"hr",
+  "Mukul":"purchase","Naveen Pandey":"store","Neha Dutta":"purchase",
+  "Parvinder":"store","Pawan Arya":"service","Pawan Kushwaha":"design",
+  "Pradeep":"service","Preeti":"service","Priyanka":"sales",
+  "Pushpa":"marketing","Rajeev Kalra":"sales","Resham":"hr",
+  "Roshan Gupta":"service","Roze Ali":"service","Rupesh Tiwari":"store",
+  "Shailesh Yadav":"design","Vipul":"marketing"
+};
+
+// Dept key → button text mapping
+var DEPT_BTN = {
+  "accounts":"Accounts","hr":"HR & Admin","it":"IT",
+  "purchase":"Purchase","store":"Store","design":"Design",
+  "service":"Service","sales":"Sales & CRM","marketing":"Marketing"
+};
+
+
+var NAME_TO_DEPT = {
+  "Aditya":"purchase","Akash":"marketing","Avinash":"service",
+  "Barun Kr. Dey":"accounts","Dev":"it","Gagan":"sales",
+  "Kartik Wahi":"accounts","Ekta Shah":"sales","Fahim Mansuri":"sales",
+  "Gargee Mridha":"sales","Gufran Shaikh":"sales","Lavlesh":"service",
+  "Minaxi":"sales","Nitesh Kumar Jha":"sales","Rathi Devi":"sales",
+  "Shobika":"sales","Suraj Borate":"sales","Mehvish Khan":"hr",
+  "Mukul":"purchase","Naveen Pandey":"store","Neha Dutta":"purchase",
+  "Parvinder":"store","Pawan Arya":"service","Pawan Kushwaha":"design",
+  "Pradeep":"service","Preeti":"service","Priyanka":"sales",
+  "Pushpa":"marketing","Rajeev Kalra":"sales","Resham":"hr",
+  "Roshan Gupta":"service","Roze Ali":"service","Rupesh Tiwari":"store",
+  "Shailesh Yadav":"design","Vipul":"marketing"
+};
+
+// Dept key → button text mapping
+var DEPT_BTN = {
+  "accounts":"Accounts","hr":"HR & Admin","it":"IT",
+  "purchase":"Purchase","store":"Store","design":"Design",
+  "service":"Service","sales":"Sales & CRM","marketing":"Marketing"
+};
+
+
+var NAME_TO_DEPT = {
+  "Aditya":"purchase","Akash":"marketing","Avinash":"service",
+  "Barun Kr. Dey":"accounts","Dev":"it","Gagan":"sales",
+  "Kartik Wahi":"accounts","Ekta Shah":"sales","Fahim Mansuri":"sales",
+  "Gargee Mridha":"sales","Gufran Shaikh":"sales","Lavlesh":"service",
+  "Minaxi":"sales","Nitesh Kumar Jha":"sales","Rathi Devi":"sales",
+  "Shobika":"sales","Suraj Borate":"sales","Mehvish Khan":"hr",
+  "Mukul":"purchase","Naveen Pandey":"store","Neha Dutta":"purchase",
+  "Parvinder":"store","Pawan Arya":"service","Pawan Kushwaha":"design",
+  "Pradeep":"service","Preeti":"service","Priyanka":"sales",
+  "Pushpa":"marketing","Rajeev Kalra":"sales","Resham":"hr",
+  "Roshan Gupta":"service","Roze Ali":"service","Rupesh Tiwari":"store",
+  "Shailesh Yadav":"design","Vipul":"marketing"
+};
+
+var EMPLOYEES={
+  accounts:["Barun Kr. Dey","Kartik Wahi"],
+  hr:["Mehvish Khan","Resham"],
+  it:["Dev"],
+  purchase:["Aditya","Mukul","Neha Dutta"],
+  store:["Naveen Pandey","Parvinder","Rupesh Tiwari"],
+  design:["Pawan Kushwaha","Shailesh Yadav"],
+  service:["Avinash","Lavlesh","Pawan Arya","Pradeep","Preeti","Roshan Gupta","Roze Ali"],
+  sales:["Gagan","Ekta Shah","Fahim Mansuri","Gargee Mridha","Gufran Shaikh","Minaxi","Nitesh Kumar Jha","Rathi Devi","Shobika","Suraj Borate","Rajeev Kalra","Priyanka"],
+  marketing:["Akash","Pushpa","Vipul"]
+};
+
+var curDept=null, selected={};
+
+function showView(id){
+  document.querySelectorAll('.view').forEach(function(v){v.style.display='none';});
+  if(id) document.getElementById(id).style.display='';
+}
+
+function pickDept(key,btn){
+  document.querySelectorAll(".dbtn").forEach(function(b){b.classList.remove("on");});
+  btn.classList.add("on");
+  curDept=key;selected={};
+  buildList(key);
+  updateBar();
+}
+
+function buildList(key){
+  var d=DEPTS[key];
+  document.getElementById("aseclbl").textContent=d.name+" — Aaj aapne kya kiya?";
+  var list=document.getElementById("alist");list.innerHTML="";
+  d.a.forEach(function(actTxt,i){
+    var id="act_"+i;
+    var div=document.createElement("div");
+    div.className="aitem";div.id="ai_"+id;
+    div.setAttribute("data-id",id);
+    div.setAttribute("data-cat",getActCat(actTxt));
+    div.setAttribute("data-txt",actTxt);
+    div.innerHTML="<div class='abox'><svg class='ck' viewBox='0 0 10 10' fill='none' stroke='#fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><polyline points='1.5,5 4,7.5 8.5,2'/></svg></div><span class='atxt'>"+actTxt+"</span>";
+    div.onclick=function(){togAct(this.getAttribute("data-id"),this.getAttribute("data-cat"),this.getAttribute("data-txt"));};
+    list.appendChild(div);
+    var trow=document.createElement("div");
+    trow.className="trow";trow.id="tr_"+id;
+    trow.innerHTML="<label>Time spent:</label><input class='tinp' type='number' id='ti_"+id+"' min='1' max='480' placeholder='min' inputmode='numeric'/><span class='tunit'>min</span>";
+    trow.querySelector("input").setAttribute("data-id",id);
+    trow.querySelector("input").oninput=function(){
+      var fid=this.getAttribute("data-id");
+      if(selected[fid]){selected[fid].mins=parseInt(this.value)||0;updateBar();}
+    };
+    list.appendChild(trow);
+  });
+  document.getElementById("asec").classList.add("show");
+  document.getElementById("totcard").classList.add("show");
+  document.getElementById("sbar").classList.add("show");
+  setTimeout(function(){
+    var el=document.getElementById("asec");
+    window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-80,behavior:"smooth"});
+  },100);
+}
+
+function togAct(id,cat,txt){
+  var item=document.getElementById("ai_"+id);
+  var trow=document.getElementById("tr_"+id);
+  if(selected[id]){
+    delete selected[id];item.className="aitem";trow.classList.remove("show");
+    document.getElementById("ti_"+id).value="";
+    closeNvaPopup();
+  } else {
+    selected[id]={cat:cat,text:txt,mins:0};item.className="aitem sel";trow.classList.add("show");
+    setTimeout(function(){document.getElementById("ti_"+id).focus();},60);
+    // Show NVA popup if this activity has info
+    showNvaPopup(txt);
+  }
+  updateBar();
+}
+
+function showNvaPopup(txt){
+  // Find matching NVA info - check partial match
+  var info=null;
+  var keys=Object.keys(NVA_INFO);
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i].toLowerCase();
+    var t=txt.toLowerCase();
+    if(t.indexOf(k)>=0||k.indexOf(t)>=0||(k.length>6&&t.indexOf(k.slice(0,Math.floor(k.length*0.7)))>=0)){
+      info=NVA_INFO[keys[i]];break;
+    }
+  }
+  if(!info){closeNvaPopup();return;}
+  document.getElementById("nva-popup-act").textContent=txt;
+  document.getElementById("nva-popup-cause").textContent=info.cause;
+  document.getElementById("nva-popup-fix").textContent=info.fix;
+  document.getElementById("nva-popup-owner").textContent=info.owner||"";
+  var popup=document.getElementById("nva-popup");
+  popup.style.display="block";
+  popup.style.animation="none";
+  setTimeout(function(){
+    popup.style.transition="opacity 0.3s";
+    popup.style.opacity="1";
+  },10);
+}
+
+function closeNvaPopup(){
+  var popup=document.getElementById("nva-popup");
+  if(popup)popup.style.display="none";
+}
+
+function totalMins(){var t=0;for(var k in selected)t+=(selected[k].mins||0);return t;}
+function selCount(){return Object.keys(selected).length;}
+
+function updateBar(){
+  var n=selCount(),m=totalMins(),h=Math.floor(m/60),mn=m%60;
+  var td=h>0?h+"h "+mn+"m":m+"min";
+  var name=document.getElementById("fname").value.trim();
+  var date=document.getElementById("fdate").value;
+  var storageKey="iotaflow_"+name.replace(/\s+/g,'_')+"_"+date;
+  var usedMins=name?(parseInt(localStorage.getItem(storageKey)||"0")):0;
+  var totalToday=usedMins+m;
+  var remaining=420-usedMins;
+  document.getElementById("seln").textContent=n;
+  document.getElementById("seln2").textContent=n;
+  document.getElementById("seltime").textContent=td;
+  document.getElementById("acttime").textContent=m>0?td:"0 min";
+  var prog=document.getElementById("time-progress");
+  if(prog){
+    var pct=Math.min(totalToday/420*100,100);
+    prog.style.width=pct+"%";
+    prog.style.background=totalToday>420?"var(--nv)":totalToday>350?"var(--bn)":"var(--va)";
+  }
+  var warnEl=document.getElementById("time-warning");
+  var submitBtn=document.getElementById("gobtn");
+  if(totalToday>420){
+    var over=totalToday-420;
+    if(warnEl){warnEl.style.display="flex";warnEl.querySelector(".warn-txt").textContent="⚠️ Aaj pehle se "+usedMins+" min submit hai. Is form mein "+m+" min aur — total "+totalToday+" min ("+over+" min zyada)! Time kam karo.";}
+    if(submitBtn){submitBtn.disabled=true;submitBtn.style.opacity="0.4";}
+  } else if(usedMins>0&&m>0){
+    if(warnEl){warnEl.style.display="flex";warnEl.querySelector(".warn-txt").textContent="ℹ️ Aaj pehle se "+usedMins+" min submit hai. Is form ke baad total: "+totalToday+" min. Bacha: "+(420-totalToday)+" min.";}
+    if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity="";}
+  } else if(m>420){
+    if(warnEl){warnEl.style.display="flex";warnEl.querySelector(".warn-txt").textContent="⚠️ Is form mein hi "+m+" min — 420 se zyada! Time kam karo.";}
+    if(submitBtn){submitBtn.disabled=true;submitBtn.style.opacity="0.4";}
+  } else {
+    if(warnEl)warnEl.style.display="none";
+    if(submitBtn){submitBtn.disabled=false;submitBtn.style.opacity="";}
+  }
+}
+
+function resetDept(){
+  selected={};
+  document.getElementById("alist").innerHTML="";
+  document.getElementById("asec").classList.remove("show");
+  document.getElementById("totcard").classList.remove("show");
+  document.getElementById("sbar").classList.remove("show");
+  document.querySelectorAll(".dbtn").forEach(function(b){b.classList.remove("on");});
+  curDept=null;updateBar();
+}
+
+function resetAll(){
+  document.getElementById("fscreen").style.display="";
+  document.getElementById("ok").classList.remove("show");
+  document.getElementById("fname").value="";
+  document.getElementById("whours").value="";
+  var d=new Date();
+  var yyyy=d.getFullYear(),mm=String(d.getMonth()+1).padStart(2,"0"),dd=String(d.getDate()).padStart(2,"0");
+  document.getElementById("fdate").value=yyyy+"-"+mm+"-"+dd;
+  var disp=document.getElementById("fdate-display");
+  if(disp)disp.textContent="📅  "+dd+"/"+mm+"/"+yyyy+" (Today)";
+  resetDept();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function doSubmit(){
+  var name=document.getElementById("fname").value.trim();
+  var date=document.getElementById("fdate").value;
+  var wh=document.getElementById("whours").value;
+  if(!name){showToast("Apna naam select karein!");return;}
+  if(!curDept){showToast("Department select karein!");return;}
+  if(!selCount()){showToast("Koi activity select nahi ki!");return;}
+  var thisMins=totalMins();
+  var storageKey="iotaflow_"+name.replace(/\s+/g,'_')+"_"+date;
+  var usedMins=parseInt(localStorage.getItem(storageKey)||"0");
+  var remaining=420-usedMins;
+  if(thisMins<=0){showToast("Koi bhi activity ka time 0 hai! Time enter karo.");return;}
+  if(thisMins>420){showToast("Is form mein hi "+thisMins+" min — 420 se zyada! Time kam karo.");return;}
+  if(usedMins+thisMins>420){var over=(usedMins+thisMins)-420;showToast("Aaj pehle se "+usedMins+" min submit hai. Sirf "+remaining+" min bache hain. "+over+" min zyada hai!");return;}
+  var btn=document.getElementById("gobtn");
+  btn.disabled=true;btn.innerHTML="<span class='spin'></span>Saving...";
+  var va=[],bnva=[],nva=[],vam=0,bnvam=0,nvm=0;
+  for(var id in selected){
+    var s=selected[id],entry=s.text+"("+s.mins+"min)";
+    if(s.cat==="VA"){va.push(entry);vam+=s.mins;}
+    else if(s.cat==="BNVA"){bnva.push(entry);bnvam+=s.mins;}
+    else{nva.push(entry);nvm+=s.mins;}
+  }
+  var tot=va.length+bnva.length+nva.length,tam=vam+bnvam+nvm;
+  var vap=Math.round(va.length/tot*100),bp=Math.round(bnva.length/tot*100),np=100-vap-bp;
+  var payload={
+    timestamp:new Date().toISOString(),name:name,date:date,
+    department:DEPTS[curDept].name,totalActivities:tot,
+    vaCount:va.length,bnvaCount:bnva.length,nvaCount:nva.length,
+    vaPercent:vap,bnvaPercent:bp,nvaPercent:np,
+    vaMins:vam,bnvaMins:bnvam,nvaMins:nvm,
+    totalActivityMins:tam,totalWorkHours:wh||"",
+    vaActivities:va.join(" | "),bnvaActivities:bnva.join(" | "),nvaActivities:nva.join(" | ")
+  };
+  fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body:JSON.stringify(payload)})
+    .catch(function(){})
+    .finally(function(){
+      var newTotal=usedMins+tam;
+      localStorage.setItem(storageKey,newTotal);
+      var leftMins=420-newTotal;
+      var h=Math.floor(tam/60),m=tam%60,td=h>0?h+" hr "+m+" min":tam+" min";
+      document.getElementById("okcard").innerHTML=
+        "<div class='okrow'><span>Naam</span><strong>"+name+"</strong></div>"+
+        "<div class='okrow'><span>Department</span><strong>"+DEPTS[curDept].name+"</strong></div>"+
+        "<div class='okrow'><span>Date</span><strong>"+date+"</strong></div>"+
+        "<div class='okrow'><span>Is submission ka time</span><strong>"+td+"</strong></div>"+
+        "<div class='okrow'><span>Aaj total submit</span><strong>"+newTotal+" min</strong></div>"+
+        "<div class='okrow'><span>Aaj bacha hua time</span><strong style='color:"+(leftMins<=0?"#dc2626":"#059669")+"'>"+Math.max(0,leftMins)+" min</strong></div>";
+      document.getElementById("fscreen").style.display="none";
+      document.getElementById("sbar").classList.remove("show");
+      document.getElementById("ok").classList.add("show");
+      window.scrollTo({top:0,behavior:"smooth"});
+      btn.disabled=false;btn.textContent="Submit →";
+    });
+}
+
+function showToast(m){
+  var t=document.getElementById("toast");t.textContent=m;t.classList.add("on");
+  setTimeout(function(){t.classList.remove("on");},2400);
+}
+
+// Populate dropdown
+var allEmps=[];
+Object.values(EMPLOYEES).forEach(function(arr){arr.forEach(function(n){if(allEmps.indexOf(n)<0)allEmps.push(n);});});
+allEmps.sort();
+var selEl=document.getElementById("fname");
+allEmps.forEach(function(n){var o=document.createElement("option");o.value=n;o.textContent=n;selEl.appendChild(o);});
+
+// Auto-select department when name chosen
+selEl.addEventListener("change",function(){
+  var name=this.value;
+  if(!name)return;
+  var deptKey=NAME_TO_DEPT[name];
+  if(!deptKey)return;
+  var btns=document.querySelectorAll(".dbtn");
+  for(var i=0;i<btns.length;i++){
+    var oc=btns[i].getAttribute("onclick")||"";
+    if(oc.indexOf("'"+deptKey+"'")>-1){btns[i].click();return;}
+  }
+});
+
+// Set today date
+(function(){
+  var d=new Date();
+  var yyyy=d.getFullYear(),mm=String(d.getMonth()+1).padStart(2,"0"),dd=String(d.getDate()).padStart(2,"0");
+  document.getElementById("fdate").value=yyyy+"-"+mm+"-"+dd;
+  var disp=document.getElementById("fdate-display");
+  if(disp)disp.textContent="📅  "+dd+"/"+mm+"/"+yyyy+" (Today)";
+})();
+</script>
+
+<!-- Insight Popup -->
+<div id="nva-popup" style="display:none;position:fixed;top:50%;left:16px;transform:translateY(-50%);width:250px;z-index:200;">
+  <div id="nva-popup-inner" style="background:rgba(15,18,35,0.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;border:1px solid rgba(255,255,255,0.12);padding:18px 16px;box-shadow:0 12px 40px rgba(0,0,0,0.6);display:flex;flex-direction:column;gap:12px;">
+    <!-- Header -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,180,100,0.85);margin-bottom:5px;">💡 Improvement Tip</div>
+        <div id="nva-popup-act" style="font-size:13px;font-weight:700;color:#fff;line-height:1.5;"></div>
+      </div>
+      <button onclick="closeNvaPopup()" style="background:rgba(255,255,255,0.08);border:none;border-radius:6px;min-width:26px;height:26px;color:rgba(255,255,255,0.5);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">✕</button>
+    </div>
+
+    <!-- Divider -->
+    <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+
+    <!-- Why -->
+    <div>
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
+        <div style="width:16px;height:16px;background:rgba(255,100,100,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;">🔍</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,130,130,0.9);">Why this happens</div>
+      </div>
+      <div id="nva-popup-cause" style="font-size:12px;color:rgba(255,255,255,0.78);line-height:1.7;"></div>
+    </div>
+
+    <!-- Divider -->
+    <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+
+    <!-- What to do -->
+    <div>
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
+        <div style="width:16px;height:16px;background:rgba(100,220,150,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;">✅</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(100,220,150,0.9);">What to do</div>
+      </div>
+      <div id="nva-popup-fix" style="font-size:12px;color:rgba(255,255,255,0.78);line-height:1.7;"></div>
+    </div>
+
+    <!-- Divider -->
+    <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+
+    <!-- Owner -->
+    <div>
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">
+        <div style="width:16px;height:16px;background:rgba(150,150,255,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;">👤</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(180,180,255,0.9);">Who should fix this</div>
+      </div>
+      <div id="nva-popup-owner" style="font-size:13px;font-weight:700;color:rgba(200,210,255,1);"></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:5px;line-height:1.5;">You can reach out to this person for help on this.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
